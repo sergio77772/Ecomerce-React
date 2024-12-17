@@ -79,7 +79,7 @@ const Products = () => {
             className="btn btn-outline-dark btn-sm m-2"
             onClick={() => setFilter(data)}
           >
-            All
+            Todo
           </button>
           <button
             className="btn btn-outline-dark btn-sm m-2"
