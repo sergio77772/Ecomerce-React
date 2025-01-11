@@ -8,6 +8,10 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.1",
+<<<<<<< HEAD
+=======
+    "dotenv": "^16.4.7",
+>>>>>>> ca18473fdc2a9e3f43b31a321f3f55f47bd163e1
     "font-awesome": "^4.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
