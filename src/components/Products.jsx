@@ -87,13 +87,15 @@ const Products = () => {
         <button className="btn btn-outline-dark btn-sm m-2"
            onClick={() => filterProduct("men's clothing")}>
            <img  src="./assets/candado.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Candados
+           <span style={{ fontSize: '16px' }}>Candados</span>
+      
         </button>
 
         <button className="btn btn-outline-dark btn-sm m-2"
            onClick={() => filterProduct("women's clothing")}>
            <img  src="./assets/cerraduras.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Cerraduras
+         
+           <span style={{ fontSize: '16px' }}>Cerraduras</span>
         </button>
        
        
@@ -179,7 +181,36 @@ const Products = () => {
            Cerrojos
         </button>
 
-      
+
+
+
+    <button
+      className="btn btn-outline-dark btn-sm m-2"
+      onClick={() => filterProduct("men's clothing")}
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+    >
+      <img 
+      src="./assets/cerrojos.png"
+        alt="Icono" 
+        style={{ width: '100px', height: '100px', marginBottom: '5px' }} 
+      />
+      <span style={{ fontSize: '16px' }}>Candados</span>
+    </button>
+  
+    <button
+      className="btn btn-outline-dark btn-sm m-2"
+      onClick={() => filterProduct("men's clothing")}
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+    >
+      <img 
+      src="./assets/cerrojos.png"
+        alt="Icono" 
+        style={{ width: '100px', height: '100px', marginBottom: '5px' }} 
+      />
+      <span style={{ fontSize: '16px' }}>Candados</span>
+    </button>
+
+
 
 
 
