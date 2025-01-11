@@ -75,36 +75,114 @@ const Products = () => {
     return (
       <>
         <div className="buttons text-center py-5">
+          {/*
           <button
             className="btn btn-outline-dark btn-sm m-2"
             onClick={() => setFilter(data)}
           >
             Todo
           </button>
-          <button
-            className="btn btn-outline-dark btn-sm m-2"
-            onClick={() => filterProduct("men's clothing")}
-          >
-            Men's Clothing
-          </button>
-          <button
-            className="btn btn-outline-dark btn-sm m-2"
-            onClick={() => filterProduct("women's clothing")}
-          >
-            Women's Clothing
-          </button>
-          <button
-            className="btn btn-outline-dark btn-sm m-2"
-            onClick={() => filterProduct("jewelery")}
-          >
-            Jewelery
-          </button>
-          <button
-            className="btn btn-outline-dark btn-sm m-2"
-            onClick={() => filterProduct("electronics")}
-          >
-            Electronics
-          </button>
+        */} 
+
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("men's clothing")}>
+           <img  src="./assets/candado.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Candados
+        </button>
+
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("women's clothing")}>
+           <img  src="./assets/cerraduras.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Cerraduras
+        </button>
+       
+       
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("jewelery")}>
+           <img  src="./assets/manijas.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Manijas
+        </button>
+
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("electronics")}>
+           <img  src="./assets/manijones.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Manijones
+        </button>
+
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("men's clothing")}>
+           <img  src="./assets/cerrojos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Cerrojos
+        </button>
+
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("women's clothing")}>
+           <img  src="./assets/pomos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Pomos
+        </button>
+       
+       
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("jewelery")}>
+           <img  src="./assets/cerrojos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Cerrojos
+        </button>
+
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("electronics")}>
+           <img  src="./assets/manijas.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Manijones
+        </button>
+
+
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("men's clothing")}>
+           <img  src="./assets/candado.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Candados
+        </button>
+
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("women's clothing")}>
+           <img  src="./assets/cerraduras.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Cerraduras
+        </button>
+       
+       
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("jewelery")}>
+           <img  src="./assets/cerrojos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Cerrojos
+        </button>
+
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("electronics")}>
+           <img  src="./assets/manijas.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Manijones
+        </button>
+
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("men's clothing")}>
+           <img  src="./assets/candado.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Candados
+        </button>
+
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("women's clothing")}>
+           <img  src="./assets/cerraduras.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Cerraduras
+        </button>
+       
+       
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("jewelery")}>
+           <img  src="./assets/cerrojos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Cerrojos
+        </button>
+
+      
+
+
+
         </div>
 
         {filter.map((product) => {
@@ -160,17 +238,19 @@ const Products = () => {
   };
   return (
     <>
-      <div className="container my-3 py-3">
+ 
+       <div className="container my-3 py-3">
         <div className="row">
           <div className="col-12">
-            <h2 className="display-5 text-center">Latest Products</h2>
-            <hr />
+        {/*  <h2 className="display-5 text-center">Últimos productos</h2>
+            <hr />  */}
           </div>
         </div>
-        <div className="row justify-content-center">
+      <div className="row justify-content-center">
           {loading ? <Loading /> : <ShowProducts />}
-        </div>
+        </div> 
       </div>
+
     </>
   );
 };

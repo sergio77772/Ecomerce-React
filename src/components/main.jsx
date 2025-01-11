@@ -7,16 +7,16 @@ const Home = () => {
         <div className="card bg-dark text-white border-0 mx-3">
           <img
             className="card-img img-fluid"
-            src="./assets/distribuidora.jpeg"
+            src="./assets/distribuidora.jpg"
             alt="Card"
             height={500}
           />
           <div className="card-img-overlay d-flex align-items-center">
             <div className="container">
-              <h5 className="card-title fs-1 text fw-lighter">Distribuidora Assef Perico</h5>
+             {/* <h5 className="card-title fs-1 text fw-lighter">Distribuidora Assef Perico</h5>
               <p className="card-text fs-5 d-none d-sm-block ">
                  info@distribuidoraassefperico.com.ar.
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
