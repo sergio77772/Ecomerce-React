@@ -182,6 +182,18 @@ const Products = () => {
            Cerrojos
         </button>
 
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("women's clothing")}>
+           <img  src="./assets/cerraduras.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Cerraduras
+        </button>
+       
+       
+        <button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("jewelery")}>
+           <img  src="./assets/cerrojos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Cerrojos
+        </button>
 
 
 
