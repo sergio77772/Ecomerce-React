@@ -18,6 +18,10 @@ import {
   Checkout,
   PageNotFound,
 } from "./pages";
+
+import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
+
+
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "react-hot-toast";
 
@@ -37,6 +41,8 @@ root.render(
           <Route path="/register" element={<Register />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="/admin/productos" element={<AdminProducts />} /> {/* Nueva ruta */}
+
           <Route path="/product/*" element={<PageNotFound />} />
         </Routes>
       </Provider>
