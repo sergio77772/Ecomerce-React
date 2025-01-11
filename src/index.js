@@ -6,10 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
-<<<<<<< HEAD
-=======
-
->>>>>>> ca18473fdc2a9e3f43b31a321f3f55f47bd163e1
 import {
   Home,
   Product,
@@ -22,13 +18,8 @@ import {
   Checkout,
   PageNotFound,
 } from "./pages";
-<<<<<<< HEAD
-=======
-
 import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
 
-
->>>>>>> ca18473fdc2a9e3f43b31a321f3f55f47bd163e1
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "react-hot-toast";
 
@@ -48,11 +39,7 @@ root.render(
           <Route path="/register" element={<Register />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<PageNotFound />} />
-<<<<<<< HEAD
-=======
           <Route path="/admin/productos" element={<AdminProducts />} /> {/* Nueva ruta */}
-
->>>>>>> ca18473fdc2a9e3f43b31a321f3f55f47bd163e1
           <Route path="/product/*" element={<PageNotFound />} />
         </Routes>
       </Provider>

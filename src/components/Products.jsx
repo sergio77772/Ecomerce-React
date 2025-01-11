@@ -75,10 +75,7 @@ const Products = () => {
     return (
       <>
         <div className="buttons text-center py-5">
-<<<<<<< HEAD
           {/*
-=======
->>>>>>> ca18473fdc2a9e3f43b31a321f3f55f47bd163e1
           <button
             className="btn btn-outline-dark btn-sm m-2"
             onClick={() => setFilter(data)}
@@ -271,21 +268,6 @@ const Products = () => {
   };
   return (
     <>
-<<<<<<< HEAD
- 
-       <div className="container my-3 py-3">
-        <div className="row">
-          <div className="col-12">
-        {/*  <h2 className="display-5 text-center">Últimos productos</h2>
-            <hr />  */}
-          </div>
-        </div>
-      <div className="row justify-content-center">
-          {loading ? <Loading /> : <ShowProducts />}
-        </div> 
-      </div>
-
-=======
       <div className="container my-3 py-3">
         <div className="row">
           <div className="col-12">
@@ -297,7 +279,6 @@ const Products = () => {
           {loading ? <Loading /> : <ShowProducts />}
         </div>
       </div>
->>>>>>> ca18473fdc2a9e3f43b31a321f3f55f47bd163e1
     </>
   );
 };

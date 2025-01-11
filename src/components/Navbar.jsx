@@ -7,11 +7,8 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
             <div className="container">
-<<<<<<< HEAD
                 <NavLink className="navbar-brand fw-bold fs-4 px-2" to="/"> Distribuidora Assef Perico</NavLink>
-=======
-                <NavLink className="navbar-brand fw-bold fs-4 px-2" to="/"> React Ecommerce</NavLink>
->>>>>>> ca18473fdc2a9e3f43b31a321f3f55f47bd163e1
+
                 <button className="navbar-toggler mx-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
