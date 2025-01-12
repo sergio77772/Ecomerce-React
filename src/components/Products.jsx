@@ -195,7 +195,11 @@ const Products = () => {
            Cerrojos
         </button>
 
-
+<button className="btn btn-outline-dark btn-sm m-2"
+           onClick={() => filterProduct("jewelery")}>
+           <img  src="./assets/cerrojos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
+           Cerrojos
+        </button>
 
 
         </div>
@@ -232,7 +236,7 @@ const Products = () => {
                     to={"/product/" + product.id}
                     className="btn btn-dark m-1"
                   >
-                    Buy Now
+                    Comprar ahora
                   </Link>
                   <button
                     className="btn btn-dark m-1"
@@ -241,7 +245,7 @@ const Products = () => {
                       addProduct(product);
                     }}
                   >
-                    Add to Cart
+                    Añadir al Carrito
                   </button>
                 </div>
               </div>
