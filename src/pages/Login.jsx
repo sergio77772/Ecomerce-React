@@ -7,13 +7,13 @@ const Login = () => {
     <>
       <Navbar />
       <div className="container my-3 py-3">
-        <h1 className="text-center">Login</h1>
+        <h1 className="text-center">Ingreso</h1>
         <hr />
         <div class="row my-4 h-100">
           <div className="col-md-4 col-lg-4 col-sm-8 mx-auto">
             <form>
               <div class="my-3">
-                <label for="display-4">Email address</label>
+                <label for="display-4">Dirección de correo electrónico</label>
                 <input
                   type="email"
                   class="form-control"
@@ -22,20 +22,20 @@ const Login = () => {
                 />
               </div>
               <div class="my-3">
-                <label for="floatingPassword display-4">Password</label>
+                <label for="floatingPassword display-4">Contraseña</label>
                 <input
                   type="password"
                   class="form-control"
                   id="floatingPassword"
-                  placeholder="Password"
+                  placeholder="Contraseña"
                 />
               </div>
               <div className="my-3">
-                <p>New Here? <Link to="/register" className="text-decoration-underline text-info">Register</Link> </p>
+                <p>¿Nuevo aquí?<Link to="/register" className="text-decoration-underline text-info">Registrate</Link> </p>
               </div>
               <div className="text-center">
                 <button class="my-2 mx-auto btn btn-dark" type="submit" disabled>
-                  Login
+                  Entrar
                 </button>
               </div>
             </form>
