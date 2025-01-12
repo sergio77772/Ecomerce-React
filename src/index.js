@@ -19,6 +19,7 @@ import {
   PageNotFound,
 } from "./pages";
 import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
+import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
 
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "react-hot-toast";
@@ -40,6 +41,7 @@ root.render(
           <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="/admin/productos" element={<AdminProducts />} /> {/* Nueva ruta */}
+          <Route path="/admin/categorias" element={<AdminCategory />} />
           <Route path="/product/*" element={<PageNotFound />} />
         </Routes>
       </Provider>
