@@ -26,7 +26,7 @@ const ContactPage = () => {
         </div>
         <div className="row">
           <div className="col-md-12 item_contacto">
-            <span className="glyphicon glyphicon-home" aria-hidden="true"></span> Av. Exodo 205-265, Y4610 Perico, Jujuy, Argentina
+            <span className="glyphicon glyphicon-home" aria-hidden="true"></span> 25 de Mayo, Y4610 Perico, Jujuy, Argentina
           </div>
         </div>
         <div className="row">
