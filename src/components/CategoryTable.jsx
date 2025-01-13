@@ -11,25 +11,31 @@ const CategoryTable = () => {
     imagen: "",
     descripcion: "",
   });
-  const [modalVisible, setModalVisible] = useState(false); // Inicialmente el modal está cerrado
+  const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 10; // Límite de elementos por página
 
   const API = process.env.REACT_APP_API + "categorias.php?endpoint=categoria";
 
   useEffect(() => {
     loadCategories();
-  }, [search]);
+  }, [search, currentPage]);
 
   const loadCategories = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API}&search=${search}`);
+      const response = await fetch(`${API}&search=${search}&page=${currentPage}&limit=${limit}`);
       if (!response.ok) {
         throw new Error("Error al cargar las categorías.");
       }
       const data = await response.json();
       setCategories(data.categories || []);
+      setTotalPages(data.totalPages || 1); // Asegúrate de que el backend devuelva `totalPages`.
     } catch (err) {
       setError(err.message);
     } finally {
@@ -45,12 +51,30 @@ const CategoryTable = () => {
       descripcion: category.descripcion || "",
       idcategoriaweb: category.idcategoriaweb,
     });
+    setImageFile(null);
     setModalVisible(true);
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
     try {
+      if (imageFile) {
+        const formData = new FormData();
+        formData.append("image", imageFile);
+
+        const uploadResponse = await fetch(`${process.env.REACT_APP_API}categorias.php?endpoint=upload`, {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error("Error al subir la imagen.");
+        }
+
+        const uploadResult = await uploadResponse.json();
+        selectedCategory.imagen = uploadResult.filePath;
+      }
+
       const response = await fetch(`${API}&id=${selectedCategory.idcategoriaweb}`, {
         method: "PUT",
         headers: {
@@ -58,9 +82,11 @@ const CategoryTable = () => {
         },
         body: JSON.stringify(selectedCategory),
       });
+
       if (!response.ok) {
         throw new Error("Error al actualizar la categoría.");
       }
+
       alert("Categoría actualizada exitosamente");
       setModalVisible(false);
       loadCategories();
@@ -82,6 +108,12 @@ const CategoryTable = () => {
       loadCategories();
     } catch (err) {
       alert(err.message);
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
     }
   };
 
@@ -124,7 +156,15 @@ const CategoryTable = () => {
               <td>{category.idcategoriaweb}</td>
               <td>{category.nombre}</td>
               <td>{category.estado}</td>
-              <td>{category.imagen}</td>
+              <td>
+                {category.imagen && (
+                  <img
+                    src={process.env.REACT_APP_BASE_URL + category.imagen}
+                    alt={category.nombre}
+                    style={{ width: "50px" }}
+                  />
+                )}
+              </td>
               <td>{category.descripcion}</td>
               <td>
                 <button
@@ -144,6 +184,27 @@ const CategoryTable = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Paginación */}
+      <div className="d-flex justify-content-center">
+        <button
+          className="btn btn-secondary me-2"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Anterior
+        </button>
+        <span className="align-self-center">
+          Página {currentPage} de {totalPages}
+        </span>
+        <button
+          className="btn btn-secondary ms-2"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Siguiente
+        </button>
+      </div>
 
       {/* Modal de edición */}
       <div
@@ -188,13 +249,19 @@ const CategoryTable = () => {
                 </div>
                 <div className="mb-3">
                   <label>Imagen</label>
+                  {selectedCategory.imagen && (
+                    <div className="mb-2">
+                      <img
+                        src={process.env.REACT_APP_BASE_URL + selectedCategory.imagen}
+                        alt="Vista previa"
+                        style={{ width: "100px", height: "auto", marginBottom: "10px" }}
+                      />
+                    </div>
+                  )}
                   <input
-                    type="text"
+                    type="file"
                     className="form-control"
-                    value={selectedCategory.imagen}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, imagen: e.target.value })
-                    }
+                    onChange={(e) => setImageFile(e.target.files[0])}
                   />
                 </div>
                 <div className="mb-3">
@@ -203,7 +270,10 @@ const CategoryTable = () => {
                     className="form-control"
                     value={selectedCategory.descripcion}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, descripcion: e.target.value })
+                      setSelectedCategory({
+                        ...selectedCategory,
+                        descripcion: e.target.value,
+                      })
                     }
                   ></textarea>
                 </div>
