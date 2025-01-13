@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const CategoryTable = () => {
   const [categories, setCategories] = useState([]);
@@ -9,9 +10,9 @@ const CategoryTable = () => {
     estado: "",
     imagen: "",
     descripcion: "",
-  }); // Valores iniciales seguros para evitar `null`
-  const [modalVisible, setModalVisible] = useState(false); // Controlar el modal de edición
-  const [search, setSearch] = useState(""); // Término de búsqueda
+  });
+  const [modalVisible, setModalVisible] = useState(false); // Inicialmente el modal está cerrado
+  const [search, setSearch] = useState("");
 
   const API = process.env.REACT_APP_API + "categorias.php?endpoint=categoria";
 
@@ -19,17 +20,14 @@ const CategoryTable = () => {
     loadCategories();
   }, [search]);
 
-  // Cargar categorías desde la API
   const loadCategories = async () => {
     setLoading(true);
     setError(null);
-
     try {
       const response = await fetch(`${API}&search=${search}`);
       if (!response.ok) {
         throw new Error("Error al cargar las categorías.");
       }
-
       const data = await response.json();
       setCategories(data.categories || []);
     } catch (err) {
@@ -39,20 +37,17 @@ const CategoryTable = () => {
     }
   };
 
-  // Mostrar el modal para editar una categoría
   const handleEdit = (category) => {
-    // Asegurarse de que no haya valores nulos
     setSelectedCategory({
       nombre: category.nombre || "",
       estado: category.estado || "",
       imagen: category.imagen || "",
       descripcion: category.descripcion || "",
-      idcategoriaweb: category.idcategoriaweb, // Asegurarse de pasar el ID
+      idcategoriaweb: category.idcategoriaweb,
     });
     setModalVisible(true);
   };
 
-  // Guardar cambios en la categoría
   const handleSave = async (e) => {
     e.preventDefault();
     try {
@@ -74,10 +69,8 @@ const CategoryTable = () => {
     }
   };
 
-  // Eliminar una categoría
   const handleDelete = async (id) => {
     if (!window.confirm("¿Estás seguro de eliminar esta categoría?")) return;
-
     try {
       const response = await fetch(`${API}&id=${id}`, {
         method: "DELETE",
@@ -104,7 +97,6 @@ const CategoryTable = () => {
     <div className="container mt-4">
       <h1 className="mb-4">Gestión de Categorías</h1>
 
-      {/* Campo de búsqueda */}
       <div className="mb-3">
         <input
           type="text"
@@ -115,7 +107,6 @@ const CategoryTable = () => {
         />
       </div>
 
-      {/* Tabla de categorías */}
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
@@ -155,68 +146,84 @@ const CategoryTable = () => {
       </table>
 
       {/* Modal de edición */}
-      {modalVisible && (
-        <div className="modal">
+      <div
+        className={`modal fade ${modalVisible ? "show d-block" : ""}`}
+        tabIndex="-1"
+        style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        aria-hidden={!modalVisible}
+      >
+        <div className="modal-dialog">
           <div className="modal-content">
-            <h2>Editar Categoría</h2>
-            <form onSubmit={handleSave}>
-              <div className="mb-3">
-                <label>Nombre</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={selectedCategory.nombre}
-                  onChange={(e) =>
-                    setSelectedCategory({ ...selectedCategory, nombre: e.target.value })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label>Estado</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={selectedCategory.estado}
-                  onChange={(e) =>
-                    setSelectedCategory({ ...selectedCategory, estado: e.target.value })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label>Imagen</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={selectedCategory.imagen}
-                  onChange={(e) =>
-                    setSelectedCategory({ ...selectedCategory, imagen: e.target.value })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label>Descripción</label>
-                <textarea
-                  className="form-control"
-                  value={selectedCategory.descripcion}
-                  onChange={(e) =>
-                    setSelectedCategory({ ...selectedCategory, descripcion: e.target.value })
-                  }
-                />
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Guardar Cambios
-              </button>
+            <div className="modal-header">
+              <h5 className="modal-title">Editar Categoría</h5>
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn-close"
                 onClick={() => setModalVisible(false)}
-              >
-                Cancelar
-              </button>
+              ></button>
+            </div>
+            <form onSubmit={handleSave}>
+              <div className="modal-body">
+                <div className="mb-3">
+                  <label>Nombre</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={selectedCategory.nombre}
+                    onChange={(e) =>
+                      setSelectedCategory({ ...selectedCategory, nombre: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="mb-3">
+                  <label>Estado</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={selectedCategory.estado}
+                    onChange={(e) =>
+                      setSelectedCategory({ ...selectedCategory, estado: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="mb-3">
+                  <label>Imagen</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={selectedCategory.imagen}
+                    onChange={(e) =>
+                      setSelectedCategory({ ...selectedCategory, imagen: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="mb-3">
+                  <label>Descripción</label>
+                  <textarea
+                    className="form-control"
+                    value={selectedCategory.descripcion}
+                    onChange={(e) =>
+                      setSelectedCategory({ ...selectedCategory, descripcion: e.target.value })
+                    }
+                  ></textarea>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="submit" className="btn btn-primary">
+                  Guardar Cambios
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setModalVisible(false)}
+                >
+                  Cancelar
+                </button>
+              </div>
             </form>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
