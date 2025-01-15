@@ -14,6 +14,7 @@ const CategoryTable = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
   const [imageFile, setImageFile] = useState(null);
+  const [isEditing, setIsEditing] = useState(false); // Nueva bandera para distinguir entre alta y edición
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -35,7 +36,7 @@ const CategoryTable = () => {
       }
       const data = await response.json();
       setCategories(data.categories || []);
-      setTotalPages(data.totalPages || 1); // Asegúrate de que el backend devuelva `totalPages`.
+      setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -52,6 +53,7 @@ const CategoryTable = () => {
       idcategoriaweb: category.idcategoriaweb,
     });
     setImageFile(null);
+    setIsEditing(true); // Activar modo edición
     setModalVisible(true);
   };
 
@@ -75,8 +77,13 @@ const CategoryTable = () => {
         selectedCategory.imagen = uploadResult.filePath;
       }
 
-      const response = await fetch(`${API}&id=${selectedCategory.idcategoriaweb}`, {
-        method: "PUT",
+      const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
+      const endpoint = isEditing
+        ? `${API}&id=${selectedCategory.idcategoriaweb}`
+        : `${API}`;
+
+      const response = await fetch(endpoint, {
+        method,
         headers: {
           "Content-Type": "application/json",
         },
@@ -84,10 +91,16 @@ const CategoryTable = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Error al actualizar la categoría.");
+        throw new Error(
+          isEditing ? "Error al actualizar la categoría." : "Error al crear la categoría."
+        );
       }
 
-      alert("Categoría actualizada exitosamente");
+      alert(
+        isEditing
+          ? "Categoría actualizada exitosamente"
+          : "Categoría creada exitosamente"
+      );
       setModalVisible(false);
       loadCategories();
     } catch (err) {
@@ -117,6 +130,18 @@ const CategoryTable = () => {
     }
   };
 
+  const handleCreate = () => {
+    setSelectedCategory({
+      nombre: "",
+      estado: "",
+      imagen: "",
+      descripcion: "",
+    });
+    setImageFile(null);
+    setIsEditing(false); // Activar modo alta
+    setModalVisible(true);
+  };
+
   if (loading) {
     return <div className="text-center">Cargando categorías...</div>;
   }
@@ -137,6 +162,12 @@ const CategoryTable = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+      </div>
+
+      <div className="mb-3 text-end">
+        <button className="btn btn-success" onClick={handleCreate}>
+          Añadir Categoría
+        </button>
       </div>
 
       <table className="table table-striped table-hover">
@@ -206,7 +237,7 @@ const CategoryTable = () => {
         </button>
       </div>
 
-      {/* Modal de edición */}
+      {/* Modal */}
       <div
         className={`modal fade ${modalVisible ? "show d-block" : ""}`}
         tabIndex="-1"
@@ -216,7 +247,9 @@ const CategoryTable = () => {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">Editar Categoría</h5>
+              <h5 className="modal-title">
+                {isEditing ? "Editar Categoría" : "Añadir Categoría"}
+              </h5>
               <button
                 type="button"
                 className="btn-close"
@@ -280,7 +313,7 @@ const CategoryTable = () => {
               </div>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary">
-                  Guardar Cambios
+                  {isEditing ? "Guardar Cambios" : "Crear Categoría"}
                 </button>
                 <button
                   type="button"
