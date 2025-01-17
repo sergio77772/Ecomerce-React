@@ -8,6 +8,9 @@ const ProductTable = () => {
   const [search, setSearch] = useState(""); // Término de búsqueda
   const [totalPages, setTotalPages] = useState(1); // Total de páginas disponibles
 
+  const [form, setForm] = useState({ CODIGOARTICULO: "", DESCRIPCION: "", precio: "" }); // Estado del formulario
+  const [editing, setEditing] = useState(false); // Estado de edición
+
   const API = process.env.REACT_APP_API || "https://distribuidoraassefperico.com.ar/apis/";
 
   const LIMIT = 20; // Productos por página
@@ -27,7 +30,6 @@ const ProductTable = () => {
         }
 
         const data = await response.json();
-         console.log(data)
         setProducts(data.products || []); // Los productos
         setTotalPages(data.totalPages || 1); // Total de páginas
       } catch (err) {
@@ -53,6 +55,55 @@ const ProductTable = () => {
     if (page < totalPages) setPage(page + 1);
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (editing) {
+        await fetch(`${API}admProductos.php?endpoint=productos/${form.CODIGOARTICULO}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+      } else {
+        await fetch(`${API}admProductos.php?endpoint=productos`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+      }
+      setForm({ CODIGOARTICULO: "", DESCRIPCION: "", precio: "" });
+      setEditing(false);
+      setProducts();
+    } catch (error) {
+      setError("Error al guardar el producto.");
+    }
+  };
+
+  const handleEdit = (product) => {
+    setForm(product);
+    setEditing(true);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`${API}admProductos.php?endpoint=productos/${id}`, {
+        method: "DELETE",
+      });
+      setProducts();
+    } catch (error) {
+      setError("Error al eliminar el producto.");
+    }
+  };
+
   if (loading) {
     return <div className="text-center">Cargando productos...</div>;
   }
@@ -64,6 +115,47 @@ const ProductTable = () => {
   return (
     <div className="container mt-4">
       <h1 className="mb-4">Gestión de Productos</h1>
+
+      {/* Formulario ABM */}
+      <form onSubmit={handleSubmit} className="mb-4">
+        <div className="mb-3">
+          <input
+            type="text"
+            className="form-control"
+            name="CODIGOARTICULO"
+            placeholder="Código del Artículo"
+            value={form.CODIGOARTICULO}
+            onChange={handleChange}
+            disabled={editing}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="text"
+            className="form-control"
+            name="DESCRIPCION"
+            placeholder="Descripción"
+            value={form.DESCRIPCION}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="number"
+            className="form-control"
+            name="precio"
+            placeholder="Precio"
+            value={form.precio}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          {editing ? "Actualizar" : "Agregar"} Producto
+        </button>
+      </form>
 
       {/* Campo de búsqueda */}
       <div className="mb-3">
@@ -80,7 +172,7 @@ const ProductTable = () => {
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
-            <th>Nombre</th>
+            <th>Código</th>
             <th>Descripción</th>
             <th>Precio</th>
             <th>Acciones</th>
@@ -95,13 +187,13 @@ const ProductTable = () => {
               <td>
                 <button
                   className="btn btn-warning btn-sm me-2"
-                  onClick={() => alert(`Editar producto: ${product.CODIGOARTICULO}`)}
+                  onClick={() => handleEdit(product)}
                 >
                   Editar
                 </button>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => alert(`Borrar producto: ${product.CODIGOARTICULO}`)}
+                  onClick={() => handleDelete(product.CODIGOARTICULO)}
                 >
                   Borrar
                 </button>
@@ -136,3 +228,4 @@ const ProductTable = () => {
 };
 
 export default ProductTable;
+
