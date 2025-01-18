@@ -8,7 +8,7 @@ const ProductTable = () => {
   const [search, setSearch] = useState(""); // Término de búsqueda
   const [totalPages, setTotalPages] = useState(1); // Total de páginas disponibles
 
-  const [form, setForm] = useState({ CODIGOARTICULO: "", DESCRIPCION: "", precio: "" }); // Estado del formulario
+  const [form, setForm] = useState({ idproducto: "", descripcion: "", precioventa: "" }); // Estado del formulario
   const [editing, setEditing] = useState(false); // Estado de edición
 
   const API = process.env.REACT_APP_API || "https://distribuidoraassefperico.com.ar/apis/";
@@ -22,7 +22,7 @@ const ProductTable = () => {
 
       try {
         // Construir la URL con los parámetros de paginación y búsqueda
-        const url = `${API}admProductos.php?endpoint=productos&page=${page}&limit=${LIMIT}&search=${search}`;
+        const url = `${API}productos.php?endpoint=productos&page=${page}&limit=${LIMIT}&search=${search}`;
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -64,7 +64,7 @@ const ProductTable = () => {
     e.preventDefault();
     try {
       if (editing) {
-        await fetch(`${API}admProductos.php?endpoint=productos/${form.CODIGOARTICULO}`, {
+        await fetch(`${API}productos.php?endpoint=productos/${form.idproducto}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -72,7 +72,7 @@ const ProductTable = () => {
           body: JSON.stringify(form),
         });
       } else {
-        await fetch(`${API}admProductos.php?endpoint=productos`, {
+        await fetch(`${API}productos.php?endpoint=productos`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const ProductTable = () => {
           body: JSON.stringify(form),
         });
       }
-      setForm({ CODIGOARTICULO: "", DESCRIPCION: "", precio: "" });
+      setForm({ idproducto: "", descripcion: "", precioventa: "" });
       setEditing(false);
       setProducts();
     } catch (error) {
@@ -95,7 +95,7 @@ const ProductTable = () => {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`${API}admProductos.php?endpoint=productos/${id}`, {
+      await fetch(`${API}productos.php?endpoint=productos/${id}`, {
         method: "DELETE",
       });
       setProducts();
@@ -122,9 +122,9 @@ const ProductTable = () => {
           <input
             type="text"
             className="form-control"
-            name="CODIGOARTICULO"
-            placeholder="Código del Artículo"
-            value={form.CODIGOARTICULO}
+            name="idproducto"
+            placeholder="Id Producto"
+            value={form.idproducto}
             onChange={handleChange}
             disabled={editing}
             required
@@ -134,9 +134,9 @@ const ProductTable = () => {
           <input
             type="text"
             className="form-control"
-            name="DESCRIPCION"
+            name="descripcion"
             placeholder="Descripción"
-            value={form.DESCRIPCION}
+            value={form.descripcion}
             onChange={handleChange}
             required
           />
@@ -145,9 +145,9 @@ const ProductTable = () => {
           <input
             type="number"
             className="form-control"
-            name="precio"
-            placeholder="Precio"
-            value={form.precio}
+            name="precioventa"
+            placeholder="Precio Venta"
+            value={form.precioventa}
             onChange={handleChange}
             required
           />
@@ -174,16 +174,16 @@ const ProductTable = () => {
           <tr>
             <th>Código</th>
             <th>Descripción</th>
-            <th>Precio</th>
+            <th>Precio Venta</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {products.map((product) => (
-            <tr key={product.CODIGOARTICULO}>
-              <td>{product.CODIGOARTICULO}</td>
-              <td>{product.DESCRIPCION}</td>
-              <td>${product.precio || "N/A"}</td>
+            <tr key={product.idproducto}>
+              <td>{product.idproducto}</td>
+              <td>{product.descripcion}</td>
+              <td>${product.precioventa || "N/A"}</td>
               <td>
                 <button
                   className="btn btn-warning btn-sm me-2"
@@ -193,7 +193,7 @@ const ProductTable = () => {
                 </button>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(product.CODIGOARTICULO)}
+                  onClick={() => handleDelete(product.idproducto)}
                 >
                   Borrar
                 </button>
