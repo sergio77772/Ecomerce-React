@@ -9,7 +9,7 @@ const CategoryTable = () => {
     nombre: "",
     estado: "",
     imagen: "",
-    descripcion: "",
+  
   });
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
@@ -49,8 +49,8 @@ const CategoryTable = () => {
       nombre: category.nombre || "",
       estado: category.estado || "",
       imagen: category.imagen || "",
-      descripcion: category.descripcion || "",
-      idcategoriaweb: category.idcategoriaweb,
+    
+      idcategoria: category.idcategoria,
     });
     setImageFile(null);
     setIsEditing(true); // Activar modo edición
@@ -135,7 +135,7 @@ const CategoryTable = () => {
       nombre: "",
       estado: "",
       imagen: "",
-      descripcion: "",
+     
     });
     setImageFile(null);
     setIsEditing(false); // Activar modo alta
@@ -177,7 +177,7 @@ const CategoryTable = () => {
             <th>Nombre</th>
             <th>Estado</th>
             <th>Imagen</th>
-            <th>Descripción</th>
+          
             <th>Acciones</th>
           </tr>
         </thead>
@@ -195,9 +195,7 @@ const CategoryTable = () => {
                     style={{ width: "50px" }}
                   />
                 )}
-              </td>
-              <td>{category.descripcion}</td>
-              <td>
+             
                 <button
                   className="btn btn-warning btn-sm me-2"
                   onClick={() => handleEdit(category)}
@@ -297,19 +295,7 @@ const CategoryTable = () => {
                     onChange={(e) => setImageFile(e.target.files[0])}
                   />
                 </div>
-                <div className="mb-3">
-                  <label>Descripción</label>
-                  <textarea
-                    className="form-control"
-                    value={selectedCategory.descripcion}
-                    onChange={(e) =>
-                      setSelectedCategory({
-                        ...selectedCategory,
-                        descripcion: e.target.value,
-                      })
-                    }
-                  ></textarea>
-                </div>
+             
               </div>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary">
