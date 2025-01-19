@@ -4,3 +4,4 @@ export { default as Product } from './Products';
 export { default as Footer } from './Footer';
 export { default as ProductTable } from './ProductTable';
 export { default as CategoryTable } from './CategoryTable';
+export { default as ProveedorTable } from './ProveedorTable';
