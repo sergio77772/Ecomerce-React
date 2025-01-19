@@ -8,7 +8,8 @@ const CategoryTable = () => {
   const [selectedCategory, setSelectedCategory] = useState({
 
     idcategoria: "",
-    idproveedor: "",
+    idmarca: "",
+    idproveedor: "",       
     descripcion: "",
     precioventa: "",
     preciocosto: "",
@@ -60,6 +61,7 @@ const CategoryTable = () => {
   const handleEdit = (category) => {
     setSelectedCategory({
       idcategoria: category.idcategoria || "",
+      idmarca: category.idmarca|| "",
       idproveedor: category.idproveedor || "",
       descripcion: category.descripcion || "",
       precioventa: category.precioventa || "",
@@ -157,6 +159,7 @@ const CategoryTable = () => {
   const handleCreate = () => {
     setSelectedCategory({
       idcategoria: "",
+      idmarca: "",
       idproveedor: "",
       descripcion: "",
       precioventa: "",
@@ -210,6 +213,7 @@ const CategoryTable = () => {
           <tr>
             <th>ID</th>
             <th>idcategoria</th>
+            <th>idmarca</th>             
             <th>idproveedor</th>
             <th>descripcion</th>
             <th>preciocosto</th>
@@ -232,6 +236,7 @@ const CategoryTable = () => {
             <tr key={category.idproducto}>
               <td>{category.idproducto}</td>
               <td>{category.idcategoria}</td>
+              <td>{category.idmarca}</td>
               <td>{category.idproveedor}</td>
               <td>{category.descripcion}</td>
               <td>{category.preciocosto}</td>
@@ -323,6 +328,17 @@ const CategoryTable = () => {
                     value={selectedCategory.idcategoria}
                     onChange={(e) =>
                       setSelectedCategory({ ...selectedCategory, idcategoria: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="mb-3">
+                  <label>idmarca</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={selectedCategory.idmarca}
+                    onChange={(e) =>
+                      setSelectedCategory({ ...selectedCategory, idmarca: e.target.value })
                     }
                   />
                 </div>
