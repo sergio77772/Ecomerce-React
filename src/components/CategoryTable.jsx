@@ -79,7 +79,7 @@ const CategoryTable = () => {
 
       const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
       const endpoint = isEditing
-        ? `${API}&id=${selectedCategory.idcategoriaweb}`
+        ? `${API}&id=${selectedCategory.idcategoria}`
         : `${API}`;
 
       const response = await fetch(endpoint, {
@@ -109,7 +109,7 @@ const CategoryTable = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de eliminar esta categoría?")) return;
+    if (!window.confirm("¿Estás seguro de eliminar esta categoría? ")) return;
     try {
       const response = await fetch(`${API}&id=${id}`, {
         method: "DELETE",
@@ -183,8 +183,8 @@ const CategoryTable = () => {
         </thead>
         <tbody>
           {categories.map((category) => (
-            <tr key={category.idcategoriaweb}>
-              <td>{category.idcategoriaweb}</td>
+            <tr key={category.idcategoria}>
+              <td>{category.idcategoria}</td>
               <td>{category.nombre}</td>
               <td>{category.estado}</td>
               <td>
@@ -204,7 +204,7 @@ const CategoryTable = () => {
                 </button>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(category.idcategoriaweb)}
+                  onClick={() => handleDelete(category.idcategoria)}
                 >
                   Eliminar
                 </button>
