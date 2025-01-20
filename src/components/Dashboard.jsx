@@ -2,8 +2,11 @@ import React from "react";
 
 const Dashboard = () => {
   const adminMenus = [
-    { title: "Productos", icon: "bi-box", link: "/admin/products" },
-    { title: "Categorías", icon: "bi-tags", link: "/admin/categories" },
+    { title: "Productos", icon: "bi-box", link: "/admin/productos" },
+    { title: "Categorías", icon: "bi-tags", link: "/admin/categorias" },
+    { title: "Marcas", icon: "bi-tags", link: "/admin/marca" },
+    { title: "provedores", icon: "bi-tags", link: "/admin/proveedor" },
+
     { title: "Usuarios", icon: "bi-people", link: "/users" },
     { title: "Órdenes", icon: "bi-cart", link: "/orders" },
     { title: "Reportes", icon: "bi-graph-up", link: "/reports" },
