@@ -78,7 +78,7 @@ const CategoryTable = () => {
          throw new Error("Error al cargar los categoria.");
          }
           const data = await response.json();
-          console.log("hola",data);
+         
            setCategories(data.categories || []);
         //   console.log(setEstados);
 
@@ -320,7 +320,9 @@ const CategoryTable = () => {
                     style={{ width: "50px" }}
                   />
                 )}
-             
+
+                </td>
+                <td>
                 <button
                   className="btn btn-warning btn-sm me-2"
                   onClick={() => handleEdit(category)}
