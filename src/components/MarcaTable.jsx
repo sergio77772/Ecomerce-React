@@ -195,7 +195,8 @@ const MarcaTable = () => {
                     style={{ width: "50px" }}
                   />
                 )}
-             
+             </td>
+             <td>
                 <button
                   className="btn btn-warning btn-sm me-2"
                   onClick={() => handleEdit(category)}
