@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const CategoryTable = () => {
-  const [categories, setCategories] = useState([]);
+  const [producto, setproducto] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState({
@@ -20,7 +20,6 @@ const CategoryTable = () => {
     stockmax: "",
     descripcioncompleta: "",
     codigoArticulo: "",
-
     estado: "",
     imagen: "",
   
@@ -35,12 +34,24 @@ const CategoryTable = () => {
   const limit = 10; // Límite de elementos por página
 
   const API = process.env.REACT_APP_API + "productos.php?endpoint=producto";
+  const API_CATEGORIA = process.env.REACT_APP_API + "categorias.php?endpoint=categoria"; //agregue para buscar categoria
+  const API_MARCA = process.env.REACT_APP_API + "marcas.php?endpoint=marcas";
+  const API_PROVEEDOR = process.env.REACT_APP_API + "proveedor.php?endpoint=proveedor";
+
+
+  const [categories, setCategories] = useState([]); //agregue para buscar categoria
+  const [marca, setMarca] = useState([]); 
+  const [proveedor, setProveedor] = useState([]); 
 
   useEffect(() => {
-    loadCategories();
-  }, [search, currentPage]);
+    loadproducto(); 
+    loadCategoria(); 
+    loadMarca();//agregue para buscar categoria
+    loadProveedor();
+    
+  }, [search, currentPage]); //
 
-  const loadCategories = async () => {
+  const loadproducto = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -49,7 +60,8 @@ const CategoryTable = () => {
         throw new Error("Error al cargar las Productos.");
       }
       const data = await response.json();
-      setCategories(data.categories || []);
+      setproducto(data.producto || []);
+      console.log("producto",data)
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
@@ -57,24 +69,71 @@ const CategoryTable = () => {
       setLoading(false);
     }
   };
+  const loadCategoria = async () => { 
+    
+    try { const response = await fetch(`${API_CATEGORIA}&search=${search}&page=${currentPage}&limit=${limit}`);
+       if (!response.ok) {
+         throw new Error("Error al cargar los categoria.");
+         }
+          const data = await response.json();
+          console.log("hola",data);
+           setCategories(data.categories || []);
+        //   console.log(setEstados);
 
-  const handleEdit = (category) => {
+           } catch (err) {
+             setError(err.message); 
+           }
+    };
+  
+    const loadMarca = async () => { 
+    
+      try { const response = await fetch(`${API_MARCA}&search=${search}&page=${currentPage}&limit=${limit}`);
+         if (!response.ok) {
+           throw new Error("Error al cargar los categoria.");
+           }
+            const data = await response.json();
+            console.log("marca",data);
+             setMarca(data.marca || []);
+          //   console.log(setEstados);
+  
+             } catch (err) {
+               setError(err.message); 
+             }
+      };
+      const loadProveedor = async () => { 
+    
+        try { const response = await fetch(`${API_PROVEEDOR}&search=${search}&page=${currentPage}&limit=${limit}`);
+           if (!response.ok) {
+             throw new Error("Error al cargar los categoria.");
+             }
+              const data = await response.json();
+              console.log("PROVEEDOR",data);
+               setProveedor(data.proveedor || []);
+            //   console.log(setEstados);
+    
+               } catch (err) {
+                 setError(err.message); 
+               }
+        };
+  
+
+    const handleEdit = (category) => {
     setSelectedCategory({
       idcategoria: category.idcategoria || "",
-      idmarca: category.idmarca|| "",
+      idmarca:     category.idmarca|| "",
       idproveedor: category.idproveedor || "",
       descripcion: category.descripcion || "",
       precioventa: category.precioventa || "",
       preciocosto: category.preciocosto || "",
-      deposito: category.deposito || "",
-      ubicacion: category.ubicacion || "",
-      stockmin: category.stockmin || "",
-      stock: category.stock || "",
-      stockmax: category.stockmax || "",
+      deposito:    category.deposito || "",
+      ubicacion:   category.ubicacion || "",
+      stockmin:    category.stockmin || "",
+      stock:       category.stock || "",
+      stockmax:    category.stockmax || "",
       descripcioncompleta: category.descripcioncompleta || "",
       codigoArticulo: category.codigoArticulo || "",
-      estado: category.estado || "",
-      imagen: category.imagen || "",
+      estado:         category.estado || "",
+      imagen:         category.imagen || "",
     
       idproducto: category.idproducto,
     });
@@ -128,7 +187,7 @@ const CategoryTable = () => {
           : "Producto creada exitosamente"
       );
       setModalVisible(false);
-      loadCategories();
+      loadproducto();
     } catch (err) {
       alert(err.message);
     }
@@ -144,7 +203,7 @@ const CategoryTable = () => {
         throw new Error("Error al eliminar la Producto.");
       }
       alert("Producto eliminada exitosamente");
-      loadCategories();
+      loadproducto();
     } catch (err) {
       alert(err.message);
     }
@@ -232,7 +291,7 @@ const CategoryTable = () => {
           </tr>
         </thead>
         <tbody>
-          {categories.map((category) => (
+          {producto.map((category) => (
             <tr key={category.idproducto}>
               <td>{category.idproducto}</td>
               <td>{category.idcategoria}</td>
@@ -320,38 +379,58 @@ const CategoryTable = () => {
             </div>
             <form onSubmit={handleSave}>
               <div className="modal-body">
+
                 <div className="mb-3">
+                  
                   <label>idcategoria</label>
-                  <input
-                    type="text"
+                  <select
                     className="form-control"
                     value={selectedCategory.idcategoria}
                     onChange={(e) =>
                       setSelectedCategory({ ...selectedCategory, idcategoria: e.target.value })
                     }
-                  />
+                  >
+                     {categories.map((elemento) => {return (
+                      <option key={elemento.idcategoria} value={elemento.idcategoria}>
+                        {elemento.nombre}
+                      </option>
+                    )})}
+                  </select>
+
+
+
                 </div>
                 <div className="mb-3">
-                  <label>idmarca</label>
-                  <input
-                    type="text"
+                <label>idmarca</label>
+                <select
                     className="form-control"
                     value={selectedCategory.idmarca}
                     onChange={(e) =>
                       setSelectedCategory({ ...selectedCategory, idmarca: e.target.value })
                     }
-                  />
+                  >
+                     {marca.map((elemento) => {return (
+                      <option key={elemento.idmarca} value={elemento.idmarca}>
+                        {elemento.nombre}
+                      </option>
+                    )})}
+                  </select>
                 </div>
                 <div className="mb-3">
-                  <label>idproveedor</label>
-                  <input
-                    type="text"
+                <label>idproveedor</label>
+                <select
                     className="form-control"
                     value={selectedCategory.idproveedor}
                     onChange={(e) =>
                       setSelectedCategory({ ...selectedCategory, idproveedor: e.target.value })
                     }
-                  />
+                  >
+                     {proveedor.map((elemento) => {return (
+                      <option key={elemento.idproveedor} value={elemento.idproveedor}>
+                        {elemento.nombre}
+                      </option>
+                    )})}
+                  </select>
                 </div>
                 <div className="mb-3">
                   <label>descripcion</label>

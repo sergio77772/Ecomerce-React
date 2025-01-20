@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const MarcaTable = () => {
-  const [categories, setCategories] = useState([]);
+  const [marca, setmarca] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState({
@@ -23,10 +23,10 @@ const MarcaTable = () => {
   const API = process.env.REACT_APP_API + "marcas.php?endpoint=marcas";
 
   useEffect(() => {
-    loadCategories();
+    loadmarca();
   }, [search, currentPage]);
 
-  const loadCategories = async () => {
+  const loadmarca = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -35,7 +35,7 @@ const MarcaTable = () => {
         throw new Error("Error al cargar las marcas.");
       }
       const data = await response.json();
-      setCategories(data.categories || []);
+      setmarca(data.marca || []);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
@@ -102,7 +102,7 @@ const MarcaTable = () => {
           : "marcas creada exitosamente"
       );
       setModalVisible(false);
-      loadCategories();
+      loadmarca();
     } catch (err) {
       alert(err.message);
     }
@@ -118,7 +118,7 @@ const MarcaTable = () => {
         throw new Error("Error al eliminar la marcas.");
       }
       alert("marcas eliminada exitosamente");
-      loadCategories();
+      loadmarca();
     } catch (err) {
       alert(err.message);
     }
@@ -182,7 +182,7 @@ const MarcaTable = () => {
           </tr>
         </thead>
         <tbody>
-          {categories.map((category) => (
+          {marca.map((category) => (
             <tr key={category.idmarca}>
               <td>{category.idmarca}</td>
               <td>{category.nombre}</td>

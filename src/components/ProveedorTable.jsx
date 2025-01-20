@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const ProveedorTable = () => {
-  const [categories, setCategories] = useState([]);
+  const [proveedor, setproveedor] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState({
@@ -34,10 +34,10 @@ const ProveedorTable = () => {
   const API = process.env.REACT_APP_API + "proveedor.php?endpoint=proveedor";
 
   useEffect(() => {
-    loadCategories();
+    loadproveedor();
   }, [search, currentPage]);
 
-  const loadCategories = async () => {
+  const loadproveedor = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -46,7 +46,7 @@ const ProveedorTable = () => {
         throw new Error("Error al cargar las Proveedor.");
       }
       const data = await response.json();
-      setCategories(data.categories || []);
+      setproveedor(data.proveedor || []);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
@@ -124,7 +124,7 @@ const ProveedorTable = () => {
           : "Proveedor creada exitosamente"
       );
       setModalVisible(false);
-      loadCategories();
+      loadproveedor();
     } catch (err) {
       alert(err.message);
     }
@@ -140,7 +140,7 @@ const ProveedorTable = () => {
         throw new Error("Error al eliminar la Proveedor.");
       }
       alert("Proveedor eliminada exitosamente");
-      loadCategories();
+      loadproveedor();
     } catch (err) {
       alert(err.message);
     }
@@ -226,7 +226,7 @@ const ProveedorTable = () => {
           </tr>
         </thead>
         <tbody>
-          {categories.map((category) => (
+          {proveedor.map((category) => (
             <tr key={category.idproveedor}>
               <td>{category.idproveedor}</td>
               <td>{category.nombre}</td>
