@@ -21,7 +21,8 @@ import {
 import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
 import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
 import AdminProveedor  from "./pages/admin/AdminProveedor"; // Ajusta la ruta según tu estructura
-import AdminMarca  from "./pages/admin/AdminMarca"; 
+import AdminMarca  from "./pages/admin/AdminMarca";
+import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de administracion
 
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "react-hot-toast";
@@ -46,6 +47,7 @@ root.render(
           <Route path="/admin/categorias" element={<AdminCategory />} />
           <Route path="/admin/proveedor" element={<AdminProveedor />} /> {/* Nueva ruta */}
           <Route path="/admin/marca" element={<AdminMarca />} /> {/* Nueva ruta */}
+          <Route path="/admin/dashboard" element={<AdminDashboard />} /> {/* Nueva ruta */}
           <Route path="/product/*" element={<PageNotFound />} />
         </Routes>
       </Provider>
