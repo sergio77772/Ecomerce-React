@@ -26,7 +26,9 @@ const Products = () => {
       const response = await fetch("https://fakestoreapi.com/products/");
       if (componentMounted) {
         setData(await response.clone().json());
+        setData([]);// COMENTAR PARA VER LA LISTA DE PRODUCTOS
         setFilter(await response.json());
+        setFilter([])// COMENTAR PARA VER LA LISTA DE PRODUCTOS
         setLoading(false);
       }
 
