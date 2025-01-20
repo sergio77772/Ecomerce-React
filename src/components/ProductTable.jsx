@@ -32,6 +32,8 @@ const CategoryTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10; // Límite de elementos por página
+  const limitOthers = 100; // Límite de elementos por página
+
 
   const API = process.env.REACT_APP_API + "productos.php?endpoint=producto";
   const API_CATEGORIA = process.env.REACT_APP_API + "categorias.php?endpoint=categoria"; //agregue para buscar categoria
@@ -71,7 +73,7 @@ const CategoryTable = () => {
   };
   const loadCategoria = async () => { 
     
-    try { const response = await fetch(`${API_CATEGORIA}&search=${search}&page=${currentPage}&limit=${limit}`);
+    try { const response = await fetch(`${API_CATEGORIA}&search=${search}&page=${currentPage}&limit=${limitOthers}`);
        if (!response.ok) {
          throw new Error("Error al cargar los categoria.");
          }
@@ -87,7 +89,7 @@ const CategoryTable = () => {
   
     const loadMarca = async () => { 
     
-      try { const response = await fetch(`${API_MARCA}&search=${search}&page=${currentPage}&limit=${limit}`);
+      try { const response = await fetch(`${API_MARCA}&search=${search}&page=${currentPage}&limit=${limitOthers}`);
          if (!response.ok) {
            throw new Error("Error al cargar los categoria.");
            }
@@ -102,7 +104,7 @@ const CategoryTable = () => {
       };
       const loadProveedor = async () => { 
     
-        try { const response = await fetch(`${API_PROVEEDOR}&search=${search}&page=${currentPage}&limit=${limit}`);
+        try { const response = await fetch(`${API_PROVEEDOR}&search=${search}&page=${currentPage}&limit=${limitOthers}`);
            if (!response.ok) {
              throw new Error("Error al cargar los categoria.");
              }
