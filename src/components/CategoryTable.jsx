@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+
+
 
 const CategoryTable = () => {
   const [categories, setCategories] = useState([]);
@@ -9,7 +10,7 @@ const CategoryTable = () => {
     nombre: "",
     estado: "",
     imagen: "",
-  
+    descripcion: "",
   });
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
@@ -24,19 +25,22 @@ const CategoryTable = () => {
 
   useEffect(() => {
     loadCategories();
-  }, [search, currentPage]);
+  }, [search]);
 
+  // Cargar categorías desde la API
   const loadCategories = async () => {
     setLoading(true);
     setError(null);
+
     try {
-      const response = await fetch(`${API}&search=${search}&page=${currentPage}&limit=${limit}`);
+      const response = await fetch(`${API}&search=${search}`);
       if (!response.ok) {
+       
         throw new Error("Error al cargar las categorías.");
       }
+
       const data = await response.json();
       setCategories(data.categories || []);
-      setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -44,19 +48,20 @@ const CategoryTable = () => {
     }
   };
 
+  // Mostrar el modal para editar una categoría
   const handleEdit = (category) => {
+    // Asegurarse de que no haya valores nulos
     setSelectedCategory({
       nombre: category.nombre || "",
       estado: category.estado || "",
       imagen: category.imagen || "",
-    
-      idcategoria: category.idcategoria,
+      descripcion: category.descripcion || "",
+      idcategoriaweb: category.idcategoriaweb,
     });
-    setImageFile(null);
-    setIsEditing(true); // Activar modo edición
     setModalVisible(true);
   };
 
+  // Guardar cambios en la categoría
   const handleSave = async (e) => {
     e.preventDefault();
     try {
@@ -79,7 +84,7 @@ const CategoryTable = () => {
 
       const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
       const endpoint = isEditing
-        ? `${API}&id=${selectedCategory.idcategoria}`
+        ? `${API}&id=${selectedCategory.idcategoriaweb}`
         : `${API}`;
 
       const response = await fetch(endpoint, {
@@ -89,18 +94,9 @@ const CategoryTable = () => {
         },
         body: JSON.stringify(selectedCategory),
       });
-
-      if (!response.ok) {
-        throw new Error(
-          isEditing ? "Error al actualizar la categoría." : "Error al crear la categoría."
-        );
-      }
-
-      alert(
-        isEditing
-          ? "Categoría actualizada exitosamente"
-          : "Categoría creada exitosamente"
-      );
+      
+      
+      alert("Categoría actualizada exitosamente");
       setModalVisible(false);
       loadCategories();
     } catch (err) {
@@ -108,8 +104,9 @@ const CategoryTable = () => {
     }
   };
 
+  // Eliminar una categoría
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de eliminar esta categoría? ")) return;
+    if (!window.confirm("¿Estás seguro de eliminar esta categoría?")) return;
     try {
       const response = await fetch(`${API}&id=${id}`, {
         method: "DELETE",
@@ -135,7 +132,7 @@ const CategoryTable = () => {
       nombre: "",
       estado: "",
       imagen: "",
-     
+      descripcion: "",
     });
     setImageFile(null);
     setIsEditing(false); // Activar modo alta
@@ -154,6 +151,7 @@ const CategoryTable = () => {
     <div className="container mt-4">
       <h1 className="mb-4">Gestión de Categorías</h1>
 
+      {/* Campo de búsqueda */}
       <div className="mb-3">
         <input
           type="text"
@@ -164,12 +162,7 @@ const CategoryTable = () => {
         />
       </div>
 
-      <div className="mb-3 text-end">
-        <button className="btn btn-success" onClick={handleCreate}>
-          Añadir Categoría
-        </button>
-      </div>
-
+      {/* Tabla de categorías */}
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
@@ -177,7 +170,6 @@ const CategoryTable = () => {
             <th>Nombre</th>
             <th>Estado</th>
             <th>Imagen</th>
-          
             <th>Acciones</th>
           </tr>
         </thead>
@@ -195,7 +187,8 @@ const CategoryTable = () => {
                     style={{ width: "50px" }}
                   />
                 )}
-             
+              </td>
+              <td>{category.descripcion}
                 <button
                   className="btn btn-warning btn-sm me-2"
                   onClick={() => handleEdit(category)}
@@ -214,46 +207,11 @@ const CategoryTable = () => {
         </tbody>
       </table>
 
-      {/* Paginación */}
-      <div className="d-flex justify-content-center">
-        <button
-          className="btn btn-secondary me-2"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Anterior
-        </button>
-        <span className="align-self-center">
-          Página {currentPage} de {totalPages}
-        </span>
-        <button
-          className="btn btn-secondary ms-2"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Siguiente
-        </button>
-      </div>
-
-      {/* Modal */}
-      <div
-        className={`modal fade ${modalVisible ? "show d-block" : ""}`}
-        tabIndex="-1"
-        style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-        aria-hidden={!modalVisible}
-      >
-        <div className="modal-dialog">
+      {/* Modal de edición */}
+      {modalVisible && (
+        <div className="modal">
           <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">
-                {isEditing ? "Editar Categoría" : "Añadir Categoría"}
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={() => setModalVisible(false)}
-              ></button>
-            </div>
+            <h2>Editar Categoría</h2>
             <form onSubmit={handleSave}>
               <div className="modal-body">
                 <div className="mb-3">
@@ -295,24 +253,34 @@ const CategoryTable = () => {
                     onChange={(e) => setImageFile(e.target.files[0])}
                   />
                 </div>
-             
+                <div className="mb-3">
+                  <label>Descripción</label>
+                  <textarea
+                    className="form-control"
+                    value={selectedCategory.descripcion}
+                    onChange={(e) =>
+                      setSelectedCategory({
+                        ...selectedCategory,
+                        descripcion: e.target.value,
+                      })
+                    }
+                  ></textarea>
+                </div>
               </div>
-              <div className="modal-footer">
-                <button type="submit" className="btn btn-primary">
-                  {isEditing ? "Guardar Cambios" : "Crear Categoría"}
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setModalVisible(false)}
-                >
-                  Cancelar
-                </button>
-              </div>
+              <button type="submit" className="btn btn-primary">
+                Guardar Cambios
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setModalVisible(false)}
+              >
+                Cancelar
+              </button>
             </form>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
