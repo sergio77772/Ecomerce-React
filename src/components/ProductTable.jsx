@@ -21,7 +21,9 @@ const CategoryTable = () => {
     descripcioncompleta: "",
     codigoArticulo: "",
     estado: "",
+    nivel: "",
     imagen: "",
+   
   
   });
   const [modalVisible, setModalVisible] = useState(false);
@@ -135,8 +137,10 @@ const CategoryTable = () => {
       descripcioncompleta: category.descripcioncompleta || "",
       codigoArticulo: category.codigoArticulo || "",
       estado:         category.estado || "",
+      nivel:         category.nivel || "",
       imagen:         category.imagen || "",
-    
+     
+
       idproducto: category.idproducto,
     });
     setImageFile(null);
@@ -233,6 +237,7 @@ const CategoryTable = () => {
       descripcioncompleta: "",
       codigoArticulo: "",
       estado: "",
+      nivel: "",
       imagen: "",
      
     });
@@ -287,6 +292,7 @@ const CategoryTable = () => {
             <th>descripcioncompleta</th>
             <th>codigoArticulo</th>
             <th>Estado</th>
+            <th>Nivel</th>
             <th>Imagen</th>
           
             <th>Acciones</th>
@@ -312,6 +318,8 @@ const CategoryTable = () => {
 
 
               <td>{category.estado}</td>
+              <td>{category.nivel}</td>
+
               <td>
                 {category.imagen && (
                   <img
@@ -562,6 +570,20 @@ const CategoryTable = () => {
                     }
                   />
                 </div>
+
+                <div className="mb-3">
+                  <label>Nivel</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={selectedCategory.nivel}
+                    onChange={(e) =>
+                      setSelectedCategory({ ...selectedCategory, nivel: e.target.value })
+                    }
+                  />
+                </div>
+
+
                 <div className="mb-3">
                   <label>Imagen</label>
                   {selectedCategory.imagen && (
