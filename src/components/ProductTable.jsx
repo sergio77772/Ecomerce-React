@@ -8,7 +8,7 @@ const CategoryTable = () => {
   const [selectedCategory, setSelectedCategory] = useState({
 
     idcategoria: "",
-    idmarca: "",
+    idsubcategoria: "",
     idproveedor: "",       
     descripcion: "",
     precioventa: "",
@@ -37,18 +37,18 @@ const CategoryTable = () => {
 
   const API = process.env.REACT_APP_API + "productos.php?endpoint=producto";
   const API_CATEGORIA = process.env.REACT_APP_API + "categorias.php?endpoint=categoria"; //agregue para buscar categoria
-  const API_MARCA = process.env.REACT_APP_API + "marcas.php?endpoint=marcas";
+  const API_SUBCATEGORIA = process.env.REACT_APP_API + "subcategorias.php?endpoint=subcategoria";
   const API_PROVEEDOR = process.env.REACT_APP_API + "proveedor.php?endpoint=proveedor";
 
 
   const [categories, setCategories] = useState([]); //agregue para buscar categoria
-  const [marca, setMarca] = useState([]); 
+  const [subcategoria, setsubcategoria] = useState([]); 
   const [proveedor, setProveedor] = useState([]); 
 
   useEffect(() => {
     loadproducto(); 
     loadCategoria(); 
-    loadMarca();//agregue para buscar categoria
+    loadsubcategoria();//agregue para buscar categoria
     loadProveedor();
     
   }, [search, currentPage]); //
@@ -87,15 +87,15 @@ const CategoryTable = () => {
            }
     };
   
-    const loadMarca = async () => { 
+    const loadsubcategoria = async () => { 
     
-      try { const response = await fetch(`${API_MARCA}&search=${search}&page=${currentPage}&limit=${limitOthers}`);
+      try { const response = await fetch(`${API_SUBCATEGORIA}&search=${search}&page=${currentPage}&limit=${limitOthers}`);
          if (!response.ok) {
-           throw new Error("Error al cargar los categoria.");
+           throw new Error("Error al cargar los subcategoria.");
            }
             const data = await response.json();
-            console.log("marca",data);
-             setMarca(data.marca || []);
+            console.log("subcategoria",data);
+             setsubcategoria(data.subcategoria || []);
           //   console.log(setEstados);
   
              } catch (err) {
@@ -122,7 +122,7 @@ const CategoryTable = () => {
     const handleEdit = (category) => {
     setSelectedCategory({
       idcategoria: category.idcategoria || "",
-      idmarca:     category.idmarca|| "",
+      idsubcategoria:     category.idsubcategoria|| "",
       idproveedor: category.idproveedor || "",
       descripcion: category.descripcion || "",
       precioventa: category.precioventa || "",
@@ -220,7 +220,7 @@ const CategoryTable = () => {
   const handleCreate = () => {
     setSelectedCategory({
       idcategoria: "",
-      idmarca: "",
+      idsubcategoria: "",
       idproveedor: "",
       descripcion: "",
       precioventa: "",
@@ -274,7 +274,7 @@ const CategoryTable = () => {
           <tr>
             <th>ID</th>
             <th>idcategoria</th>
-            <th>idmarca</th>             
+            <th>idsubcategoria</th>             
             <th>idproveedor</th>
             <th>descripcion</th>
             <th>preciocosto</th>
@@ -297,7 +297,7 @@ const CategoryTable = () => {
             <tr key={category.idproducto}>
               <td>{category.idproducto}</td>
               <td>{category.idcategoria}</td>
-              <td>{category.idmarca}</td>
+              <td>{category.idsubcategoria}</td>
               <td>{category.idproveedor}</td>
               <td>{category.descripcion}</td>
               <td>{category.preciocosto}</td>
@@ -405,16 +405,16 @@ const CategoryTable = () => {
 
                 </div>
                 <div className="mb-3">
-                <label>idmarca</label>
+                <label>idsubcategoria</label>
                 <select
                     className="form-control"
-                    value={selectedCategory.idmarca}
+                    value={selectedCategory.idsubcategoria}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, idmarca: e.target.value })
+                      setSelectedCategory({ ...selectedCategory, idsubcategoria: e.target.value })
                     }
                   >
-                     {marca.map((elemento) => {return (
-                      <option key={elemento.idmarca} value={elemento.idmarca}>
+                     {subcategoria.map((elemento) => {return (
+                      <option key={elemento.idsubcategoria} value={elemento.idsubcategoria}>
                         {elemento.nombre}
                       </option>
                     )})}

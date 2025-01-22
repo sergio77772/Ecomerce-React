@@ -21,7 +21,7 @@ import {
 import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
 import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
 import AdminProveedor  from "./pages/admin/AdminProveedor"; // Ajusta la ruta según tu estructura
-import AdminMarca  from "./pages/admin/AdminMarca";
+import AdminSubCategory  from "./pages/admin/AdminSubCategory";
 import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de administracion
 
 import ScrollToTop from "./components/ScrollToTop";
@@ -46,7 +46,7 @@ root.render(
           <Route path="/admin/productos" element={<AdminProducts />} /> {/* Nueva ruta */}
           <Route path="/admin/categorias" element={<AdminCategory />} />
           <Route path="/admin/proveedor" element={<AdminProveedor />} /> {/* Nueva ruta */}
-          <Route path="/admin/marca" element={<AdminMarca />} /> {/* Nueva ruta */}
+          <Route path="/admin/subcategorias" element={<AdminSubCategory />} /> {/* Nueva ruta */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} /> {/* Nueva ruta */}
           <Route path="/product/*" element={<PageNotFound />} />
         </Routes>

@@ -5,7 +5,7 @@ const ProveedorTable = () => {
   const [proveedor, setproveedor] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState({
+  const [selectedprovee, setSelectedprovee] = useState({
     nombre: "",
     cuit: "",
     iva: "",
@@ -55,24 +55,24 @@ const ProveedorTable = () => {
     }
   };
 
-  const handleEdit = (category) => {
-    setSelectedCategory({
-      nombre: category.nombre || "",
-      cuit: category.cuit || "",
-      iva: category.iva || "",  
-      telefono: category.telefono || "",
-      telefono1: category.telefono1 || "",
-      fax: category.fax || "",
-      direccion: category.direccion || "",
-      email: category.email || "",
-      banco: category.banco || "",
-      tipocuenta: category.tipocuenta || "",
-      cbu: category.cbu || "",
-      provincia: category.provincia || "",
-      estado: category.estado || "",
-      imagen: category.imagen || "",
+  const handleEdit = (provee) => {
+    setSelectedprovee({
+      nombre: provee.nombre || "",
+      cuit: provee.cuit || "",
+      iva: provee.iva || "",  
+      telefono: provee.telefono || "",
+      telefono1: provee.telefono1 || "",
+      fax: provee.fax || "",
+      direccion: provee.direccion || "",
+      email: provee.email || "",
+      banco: provee.banco || "",
+      tipocuenta: provee.tipocuenta || "",
+      cbu: provee.cbu || "",
+      provincia: provee.provincia || "",
+      estado: provee.estado || "",
+      imagen: provee.imagen || "",
     
-      idproveedor: category.idproveedor,
+      idproveedor: provee.idproveedor,
     });
     setImageFile(null);
     setIsEditing(true); // Activar modo edición
@@ -96,12 +96,12 @@ const ProveedorTable = () => {
         }
 
         const uploadResult = await uploadResponse.json();
-        selectedCategory.imagen = uploadResult.filePath;
+        selectedprovee.imagen = uploadResult.filePath;
       }
 
       const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
       const endpoint = isEditing
-        ? `${API}&id=${selectedCategory.idproveedor}`
+        ? `${API}&id=${selectedprovee.idproveedor}`
         : `${API}`;
 
       const response = await fetch(endpoint, {
@@ -109,7 +109,7 @@ const ProveedorTable = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(selectedCategory),
+        body: JSON.stringify(selectedprovee),
       });
 
       if (!response.ok) {
@@ -153,7 +153,7 @@ const ProveedorTable = () => {
   };
 
   const handleCreate = () => {
-    setSelectedCategory({
+    setSelectedprovee({
       nombre: "",
       cuit: "",
       iva: "",
@@ -226,27 +226,27 @@ const ProveedorTable = () => {
           </tr>
         </thead>
         <tbody>
-          {proveedor.map((category) => (
-            <tr key={category.idproveedor}>
-              <td>{category.idproveedor}</td>
-              <td>{category.nombre}</td>
-              <td>{category.cuit}</td>
-              <td>{category.iva}</td>
-              <td>{category.telefono}</td>
-              <td>{category.telefono1}</td>
-              <td>{category.fax}</td>
-              <td>{category.direccion}</td>
-              <td>{category.email}</td>
-              <td>{category.banco}</td>
-              <td>{category.tipocuenta}</td>
-              <td>{category.cbu}</td>
-              <td>{category.provincia}</td>
-              <td>{category.estado}</td>
+          {proveedor.map((provee) => (
+            <tr key={provee.idproveedor}>
+              <td>{provee.idproveedor}</td>
+              <td>{provee.nombre}</td>
+              <td>{provee.cuit}</td>
+              <td>{provee.iva}</td>
+              <td>{provee.telefono}</td>
+              <td>{provee.telefono1}</td>
+              <td>{provee.fax}</td>
+              <td>{provee.direccion}</td>
+              <td>{provee.email}</td>
+              <td>{provee.banco}</td>
+              <td>{provee.tipocuenta}</td>
+              <td>{provee.cbu}</td>
+              <td>{provee.provincia}</td>
+              <td>{provee.estado}</td>
               <td>
-                {category.imagen && (
+                {provee.imagen && (
                   <img
-                    src={process.env.REACT_APP_BASE_URL + category.imagen}
-                    alt={category.nombre}
+                    src={process.env.REACT_APP_BASE_URL + provee.imagen}
+                    alt={provee.nombre}
                     style={{ width: "50px" }}
                   />
                 )}
@@ -254,13 +254,13 @@ const ProveedorTable = () => {
               <td>
                 <button
                   className="btn btn-warning btn-sm me-2"
-                  onClick={() => handleEdit(category)}
+                  onClick={() => handleEdit(provee)}
                 >
                   Editar
                 </button>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(category.idproveedor)}
+                  onClick={() => handleDelete(provee.idproveedor)}
                 >
                   Eliminar
                 </button>
@@ -317,9 +317,9 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.nombre}
+                    value={selectedprovee.nombre}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, nombre: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, nombre: e.target.value })
                     }
                   />
                 </div>
@@ -328,9 +328,9 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.cuit}
+                    value={selectedprovee.cuit}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, cuit: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, cuit: e.target.value })
                     }
                   />
                 </div>
@@ -339,9 +339,9 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.iva}
+                    value={selectedprovee.iva}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, iva: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, iva: e.target.value })
                     }
                   />
                 </div>
@@ -350,9 +350,9 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.telefono}
+                    value={selectedprovee.telefono}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, telefono: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, telefono: e.target.value })
                     }
                   />
                 </div>
@@ -361,9 +361,9 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.telefono1}
+                    value={selectedprovee.telefono1}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, telefono1: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, telefono1: e.target.value })
                     }
                   />
                 </div>
@@ -372,9 +372,9 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.fax}
+                    value={selectedprovee.fax}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, fax: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, fax: e.target.value })
                     }
                   />
                 </div>
@@ -383,9 +383,9 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.direccion}
+                    value={selectedprovee.direccion}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, direccion: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, direccion: e.target.value })
                     }
                   />
                 </div>
@@ -394,9 +394,9 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.email}
+                    value={selectedprovee.email}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, email: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, email: e.target.value })
                     }
                   />
                 </div>
@@ -405,9 +405,9 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.banco}
+                    value={selectedprovee.banco}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, banco: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, banco: e.target.value })
                     }
                   />
                 </div>
@@ -416,9 +416,9 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.tipocuenta}
+                    value={selectedprovee.tipocuenta}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, tipocuenta: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, tipocuenta: e.target.value })
                     }
                   />
                 </div>
@@ -427,9 +427,9 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.cbu}
+                    value={selectedprovee.cbu}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, cbu: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, cbu: e.target.value })
                     }
                   />
                 </div>
@@ -438,9 +438,9 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.provincia}
+                    value={selectedprovee.provincia}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, provincia: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, provincia: e.target.value })
                     }
                   />
                 </div>
@@ -450,18 +450,18 @@ const ProveedorTable = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.estado}
+                    value={selectedprovee.estado}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, estado: e.target.value })
+                      setSelectedprovee({ ...selectedprovee, estado: e.target.value })
                     }
                   />
                 </div>
                 <div className="mb-3">
                   <label>Imagen</label>
-                  {selectedCategory.imagen && (
+                  {selectedprovee.imagen && (
                     <div className="mb-2">
                       <img
-                        src={process.env.REACT_APP_BASE_URL + selectedCategory.imagen}
+                        src={process.env.REACT_APP_BASE_URL + selectedprovee.imagen}
                         alt="Vista previa"
                         style={{ width: "100px", height: "auto", marginBottom: "10px" }}
                       />

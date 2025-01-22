@@ -4,7 +4,7 @@ const Dashboard = () => {
   const adminMenus = [
     { title: "Productos", icon: "bi-box", link: "/admin/productos" },
     { title: "Categorías", icon: "bi-tags", link: "/admin/categorias" },
-    { title: "Marcas", icon: "bi-tags", link: "/admin/marca" },
+    { title: "SubCategorias", icon: "bi-tags", link: "/admin/subcategorias" },
     { title: "provedores", icon: "bi-tags", link: "/admin/proveedor" },
 
     { title: "Usuarios", icon: "bi-people", link: "/users" },

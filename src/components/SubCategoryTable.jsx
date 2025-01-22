@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const CategoryTable = () => {
-  const [categories, setcategories] = useState([]);
+const SubCategoryTable = () => {
+  const [subcategoria, setsubcategoria] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState({
@@ -20,13 +20,13 @@ const CategoryTable = () => {
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10; // Límite de elementos por página
 
-  const API = process.env.REACT_APP_API + "categorias.php?endpoint=categoria";
+  const API = process.env.REACT_APP_API + "subcategorias.php?endpoint=subcategoria";
 
   useEffect(() => {
-    loadcategories();
+    loadsubcategoria();
   }, [search, currentPage]);
 
-  const loadcategories = async () => {
+  const loadsubcategoria = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -35,7 +35,7 @@ const CategoryTable = () => {
         throw new Error("Error al cargar las categorias.");
       }
       const data = await response.json();
-      setcategories(data.categories || []);
+      setsubcategoria(data.subcategoria || []);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
@@ -50,7 +50,7 @@ const CategoryTable = () => {
       estado: Category.estado || "",
       imagen: Category.imagen || "",
     
-      idcategoria: Category.idcategoria,
+      idsubcategoria: Category.idsubcategoria,
     });
     setImageFile(null);
     setIsEditing(true); // Activar modo edición
@@ -64,7 +64,7 @@ const CategoryTable = () => {
         const formData = new FormData();
         formData.append("image", imageFile);
 
-        const uploadResponse = await fetch(`${process.env.REACT_APP_API}categories.php?endpoint=upload`, {
+        const uploadResponse = await fetch(`${process.env.REACT_APP_API}subcategoria.php?endpoint=upload`, {
           method: "POST",
           body: formData,
         });
@@ -79,7 +79,7 @@ const CategoryTable = () => {
 
       const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
       const endpoint = isEditing
-        ? `${API}&id=${selectedCategory.idcategories}`
+        ? `${API}&id=${selectedCategory.idsubcategoria}`
         : `${API}`;
 
       const response = await fetch(endpoint, {
@@ -92,7 +92,7 @@ const CategoryTable = () => {
 
       if (!response.ok) {
         throw new Error(
-          isEditing ? "Error al actualizar la categoria." : "Error al crear la categories."
+          isEditing ? "Error al actualizar la categoria." : "Error al crear la subcategoria."
         );
       }
 
@@ -102,7 +102,7 @@ const CategoryTable = () => {
           : "categoria creada exitosamente"
       );
       setModalVisible(false);
-      loadcategories();
+      loadsubcategoria();
     } catch (err) {
       alert(err.message);
     }
@@ -118,7 +118,7 @@ const CategoryTable = () => {
         throw new Error("Error al eliminar la categoria.");
       }
       alert("categoria eliminada exitosamente");
-      loadcategories();
+      loadsubcategoria();
     } catch (err) {
       alert(err.message);
     }
@@ -152,7 +152,7 @@ const CategoryTable = () => {
 
   return (
     <div className="container mt-4">
-      <h1 className="mb-4">Gestión de Categorias</h1>
+      <h1 className="mb-4">Gestión de SubCategorias</h1>
 
       <div className="mb-3">
         <input
@@ -166,7 +166,7 @@ const CategoryTable = () => {
 
       <div className="mb-3 text-end">
         <button className="btn btn-success" onClick={handleCreate}>
-          Añadir categories
+          Añadir subcategoria
         </button>
       </div>
 
@@ -182,9 +182,9 @@ const CategoryTable = () => {
           </tr>
         </thead>
         <tbody>
-          {categories.map((Category) => (
-            <tr key={Category.idcategoria}>
-              <td>{Category.idcategoria}</td>
+          {subcategoria.map((Category) => (
+            <tr key={Category.idsubcategoria}>
+              <td>{Category.idsubcategoria}</td>
               <td>{Category.nombre}</td>             
               <td>{Category.estado}</td>
               <td>
@@ -205,7 +205,7 @@ const CategoryTable = () => {
                 </button>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(Category.idcategoria)}
+                  onClick={() => handleDelete(Category.idsubcategoria)}
                 >
                   Eliminar
                 </button>
@@ -320,4 +320,4 @@ const CategoryTable = () => {
   );
 };
 
-export default CategoryTable;
+export default SubCategoryTable;
