@@ -26,6 +26,7 @@ import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de admin
 
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "react-hot-toast";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -48,6 +49,7 @@ root.render(
           <Route path="/admin/proveedor" element={<AdminProveedor />} /> {/* Nueva ruta */}
           <Route path="/admin/subcategorias" element={<AdminSubCategory />} /> {/* Nueva ruta */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} /> {/* Nueva ruta */}
+          <Route path="/admin/users" element={<AdminUsers />} /> {/* Nueva ruta */}
           <Route path="/product/*" element={<PageNotFound />} />
         </Routes>
       </Provider>

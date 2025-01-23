@@ -7,7 +7,7 @@ const Dashboard = () => {
     { title: "SubCategorias", icon: "bi-tags", link: "/admin/subcategorias" },
     { title: "provedores", icon: "bi-tags", link: "/admin/proveedor" },
 
-    { title: "Usuarios", icon: "bi-people", link: "/users" },
+    { title: "Usuarios", icon: "bi-people", link: "/admin/users" },
     { title: "Órdenes", icon: "bi-cart", link: "/orders" },
     { title: "Reportes", icon: "bi-graph-up", link: "/reports" },
     { title: "Configuración", icon: "bi-gear", link: "/settings" },
