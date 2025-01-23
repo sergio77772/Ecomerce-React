@@ -6,11 +6,13 @@ const Dashboard = () => {
     { title: "Categorías", icon: "bi-tags", link: "/admin/categorias" },
     { title: "SubCategorias", icon: "bi-tags", link: "/admin/subcategorias" },
     { title: "provedores", icon: "bi-tags", link: "/admin/proveedor" },
+   
 
     { title: "Usuarios", icon: "bi-people", link: "/users" },
     { title: "Órdenes", icon: "bi-cart", link: "/orders" },
     { title: "Reportes", icon: "bi-graph-up", link: "/reports" },
     { title: "Configuración", icon: "bi-gear", link: "/settings" },
+    { title: "Bitácora", icon: "bi-journal", link: "/admin/bitacora" },
   ];
 
   return (

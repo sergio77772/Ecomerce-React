@@ -23,7 +23,7 @@ import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta seg√
 import AdminProveedor  from "./pages/admin/AdminProveedor"; // Ajusta la ruta seg√∫n tu estructura
 import AdminSubCategory  from "./pages/admin/AdminSubCategory";
 import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de administracion
-
+import AdminBitacora from "./pages/admin/AdminBitacora";
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "react-hot-toast";
 
@@ -46,7 +46,8 @@ root.render(
           <Route path="/admin/productos" element={<AdminProducts />} /> {/* Nueva ruta */}
           <Route path="/admin/categorias" element={<AdminCategory />} />
           <Route path="/admin/proveedor" element={<AdminProveedor />} /> {/* Nueva ruta */}
-          <Route path="/admin/subcategorias" element={<AdminSubCategory />} /> {/* Nueva ruta */}
+          <Route path="/admin/subcategorias" element={<AdminSubCategory />} /> 
+          <Route path="{/admin/bitacora" element ={<AdminBitacora/>} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} /> {/* Nueva ruta */}
           <Route path="/product/*" element={<PageNotFound />} />
         </Routes>

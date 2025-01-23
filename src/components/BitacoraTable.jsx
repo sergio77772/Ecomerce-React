@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const CategoryTable = () => {
-  const [categories, setcategories] = useState([]);
+const BitacoraTable = () => {
+  const [bitacora, setbitacora] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState({
-    nombre: "",
-    estado: "",
+    fecha_hora: "",
+    usuario: "",
+    modulo: "",
+    mensaje: "",
     imagen: "",
   
   });
@@ -20,22 +22,22 @@ const CategoryTable = () => {
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10; // Límite de elementos por página
 
-  const API = process.env.REACT_APP_API + "categorias.php?endpoint=categoria";
+  const API = process.env.REACT_APP_API + "bitacora.php?endpoint=bitacora";
 
   useEffect(() => {
-    loadcategories();
+    loadbitacora();
   }, [search, currentPage]);
 
-  const loadcategories = async () => {
+  const loadbitacora = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await fetch(`${API}&search=${search}&page=${currentPage}&limit=${limit}`);
       if (!response.ok) {
-        throw new Error("Error al cargar las categorias.");
+        throw new Error("Error al cargar las bitacoras.");
       }
       const data = await response.json();
-      setcategories(data.categories || []);
+      setbitacora(data.bitacora || []);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
@@ -44,13 +46,15 @@ const CategoryTable = () => {
     }
   };
 
-  const handleEdit = (Category) => {
+  const handleEdit = (Bitacora) => {
     setSelectedCategory({
-      nombre: Category.nombre || "",
-      estado: Category.estado || "",
-      imagen: Category.imagen || "",
-    
-      idcategoria: Category.idcategoria,
+      nombre:Bitacora.fecha_hora || "",
+      estado:Bitacora.usuario || "",
+      imagen:Bitacora.modulo || "",
+      imagen:Bitacora.mensaje || "",
+      imagen:Bitacora.imagen || "",
+
+      idbitacora:Bitacora.idbitacora,
     });
     setImageFile(null);
     setIsEditing(true); // Activar modo edición
@@ -64,7 +68,7 @@ const CategoryTable = () => {
         const formData = new FormData();
         formData.append("image", imageFile);
 
-        const uploadResponse = await fetch(`${process.env.REACT_APP_API}categorias.php?endpoint=upload`, {
+        const uploadResponse = await fetch(`${process.env.REACT_APP_API}bitacora.php?endpoint=upload`, {
           method: "POST",
           body: formData,
         });
@@ -79,7 +83,7 @@ const CategoryTable = () => {
 
       const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
       const endpoint = isEditing
-        ? `${API}&id=${selectedCategory.idcategoria}`
+        ? `${API}&id=${selectedCategory.idbitacora}`
         : `${API}`;
 
       const response = await fetch(endpoint, {
@@ -92,33 +96,33 @@ const CategoryTable = () => {
 
       if (!response.ok) {
         throw new Error(
-          isEditing ? "Error al actualizar la categoria." : "Error al crear la categories."
+          isEditing ? "Error al actualizar la bitacora." : "Error al crear la bitacora."
         );
       }
 
       alert(
         isEditing
-          ? "categoria actualizada exitosamente"
-          : "categoria creada exitosamente"
+          ? "bitacora actualizada exitosamente"
+          : "bitacora creada exitosamente"
       );
       setModalVisible(false);
-      loadcategories();
+      loadbitacora();
     } catch (err) {
       alert(err.message);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de eliminar esta categoria? ")) return;
+    if (!window.confirm("¿Estás seguro de eliminar esta bitacora? ")) return;
     try {
       const response = await fetch(`${API}&id=${id}`, {
         method: "DELETE",
       });
       if (!response.ok) {
-        throw new Error("Error al eliminar la categoria.");
+        throw new Error("Error al eliminar la bitacora.");
       }
-      alert("categoria eliminada exitosamente");
-      loadcategories();
+      alert("bitacora eliminada exitosamente");
+      loadbitacora();
     } catch (err) {
       alert(err.message);
     }
@@ -132,8 +136,10 @@ const CategoryTable = () => {
 
   const handleCreate = () => {
     setSelectedCategory({
-      nombre: "",
-      estado: "",
+      fecha_hora: "",
+      usuario: "",
+      modulo: "",
+      mensaje: "",
       imagen: "",
      
     });
@@ -143,7 +149,7 @@ const CategoryTable = () => {
   };
 
   if (loading) {
-    return <div className="text-center">Cargando categoria...</div>;
+    return <div className="text-center">Cargando bitacora...</div>;
   }
 
   if (error) {
@@ -152,13 +158,13 @@ const CategoryTable = () => {
 
   return (
     <div className="container mt-4">
-      <h1 className="mb-4">Gestión de Categorias</h1>
+      <h1 className="mb-4">Gestión de bitacoras</h1>
 
       <div className="mb-3">
         <input
           type="text"
           className="form-control"
-          placeholder="Buscar categoria..."
+          placeholder="Buscar bitacora..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -166,7 +172,7 @@ const CategoryTable = () => {
 
       <div className="mb-3 text-end">
         <button className="btn btn-success" onClick={handleCreate}>
-          Añadir categories
+          Añadir bitacora
         </button>
       </div>
 
@@ -174,23 +180,32 @@ const CategoryTable = () => {
         <thead className="thead-dark">
           <tr>
             <th>ID</th>
-            <th>Nombre</th>
-            <th>Estado</th>
+            <th>Fecha_hora</th>
+            <th>usuario</th>
+            <th>modulo</th>
+            <th>mensaje</th>
+
             <th>Imagen</th>
           
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {categories.map((Category) => (
-            <tr key={Category.idcategoria}>
-              <td>{Category.idcategoria}</td>
-              <td>{Category.nombre}</td>             
-              <td>{Category.estado}</td>
+          {bitacora.map((Category) => (
+            <tr key={Category.idbitacora}>
+              <td>{Category.idbitacora}</td>
+              <td>{Category.fecha_hora}</td>             
+              <td>{Category.usuario}</td>
+              <td>{Category.modulo}</td>
+              <td>{Category.mensaje}</td>
+              <td>{Category.imagen}</td>
+
+
+
               <td>
                 {Category.imagen && (
                   <img
-                    src={process.env.REACT_APP_BASE_URL + Category.imagen}
+                    src={process.env.REACT_APP_BASE_URL +Category.imagen}
                     alt={Category.nombre}
                     style={{ width: "50px" }}
                   />
@@ -205,7 +220,7 @@ const CategoryTable = () => {
                 </button>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(Category.idcategoria)}
+                  onClick={() => handleDelete(Category.idbitacora)}
                 >
                   Eliminar
                 </button>
@@ -247,7 +262,7 @@ const CategoryTable = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
-                {isEditing ? "Editar categoria" : "Añadir categoria"}
+                {isEditing ? "Editar bitacora" : "Añadir bitacora"}
               </h5>
               <button
                 type="button"
@@ -258,7 +273,7 @@ const CategoryTable = () => {
             <form onSubmit={handleSave}>
               <div className="modal-body">
                 <div className="mb-3">
-                  <label>Nombre</label>
+                  <label>Fecha_hora</label>
                   <input
                     type="text"
                     className="form-control"
@@ -302,7 +317,7 @@ const CategoryTable = () => {
               </div>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary">
-                  {isEditing ? "Guardar Cambios" : "Crear categoria"}
+                  {isEditing ? "Guardar Cambios" : "Crear bitacora"}
                 </button>
                 <button
                   type="button"
@@ -320,4 +335,4 @@ const CategoryTable = () => {
   );
 };
 
-export default CategoryTable;
+export default BitacoraTable;
