@@ -15,7 +15,7 @@ const UserTable = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(50);
 
   const API_URL = process.env.REACT_APP_API + "users.php";
 
