@@ -64,7 +64,7 @@ const CategoryTable = () => {
         const formData = new FormData();
         formData.append("image", imageFile);
 
-        const uploadResponse = await fetch(`${process.env.REACT_APP_API}categories.php?endpoint=upload`, {
+        const uploadResponse = await fetch(`${process.env.REACT_APP_API}categorias.php?endpoint=upload`, {
           method: "POST",
           body: formData,
         });
