@@ -22,10 +22,12 @@ const UserTable = () => {
   // Fetch all users from the backend
   const fetchUsers = async () => {
     try {
+      const token = localStorage.getItem('token');  // Get the token from localStorage
       const response = await fetch(API_URL, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "token": `Bearer ${token}`, // Send the token in the Authorization header
         },
       });
       const data = await response.json();
@@ -62,11 +64,14 @@ const UserTable = () => {
       ? `${API_URL}`
       : `${API_URL}?action=register`;
 
+    const token = localStorage.getItem('token');  // Get the token from localStorage
+
     try {
       const response = await fetch(endpoint, {
         method,
         headers: {
           "Content-Type": "application/json",
+          "token": `Bearer ${token}`,  // Add token to the header
         },
         body: JSON.stringify(formData),
       });
@@ -84,9 +89,14 @@ const UserTable = () => {
 
   // Delete a user
   const handleDeleteUser = async (id) => {
+    const token = localStorage.getItem('token');  // Get the token from localStorage
+
     try {
       const response = await fetch(`${API_URL}?id=${id}`, {
         method: "DELETE",
+        headers: {
+          "token": `Bearer ${token}`,  // Add token to the header
+        },
       });
       const data = await response.json();
       if (data.success) {
