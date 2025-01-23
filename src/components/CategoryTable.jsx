@@ -79,7 +79,7 @@ const CategoryTable = () => {
 
       const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
       const endpoint = isEditing
-        ? `${API}&id=${selectedCategory.idcategories}`
+        ? `${API}&id=${selectedCategory.idcategoria}`
         : `${API}`;
 
       const response = await fetch(endpoint, {
