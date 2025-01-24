@@ -21,7 +21,7 @@ const CategoryTable = () => {
   const limit = 10;
 
   const API = process.env.REACT_APP_API + "categorias.php?endpoint=categoria";
-
+  
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
@@ -91,7 +91,7 @@ const CategoryTable = () => {
 
       const method = isEditing ? "PUT" : "POST";
       const endpoint = isEditing
-        ? `${API}&id=${selectedCategory.idcategoria}`
+        ? `${API}&id=${selectedCategory.idcategories}`
         : `${API}`;
 
       const response = await fetch(endpoint, {
@@ -107,6 +107,7 @@ const CategoryTable = () => {
           isEditing
             ? "Error al actualizar la categoria."
             : "Error al crear la categories."
+
         );
       }
 

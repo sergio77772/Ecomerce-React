@@ -170,12 +170,12 @@ const BitacoraTable = () => {
         />
       </div>
 
-      <div className="mb-3 text-end">
+ {/*     <div className="mb-3 text-end">
         <button className="btn btn-success" onClick={handleCreate}>
           Añadir bitacora
         </button>
       </div>
-
+*/}
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
@@ -184,21 +184,22 @@ const BitacoraTable = () => {
             <th>usuario</th>
             <th>modulo</th>
             <th>mensaje</th>
-
-            <th>Imagen</th>
+{/*}
+      
           
             <th>Acciones</th>
+            */}
           </tr>
         </thead>
         <tbody>
           {bitacora.map((Category) => (
             <tr key={Category.idbitacora}>
               <td>{Category.idbitacora}</td>
-              <td>{Category.fecha_hora}</td>             
+              <td>{Category.fechahora}</td>             
               <td>{Category.usuario}</td>
               <td>{Category.modulo}</td>
               <td>{Category.mensaje}</td>
-              <td>{Category.imagen}</td>
+          
 
 
 
@@ -212,6 +213,7 @@ const BitacoraTable = () => {
                 )}
               </td>
               <td>
+                {/*}
                 <button
                   className="btn btn-warning btn-sm me-2"
                   onClick={() => handleEdit(Category)}
@@ -224,6 +226,7 @@ const BitacoraTable = () => {
                 >
                   Eliminar
                 </button>
+                */}
               </td>
             </tr>
           ))}
