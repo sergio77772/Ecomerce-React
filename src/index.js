@@ -44,12 +44,14 @@ root.render(
           <Route path="/register" element={<Register />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<PageNotFound />} />
-          <Route path="/admin/productos" element={<AdminProducts />} /> {/* Nueva ruta */}
-          <Route path="/admin/categorias" element={<AdminCategory />} />
-          <Route path="/admin/proveedor" element={<AdminProveedor />} /> {/* Nueva ruta */}
-          <Route path="/admin/subcategorias" element={<AdminSubCategory />} /> 
-          <Route path="{/admin/bitacora" element ={<AdminBitacora/>} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} /> {/* Nueva ruta */}
+
+          <Route path="/admin/productos" element={token ? <AdminProducts /> : <Navigate to="/login" />} />
+          <Route path="/admin/categorias"  element={token ? <AdminCategory /> : <Navigate to="/login" />} />
+          <Route path="/admin/proveedor" element={token ? <AdminProveedor /> : <Navigate to="/login" />} />
+          <Route path="/admin/subcategorias"  element={token ? <AdminSubCategory /> : <Navigate to="/login" />} />
+          <Route path="/admin/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
+          <Route path="/admin/users" element={token ? <AdminUsers /> : <Navigate to="/login" />} />
+          <Route path="/admin/bitacora" element ={<AdminBitacora/>} />
           <Route path="/product/*" element={<PageNotFound />} />
         </Routes>
       </Provider>
