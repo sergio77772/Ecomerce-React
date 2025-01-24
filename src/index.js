@@ -51,7 +51,7 @@ root.render(
           <Route path="/admin/subcategorias"  element={token ? <AdminSubCategory /> : <Navigate to="/login" />} />
           <Route path="/admin/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
           <Route path="/admin/users" element={token ? <AdminUsers /> : <Navigate to="/login" />} />
-          <Route path="{/admin/bitacora" element ={<AdminBitacora/>} />
+          <Route path="/admin/bitacora" element ={<AdminBitacora/>} />
           <Route path="/product/*" element={<PageNotFound />} />
         </Routes>
       </Provider>
