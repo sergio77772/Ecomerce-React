@@ -21,7 +21,7 @@ const CategoryTable = () => {
   const limit = 10; // Límite de elementos por página
 
   const API = process.env.REACT_APP_API + "categorias.php?endpoint=categoria";
-
+  
   useEffect(() => {
     loadcategories();
   }, [search, currentPage]);
@@ -79,7 +79,7 @@ const CategoryTable = () => {
 
       const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
       const endpoint = isEditing
-        ? `${API}&id=${selectedCategory.idcategoria}`
+        ? `${API}&id=${selectedCategory.idcategories}`
         : `${API}`;
 
       const response = await fetch(endpoint, {
@@ -92,7 +92,7 @@ const CategoryTable = () => {
 
       if (!response.ok) {
         throw new Error(
-          isEditing ? "Error al actualizar la categoria." : "Error al crear la categories."
+          isEditing ? "Error al actualizar la categoria." : "Error al crear la categorias."
         );
       }
 
