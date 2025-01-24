@@ -1,41 +1,51 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import  SkeletonTable from "./skeleton/SkeletonTable"
 
 const CategoryTable = () => {
-  const [categories, setcategories] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState({
     nombre: "",
     estado: "",
     imagen: "",
-  
   });
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState(""); // Estado para el debounce
   const [imageFile, setImageFile] = useState(null);
-  const [isEditing, setIsEditing] = useState(false); // Nueva bandera para distinguir entre alta y edición
-
+  const [isEditing, setIsEditing] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const limit = 10; // Límite de elementos por página
+  const limit = 10;
 
   const API = process.env.REACT_APP_API + "categorias.php?endpoint=categoria";
 
   useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 1000); // Retraso de 500ms
+
+    return () => clearTimeout(handler); // Limpiar el temporizador al desmontar o cuando el search cambie
+  }, [search]);
+
+  useEffect(() => {
     loadcategories();
-  }, [search, currentPage]);
+  }, [debouncedSearch, currentPage]);
 
   const loadcategories = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API}&search=${search}&page=${currentPage}&limit=${limit}`);
+      const response = await fetch(
+        `${API}&search=${debouncedSearch}&page=${currentPage}&limit=${limit}`
+      );
       if (!response.ok) {
         throw new Error("Error al cargar las categorias.");
       }
       const data = await response.json();
-      setcategories(data.categories || []);
+      setCategories(data.categories || []);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
@@ -49,11 +59,10 @@ const CategoryTable = () => {
       nombre: Category.nombre || "",
       estado: Category.estado || "",
       imagen: Category.imagen || "",
-    
       idcategoria: Category.idcategoria,
     });
     setImageFile(null);
-    setIsEditing(true); // Activar modo edición
+    setIsEditing(true);
     setModalVisible(true);
   };
 
@@ -64,10 +73,13 @@ const CategoryTable = () => {
         const formData = new FormData();
         formData.append("image", imageFile);
 
-        const uploadResponse = await fetch(`${process.env.REACT_APP_API}categorias.php?endpoint=upload`, {
-          method: "POST",
-          body: formData,
-        });
+        const uploadResponse = await fetch(
+          `${process.env.REACT_APP_API}categorias.php?endpoint=upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
         if (!uploadResponse.ok) {
           throw new Error("Error al subir la imagen.");
@@ -77,7 +89,7 @@ const CategoryTable = () => {
         selectedCategory.imagen = uploadResult.filePath;
       }
 
-      const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
+      const method = isEditing ? "PUT" : "POST";
       const endpoint = isEditing
         ? `${API}&id=${selectedCategory.idcategoria}`
         : `${API}`;
@@ -92,7 +104,9 @@ const CategoryTable = () => {
 
       if (!response.ok) {
         throw new Error(
-          isEditing ? "Error al actualizar la categoria." : "Error al crear la categories."
+          isEditing
+            ? "Error al actualizar la categoria."
+            : "Error al crear la categories."
         );
       }
 
@@ -135,15 +149,17 @@ const CategoryTable = () => {
       nombre: "",
       estado: "",
       imagen: "",
-     
     });
     setImageFile(null);
-    setIsEditing(false); // Activar modo alta
+    setIsEditing(false);
     setModalVisible(true);
   };
-
-  if (loading) {
-    return <div className="text-center">Cargando categoria...</div>;
+  
+    if (loading) {
+      return <div className="container mt-4">
+      <SkeletonTable rows={5} columns={5} />
+      </div>
+  
   }
 
   if (error) {
@@ -151,6 +167,7 @@ const CategoryTable = () => {
   }
 
   return (
+    
     <div className="container mt-4">
       <h1 className="mb-4">Gestión de Categorias</h1>
 
@@ -166,7 +183,7 @@ const CategoryTable = () => {
 
       <div className="mb-3 text-end">
         <button className="btn btn-success" onClick={handleCreate}>
-          Añadir categories
+          Añadir categoria
         </button>
       </div>
 
@@ -177,7 +194,6 @@ const CategoryTable = () => {
             <th>Nombre</th>
             <th>Estado</th>
             <th>Imagen</th>
-          
             <th>Acciones</th>
           </tr>
         </thead>
@@ -185,7 +201,7 @@ const CategoryTable = () => {
           {categories.map((Category) => (
             <tr key={Category.idcategoria}>
               <td>{Category.idcategoria}</td>
-              <td>{Category.nombre}</td>             
+              <td>{Category.nombre}</td>
               <td>{Category.estado}</td>
               <td>
                 {Category.imagen && (
@@ -215,7 +231,6 @@ const CategoryTable = () => {
         </tbody>
       </table>
 
-      {/* Paginación */}
       <div className="d-flex justify-content-center">
         <button
           className="btn btn-secondary me-2"
@@ -236,7 +251,6 @@ const CategoryTable = () => {
         </button>
       </div>
 
-      {/* Modal */}
       <div
         className={`modal fade ${modalVisible ? "show d-block" : ""}`}
         tabIndex="-1"
@@ -268,7 +282,6 @@ const CategoryTable = () => {
                     }
                   />
                 </div>
-               
 
                 <div className="mb-3">
                   <label>Estado</label>
@@ -298,7 +311,6 @@ const CategoryTable = () => {
                     onChange={(e) => setImageFile(e.target.files[0])}
                   />
                 </div>
-             
               </div>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary">
