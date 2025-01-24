@@ -21,9 +21,4 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-<<<<<<< HEAD
-
-.codegpt
-=======
 package-lock.json
->>>>>>> ca18473fdc2a9e3f43b31a321f3f55f47bd163e1
