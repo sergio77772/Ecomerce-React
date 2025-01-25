@@ -25,7 +25,7 @@ const CategoryTable = () => {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
-    }, 1000); // Retraso de 500ms
+    }, 800); // Retraso de 500ms
 
     return () => clearTimeout(handler); // Limpiar el temporizador al desmontar o cuando el search cambie
   }, [search]);
@@ -50,7 +50,10 @@ const CategoryTable = () => {
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
+      
     }
   };
 
