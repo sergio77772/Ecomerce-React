@@ -3,7 +3,7 @@ name: Deploy React App to FTP Server
 on:
   push:
     branches:
-      - main  # Cambia "main" por la rama que activa el despliegue
+      - main  # Cambia "main" por la rama que activará el despliegue
 
 jobs:
   ftp-deploy:
@@ -25,13 +25,13 @@ jobs:
       run: npm run build
 
     - name: Deploy to FTP Server
-      uses: SamKirkland/FTP-Deploy-Action@v4.6.0
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: build  # Carpeta local que contiene los archivos generados por React
-        server-dir: ${{ secrets.FTP_REMOTE_DIR }}  # Carpeta remota en el servidor
+        local-dir: build  # Carpeta local que deseas subir (contenido de la carpeta build)
+        server-dir: ${{ secrets.FTP_REMOTE_DIR }}  # Carpeta remota del servidor (por ejemplo, public_html)
         exclude: |
-          **/.git*     # Excluir archivos de Git
-          **/.github*  # Excluir configuraciones de GitHub Actions
+          **/.git*     # Excluir archivos relacionados con Git
+          **/.github*  # Excluir configuraciones internas de GitHub Actions
