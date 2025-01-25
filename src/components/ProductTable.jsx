@@ -284,12 +284,13 @@ const CategoryTable = () => {
             <th>descripcion</th>
             <th>preciocosto</th>
             <th>precioventa</th>
-            <th>desposito</th>
+         {/*   <th>desposito</th>
             <th>ubicacion</th>
             <th>stockmin</th>
             <th>stock</th>
             <th>stockmax</th>
             <th>descripcioncompleta</th>
+            */}
             <th>codigoArticulo</th>
             <th>Estado</th>
             <th>Nivel</th>
@@ -308,12 +309,13 @@ const CategoryTable = () => {
               <td>{category.descripcion}</td>
               <td>{category.preciocosto}</td>
               <td>{category.precioventa}</td>
-              <td>{category.deposito}</td>
+            {/*  <td>{category.deposito}</td>
               <td>{category.ubicacion}</td>
               <td>{category.stockmin}</td>
               <td>{category.stock}</td>
               <td>{category.stockmax}</td>
               <td>{category.descripcioncompleta}</td>
+              */}
               <td>{category.codigoArticulo}</td>
 
 
