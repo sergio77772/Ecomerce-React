@@ -1,6 +1,6 @@
 {
   "name": "ecommerce",
-  "homepage": "https://nortejujuy.com.ar/distri/",
+  "homepage": "http://ferreteria.nortejujuy.com.ar/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
