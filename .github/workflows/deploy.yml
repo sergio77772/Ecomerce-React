@@ -27,11 +27,11 @@ jobs:
     - name: Deploy to FTP Server
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server: ${{ secrets.FTP_HOST }}
+        server: ftp://c2651511.ferozo.com
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: build  # Carpeta local que deseas subir (contenido de la carpeta build)
-        server-dir: ${{ secrets.FTP_REMOTE_DIR }}  # Carpeta remota del servidor (por ejemplo, public_html)
+        local-dir: build/  # Asegúrate de que termine con una barra
+        server-dir: ${{ secrets.FTP_REMOTE_DIR }}/  # Asegúrate de que termine con una barra
         exclude: |
           **/.git*     # Excluir archivos relacionados con Git
           **/.github*  # Excluir configuraciones internas de GitHub Actions
