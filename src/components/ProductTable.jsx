@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import  SkeletonTable from "./skeleton/SkeletonTable"
+import SkeletonTable from "./skeleton/SkeletonTable";
 
 const ProductTable = () => {
   const [producto, setproducto] = useState([]);
@@ -9,10 +9,9 @@ const ProductTable = () => {
 
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState({
-
     idcategoria: "",
     idsubcategoria: "",
-    idproveedor: "",       
+    idproveedor: "",
     descripcion: "",
     precioventa: "",
     preciocosto: "",
@@ -26,8 +25,6 @@ const ProductTable = () => {
     estado: "",
     nivel: "",
     imagen: "",
-   
-  
   });
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
@@ -39,46 +36,43 @@ const ProductTable = () => {
   const limit = 10; // Límite de elementos por página
   const limitOthers = 100; // Límite de elementos por página
 
-
   const API = process.env.REACT_APP_API + "productos.php?endpoint=producto";
   const API_CATEGORIA = process.env.REACT_APP_API + "categorias.php?endpoint=categoria"; //agregue para buscar categoria
   const API_SUBCATEGORIA = process.env.REACT_APP_API + "subcategorias.php?endpoint=subcategoria";
   const API_PROVEEDOR = process.env.REACT_APP_API + "proveedor.php?endpoint=proveedor";
 
-
   const [categories, setCategories] = useState([]); //agregue para buscar categoria
-  const [subcategoria, setsubcategoria] = useState([]); 
-  const [proveedor, setProveedor] = useState([]); 
+  const [subcategoria, setsubcategoria] = useState([]);
+  const [proveedor, setProveedor] = useState([]);
 
   useEffect(() => {
-    loadproducto(); 
-    loadCategoria(); 
-    loadsubcategoria();//agregue para buscar categoria
+    loadproducto();
+    loadCategoria();
+    loadsubcategoria(); //agregue para buscar categoria
     loadProveedor();
-    
-  }, [debouncedSearch, currentPage]); //
+  }, [debouncedSearch, currentPage]);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 800); // Retraso de 500ms
 
-   useEffect(() => {
-      const handler = setTimeout(() => {
-        setDebouncedSearch(search);
-      }, 800); // Retraso de 500ms
-  
-      return () => clearTimeout(handler); // Limpiar el temporizador al desmontar o cuando el search cambie
-    }, [search]);
-  
+    return () => clearTimeout(handler); // Limpiar el temporizador al desmontar o cuando el search cambie
+  }, [search]);
 
   const loadproducto = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API}&search=${debouncedSearch}&page=${currentPage}&limit=${limit}`);
+      const response = await fetch(
+        `${API}&search=${debouncedSearch}&page=${currentPage}&limit=${limit}`
+      );
       if (!response.ok) {
         throw new Error("Error al cargar las Productos.");
       }
       const data = await response.json();
       setproducto(data.producto || []);
-      console.log("producto",data)
+      console.log("producto", data);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
@@ -88,74 +82,72 @@ const ProductTable = () => {
       }, 300);
     }
   };
-  const loadCategoria = async () => { 
-    
-    try { const response = await fetch(`${API_CATEGORIA}&search=${search}&page=${currentPage}&limit=${limitOthers}`);
-       if (!response.ok) {
-         throw new Error("Error al cargar los categoria.");
-         }
-          const data = await response.json();
-         
-           setCategories(data.categories || []);
-        //   console.log(setEstados);
 
-           } catch (err) {
-             setError(err.message); 
-           }
-    };
-  
-    const loadsubcategoria = async () => { 
-    
-      try { const response = await fetch(`${API_SUBCATEGORIA}&search=${search}&page=${currentPage}&limit=${limitOthers}`);
-         if (!response.ok) {
-           throw new Error("Error al cargar los subcategoria.");
-           }
-            const data = await response.json();
-            console.log("subcategoria",data);
-             setsubcategoria(data.subcategoria || []);
-          //   console.log(setEstados);
-  
-             } catch (err) {
-               setError(err.message); 
-             }
-      };
-      const loadProveedor = async () => { 
-    
-        try { const response = await fetch(`${API_PROVEEDOR}&search=${search}&page=${currentPage}&limit=${limitOthers}`);
-           if (!response.ok) {
-             throw new Error("Error al cargar los categoria.");
-             }
-              const data = await response.json();
-              console.log("PROVEEDOR",data);
-               setProveedor(data.proveedor || []);
-            //   console.log(setEstados);
-    
-               } catch (err) {
-                 setError(err.message); 
-               }
-        };
-  
+  const loadCategoria = async () => {
+    try {
+      const response = await fetch(
+        `${API_CATEGORIA}&search=${search}&page=${currentPage}&limit=${limitOthers}`
+      );
+      if (!response.ok) {
+        throw new Error("Error al cargar los categoria.");
+      }
+      const data = await response.json();
+      setCategories(data.categories || []);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
-    const handleEdit = (category) => {
+  const loadsubcategoria = async () => {
+    try {
+      const response = await fetch(
+        `${API_SUBCATEGORIA}&search=${search}&page=${currentPage}&limit=${limitOthers}`
+      );
+      if (!response.ok) {
+        throw new Error("Error al cargar los subcategoria.");
+      }
+      const data = await response.json();
+      console.log("subcategoria", data);
+      setsubcategoria(data.subcategoria || []);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const loadProveedor = async () => {
+    try {
+      const response = await fetch(
+        `${API_PROVEEDOR}&search=${search}&page=${currentPage}&limit=${limitOthers}`
+      );
+      if (!response.ok) {
+        throw new Error("Error al cargar los categoria.");
+      }
+      const data = await response.json();
+      console.log("PROVEEDOR", data);
+      setProveedor(data.proveedor || []);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleEdit = (category) => {
     setSelectedCategory({
       idcategoria: category.idcategoria || "",
-      idsubcategoria:     category.idsubcategoria|| "",
+      idsubcategoria: category.idsubcategoria || "",
       idproveedor: category.idproveedor || "",
       descripcion: category.descripcion || "",
       precioventa: category.precioventa || "",
       preciocosto: category.preciocosto || "",
-      deposito:    category.deposito || "",
-      ubicacion:   category.ubicacion || "",
-      stockmin:    category.stockmin || "",
-      stock:       category.stock || "",
-      stockmax:    category.stockmax || "",
+      deposito: category.deposito || "",
+      ubicacion: category.ubicacion || "",
+      stockmin: category.stockmin || "",
+      stock: category.stock || "",
+      stockmax: category.stockmax || "",
       descripcioncompleta: category.descripcioncompleta || "",
       codigoArticulo: category.codigoArticulo || "",
-      estado:         category.estado || "",
-      nivel:         category.nivel || "",
-      imagen:         category.imagen || "",
-     
-
+      estado: category.estado || "",
+      nivel: category.nivel || "",
+      imagen: category.imagen || "",
       idproducto: category.idproducto,
     });
     setImageFile(null);
@@ -170,10 +162,13 @@ const ProductTable = () => {
         const formData = new FormData();
         formData.append("image", imageFile);
 
-        const uploadResponse = await fetch(`${process.env.REACT_APP_API}productos.php?endpoint=upload`, {
-          method: "POST",
-          body: formData,
-        });
+        const uploadResponse = await fetch(
+          `${process.env.REACT_APP_API}productos.php?endpoint=upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
         if (!uploadResponse.ok) {
           throw new Error("Error al subir la imagen.");
@@ -203,9 +198,7 @@ const ProductTable = () => {
       }
 
       alert(
-        isEditing
-          ? "Producto actualizada exitosamente"
-          : "Producto creada exitosamente"
+        isEditing ? "Producto actualizada exitosamente" : "Producto creada exitosamente"
       );
       setModalVisible(false);
       loadproducto();
@@ -254,7 +247,6 @@ const ProductTable = () => {
       estado: "",
       nivel: "",
       imagen: "",
-     
     });
     setImageFile(null);
     setIsEditing(false); // Activar modo alta
@@ -262,11 +254,12 @@ const ProductTable = () => {
   };
 
   if (loading) {
-    return <div className="container mt-4">
-    <SkeletonTable rows={5} columns={5} />
-    </div>
-
-}
+    return (
+      <div className="container mt-4">
+        <SkeletonTable rows={5} columns={5} />
+      </div>
+    );
+  }
 
   if (error) {
     return <div className="alert alert-danger text-center">{error}</div>;
@@ -302,7 +295,6 @@ const ProductTable = () => {
             <th>desposito</th>
             <th>codigoArticulo</th>
             <th>Estado</th>
-           
             <th>Acciones</th>
           </tr>
         </thead>
@@ -310,16 +302,13 @@ const ProductTable = () => {
           {producto.map((category) => (
             <tr key={category.idproducto}>
               <td>{category.idproducto}</td>
-             
               <td>{category.descripcion}</td>
               <td>{category.preciocosto}</td>
               <td>{category.precioventa}</td>
               <td>{category.deposito}</td>
-            
               <td>{category.codigoArticulo}</td>
               <td>{category.estado}</td>
-            
-                <td>
+              <td>
                 <button
                   className="btn btn-warning btn-sm me-2"
                   onClick={() => handleEdit(category)}
@@ -380,8 +369,9 @@ const ProductTable = () => {
             </div>
             <form onSubmit={handleSave}>
               <div className="modal-body">
-
-                <div className="mb-3">
+                <div className="row">
+                  <div className="col-md-6">
+                  <div className="mb-3">
                   
                   <label>idcategoria</label>
                   <select
@@ -402,22 +392,6 @@ const ProductTable = () => {
 
                 </div>
                 <div className="mb-3">
-                <label>idsubcategoria</label>
-                <select
-                    className="form-control"
-                    value={selectedCategory.idsubcategoria}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, idsubcategoria: e.target.value })
-                    }
-                  >
-                     {subcategoria.map((elemento) => {return (
-                      <option key={elemento.idsubcategoria} value={elemento.idsubcategoria}>
-                        {elemento.nombre}
-                      </option>
-                    )})}
-                  </select>
-                </div>
-                <div className="mb-3">
                 <label>idproveedor</label>
                 <select
                     className="form-control"
@@ -434,50 +408,91 @@ const ProductTable = () => {
                   </select>
                 </div>
                 <div className="mb-3">
-                  <label>descripcion</label>
+                  <label>descripcioncompleta</label>
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.descripcion}
+                    value={selectedCategory.descripcioncompleta}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, descripcion: e.target.value })
+                      setSelectedCategory({ ...selectedCategory, descripcioncompleta: e.target.value })
                     }
                   />
                 </div>
-                <div className="mb-3">
-                  <label>precio venta</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.precioventa}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, precioventa: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="mb-3">
-                  <label>precio costo</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.preciocosto}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, preciocosto: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="mb-3">
-                  <label>deposito</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.deposito}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, deposito: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="mb-3">
+            
+                    <div className="mb-3">
+                      <label htmlFor="descripcion" className="form-label">
+                        Descripción
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="descripcion"
+                        value={selectedCategory.descripcion}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            descripcion: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="codigoArticulo" className="form-label">
+                        Código Artículo
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="codigoArticulo"
+                        value={selectedCategory.codigoArticulo}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            codigoArticulo: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="stockmin" className="form-label">
+                        Stock Mínimo
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="stockmin"
+                        value={selectedCategory.stockmin}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            stockmin: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="stock" className="form-label">
+                        Stock
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="stock"
+                        value={selectedCategory.stock}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            stock: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </div>
+
+                    <div className="mb-3">
                   <label>ubicacion</label>
                   <input
                     type="text"
@@ -489,31 +504,100 @@ const ProductTable = () => {
                   />
                 </div>
 
-                <div className="mb-3">
-                  <label>stockmin</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.stockmin}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, stockmin: e.target.value })
-                    }
-                  />
-                </div>
+                  </div>
 
-                <div className="mb-3">
-                  <label>stock</label>
-                  <input
-                    type="text"
+                  <div className="col-md-6">
+                  <div className="mb-3">
+                <label>idsubcategoria</label>
+                <select
                     className="form-control"
-                    value={selectedCategory.stock}
+                    value={selectedCategory.idsubcategoria}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, stock: e.target.value })
+                      setSelectedCategory({ ...selectedCategory, idsubcategoria: e.target.value })
                     }
-                  />
-                </div>
-
-                <div className="mb-3">
+                  >
+                     {subcategoria.map((elemento) => {return (
+                      <option key={elemento.idsubcategoria} value={elemento.idsubcategoria}>
+                        {elemento.nombre}
+                      </option>
+                    )})}
+                  </select>
+                  </div>
+                    <div className="mb-3">
+                      <label htmlFor="precioventa" className="form-label">
+                        Precio Venta
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="precioventa"
+                        value={selectedCategory.precioventa}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            precioventa: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="preciocosto" className="form-label">
+                        Precio Costo
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="preciocosto"
+                        value={selectedCategory.preciocosto}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            preciocosto: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="deposito" className="form-label">
+                        Depósito
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="deposito"
+                        value={selectedCategory.deposito}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            deposito: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="estado" className="form-label">
+                        Estado
+                      </label>
+                      <select
+                        className="form-control"
+                        id="estado"
+                        value={selectedCategory.estado}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            estado: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="">Seleccionar estado</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                      </select>
+                    </div>
+                    <div className="mb-3">
                   <label>stockmax</label>
                   <input
                     type="text"
@@ -523,44 +607,9 @@ const ProductTable = () => {
                       setSelectedCategory({ ...selectedCategory, stockmax: e.target.value })
                     }
                   />
-                </div>
+                   </div>
 
-                <div className="mb-3">
-                  <label>descripcioncompleta</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.descripcioncompleta}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, descripcioncompleta: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="mb-3">
-                  <label>codigoArticulo</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.codigoArticulo}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, codigoArticulo: e.target.value })
-                    }
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label>Estado</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.estado}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, estado: e.target.value })
-                    }
-                  />
-                </div>
-
-                <div className="mb-3">
+                   <div className="mb-3">
                   <label>Nivel</label>
                   <input
                     type="text"
@@ -571,37 +620,37 @@ const ProductTable = () => {
                     }
                   />
                 </div>
+                  </div>
 
 
+
+
+                </div>
+
+                {/* Imagen */}
                 <div className="mb-3">
-                  <label>Imagen</label>
-                  {selectedCategory.imagen && (
-                    <div className="mb-2">
-                      <img
-                        src={process.env.REACT_APP_BASE_URL + selectedCategory.imagen}
-                        alt="Vista previa"
-                        style={{ width: "100px", height: "auto", marginBottom: "10px" }}
-                      />
-                    </div>
-                  )}
+                  <label htmlFor="imagen" className="form-label">
+                    Imagen
+                  </label>
                   <input
                     type="file"
                     className="form-control"
+                    id="imagen"
+                    accept="image/*"
                     onChange={(e) => setImageFile(e.target.files[0])}
                   />
                 </div>
-             
               </div>
               <div className="modal-footer">
-                <button type="submit" className="btn btn-primary">
-                  {isEditing ? "Guardar Cambios" : "Crear Producto"}
-                </button>
                 <button
                   type="button"
                   className="btn btn-secondary"
                   onClick={() => setModalVisible(false)}
                 >
                   Cancelar
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  {isEditing ? "Guardar cambios" : "Crear Producto"}
                 </button>
               </div>
             </form>
@@ -613,4 +662,3 @@ const ProductTable = () => {
 };
 
 export default ProductTable;
-
