@@ -1,6 +1,6 @@
 {
   "name": "ecommerce",
-  "homepage": "https://distribuidoraassefperico.com.ar/",
+"homepage": "${REACT_APP_HOMEPAGE}",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
