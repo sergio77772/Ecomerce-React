@@ -1,6 +1,6 @@
 {
   "name": "ecommerce",
-  "homepage": "http://ferreteria.nortejujuy.com.ar/",
+  "homepage": "https://distribuidoraassefperico.com.ar/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,16 +14,17 @@
     "react-dom": "^18.2.0",
     "react-fast-marquee": "^1.3.5",
     "react-hot-toast": "^2.4.1",
-    "react-loading-skeleton": "^3.5.0",
+    "react-loading-skeleton": "^3.1.0",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.4.0",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
+    "sweetalert2": "^11.15.10",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "ESLINT_NO_DEV_ERRORS=true react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -31,13 +32,7 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ],
-    "rules": {
-      "react-hooks/exhaustive-deps": "off",
-      "no-unused-vars": "warn",
-      "no-dupe-keys": "error",
-      "jsx-a11y/iframe-has-title": "off"
-    }
+    ]
   },
   "browserslist": {
     "production": [
