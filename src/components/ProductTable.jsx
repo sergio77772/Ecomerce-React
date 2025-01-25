@@ -284,7 +284,7 @@ const CategoryTable = () => {
             <th>desposito</th>
             <th>codigoArticulo</th>
             <th>Estado</th>
-            <th>Imagen</th>
+           
             <th>Acciones</th>
           </tr>
         </thead>
@@ -300,18 +300,7 @@ const CategoryTable = () => {
             
               <td>{category.codigoArticulo}</td>
               <td>{category.estado}</td>
-             
-
-              <td>
-                {category.imagen && (
-                  <img
-                    src={process.env.REACT_APP_BASE_URL + category.imagen}
-                    alt={category.descripcion}
-                    style={{ width: "50px" }}
-                  />
-                )}
-
-                </td>
+            
                 <td>
                 <button
                   className="btn btn-warning btn-sm me-2"
