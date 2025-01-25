@@ -18,6 +18,9 @@ jobs:
       with:
         node-version: '18'  # Usa la versión de Node.js que requiera tu proyecto
 
+    - name: Set up .env for Developer
+      run: cp .env.developer .env  # Copiar el archivo .env.developer como .env
+
     - name: Install Dependencies
       run: npm install
 
@@ -28,8 +31,8 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
         server: vt000269.ferozo.com
-        username:  ftp@vt000269.ferozo.com
-        password:  19tozuBUno
+        username: ftp@vt000269.ferozo.com
+        password: 19tozuBUno
         local-dir: build/  # Asegúrate de que termine con una barra
         server-dir: public_html/distri/  # Asegúrate de que termine con una barra
         exclude: |
