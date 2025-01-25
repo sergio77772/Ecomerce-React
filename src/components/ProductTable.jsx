@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import  SkeletonTable from "./skeleton/SkeletonTable"
 
-const CategoryTable = () => {
+const ProductTable = () => {
   const [producto, setproducto] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [debouncedSearch, setDebouncedSearch] = useState(""); // Estado para el debounce
+
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState({
 
@@ -53,13 +56,23 @@ const CategoryTable = () => {
     loadsubcategoria();//agregue para buscar categoria
     loadProveedor();
     
-  }, [search, currentPage]); //
+  }, [debouncedSearch, currentPage]); //
+
+
+   useEffect(() => {
+      const handler = setTimeout(() => {
+        setDebouncedSearch(search);
+      }, 800); // Retraso de 500ms
+  
+      return () => clearTimeout(handler); // Limpiar el temporizador al desmontar o cuando el search cambie
+    }, [search]);
+  
 
   const loadproducto = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API}&search=${search}&page=${currentPage}&limit=${limit}`);
+      const response = await fetch(`${API}&search=${debouncedSearch}&page=${currentPage}&limit=${limit}`);
       if (!response.ok) {
         throw new Error("Error al cargar las Productos.");
       }
@@ -70,7 +83,9 @@ const CategoryTable = () => {
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
     }
   };
   const loadCategoria = async () => { 
@@ -247,8 +262,11 @@ const CategoryTable = () => {
   };
 
   if (loading) {
-    return <div className="text-center">Cargando Productos...</div>;
-  }
+    return <div className="container mt-4">
+    <SkeletonTable rows={5} columns={5} />
+    </div>
+
+}
 
   if (error) {
     return <div className="alert alert-danger text-center">{error}</div>;
@@ -594,5 +612,5 @@ const CategoryTable = () => {
   );
 };
 
-export default CategoryTable;
+export default ProductTable;
 
