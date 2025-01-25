@@ -52,15 +52,15 @@ const ContactPage = () => {
 
       if (response.ok) {
         setSuccessMessage("Mensaje enviado con éxito. ¡Gracias por contactarnos!");
-        
+        mensajeRespuesta("Mensaje enviado con éxito. ¡Gracias por contactarnos!", "success")
         setFormData({ name: "", email: "", message: "" });
       } else {
         setErrors({ form: "Hubo un error al enviar el mensaje. Inténtalo nuevamente." });
-        
+        mensajeRespuesta("Hubo un error al enviar el mensaje. Inténtalo nuevamente.", "error")
       }
     } catch (error) {
       setErrors({ form: "Error de conexión. Por favor, inténtalo más tarde." });
-      
+      mensajeRespuesta("Error de conexión. Por favor, inténtalo más tarde.", "error")
     } finally {
       setIsSubmitting(false);
     }
