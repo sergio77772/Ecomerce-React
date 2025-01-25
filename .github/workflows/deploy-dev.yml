@@ -31,7 +31,7 @@ jobs:
         username:  ftp@vt000269.ferozo.com
         password:  19tozuBUno
         local-dir: build/  # Asegúrate de que termine con una barra
-        server-dir: public_html/distri  # Asegúrate de que termine con una barra
+        server-dir: public_html/distri/  # Asegúrate de que termine con una barra
         exclude: |
           **/.git*     # Excluir archivos relacionados con Git
           **/.github*  # Excluir configuraciones internas de GitHub Actions
