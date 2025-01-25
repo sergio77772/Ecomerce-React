@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Main, Product, Footer,BitacoraTable } from "../../components";
+import { Navbar, Main, Footer,BitacoraTable } from "../../components";
 
 const AdminBitacora = () => {
   return (

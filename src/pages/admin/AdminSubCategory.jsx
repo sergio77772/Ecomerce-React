@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Main, Product, Footer,SubCategoryTable} from "../../components";
+import { Navbar, Main, Footer,SubCategoryTable} from "../../components";
 
 const  AdminSubCategory  = () => {
   return (

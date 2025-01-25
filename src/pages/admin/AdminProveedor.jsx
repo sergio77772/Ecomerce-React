@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Main, Product, Footer,ProveedorTable } from "../../components";
+import { Navbar, Main, Footer,ProveedorTable } from "../../components";
 
 const AdminProveedor = () => {
   return (
