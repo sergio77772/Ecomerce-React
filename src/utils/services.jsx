@@ -1,17 +1,11 @@
-import React from "react";
 import Swal from "sweetalert2";
 
-
 export const mensajeRespuesta = (mensaje, icono ) =>{
-
-
-   Swal.fire({
+     Swal.fire({
     icon: icono,
     title: mensaje,
     showConfirmButton: false,
     timer: 1500
-
-    
    });
 };
 
