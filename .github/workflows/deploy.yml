@@ -30,7 +30,7 @@ jobs:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: build  # Carpeta local que deseas subir (contenido de la carpeta build)
+        local-dir: build/  # Asegúrate de que termine con una barra
         server-dir: ${{ secrets.FTP_REMOTE_DIR }}  # Carpeta remota del servidor (por ejemplo, public_html)
         exclude: |
           **/.git*     # Excluir archivos relacionados con Git
