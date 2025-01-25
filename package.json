@@ -1,6 +1,6 @@
 {
   "name": "ecommerce",
-"homepage": "${REACT_APP_HOMEPAGE}",
+  "homepage": "%REACT_APP_HOMEPAGE%",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
