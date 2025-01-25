@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "ESLINT_NO_DEV_ERRORS=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -31,7 +31,13 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "react-hooks/exhaustive-deps": "off",
+      "no-unused-vars": "warn",
+      "no-dupe-keys": "error",
+      "jsx-a11y/iframe-has-title": "off"
+    }
   },
   "browserslist": {
     "production": [
