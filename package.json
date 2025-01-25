@@ -1,7 +1,7 @@
 {
   "name": "ecommerce",
   "homepage": "https://distribuidoraassefperico.com.ar/",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",

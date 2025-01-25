@@ -278,23 +278,13 @@ const CategoryTable = () => {
         <thead className="thead-dark">
           <tr>
             <th>ID</th>
-            <th>idcategoria</th>
-            <th>idsubcategoria</th>             
-            <th>idproveedor</th>
             <th>descripcion</th>
             <th>preciocosto</th>
             <th>precioventa</th>
             <th>desposito</th>
-            <th>ubicacion</th>
-            <th>stockmin</th>
-            <th>stock</th>
-            <th>stockmax</th>
-            <th>descripcioncompleta</th>
             <th>codigoArticulo</th>
             <th>Estado</th>
-            <th>Nivel</th>
             <th>Imagen</th>
-          
             <th>Acciones</th>
           </tr>
         </thead>
@@ -302,23 +292,15 @@ const CategoryTable = () => {
           {producto.map((category) => (
             <tr key={category.idproducto}>
               <td>{category.idproducto}</td>
-              <td>{category.idcategoria}</td>
-              <td>{category.idsubcategoria}</td>
-              <td>{category.idproveedor}</td>
+             
               <td>{category.descripcion}</td>
               <td>{category.preciocosto}</td>
               <td>{category.precioventa}</td>
               <td>{category.deposito}</td>
-              <td>{category.ubicacion}</td>
-              <td>{category.stockmin}</td>
-              <td>{category.stock}</td>
-              <td>{category.stockmax}</td>
-              <td>{category.descripcioncompleta}</td>
+            
               <td>{category.codigoArticulo}</td>
-
-
               <td>{category.estado}</td>
-              <td>{category.nivel}</td>
+             
 
               <td>
                 {category.imagen && (
