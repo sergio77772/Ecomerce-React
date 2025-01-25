@@ -1,0 +1,37 @@
+name: Deploy React App to FTP Server
+
+on:
+  push:
+    branches:
+      - main  # Cambia "main" por la rama que activará el despliegue
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'  # Usa la versión de Node.js que requiera tu proyecto
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build React App
+      run: npm run build
+
+    - name: Deploy to FTP Server
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: c2651511.ferozo.com
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: build/  # Asegúrate de que termine con una barra
+        server-dir: ${{ secrets.FTP_REMOTE_DIR }}/  # Asegúrate de que termine con una barra
+        exclude: |
+          **/.git*     # Excluir archivos relacionados con Git
+          **/.github*  # Excluir configuraciones internas de GitHub Actions

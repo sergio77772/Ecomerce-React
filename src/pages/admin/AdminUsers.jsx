@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Main, Product, Footer,UserTable } from "../../components";
+import { Navbar, Main, Footer,UserTable } from "../../components";
 
 const AdminUsers = () => {
   return (
