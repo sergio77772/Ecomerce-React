@@ -27,7 +27,7 @@ jobs:
     - name: Deploy to FTP Server
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server: ftp://c2651511.ferozo.com
+        server: c2651511.ferozo.com
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: build/  # Asegúrate de que termine con una barra
