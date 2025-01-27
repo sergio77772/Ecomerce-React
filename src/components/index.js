@@ -9,3 +9,4 @@ export { default as SubCategoryTable } from './SubCategoryTable';
 export { default as  Dashboard } from './Dashboard';
 export { default as  UserTable } from './UserTable';
 export { default as  BitacoraTable } from './BitacoraTable';
+export { default as  LogsDeSistemaTable } from './LogsDeSistemaTable'

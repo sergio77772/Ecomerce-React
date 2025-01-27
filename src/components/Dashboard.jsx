@@ -13,6 +13,7 @@ const Dashboard = () => {
     { title: "Reportes", icon: "bi-graph-up", link: "/reports" },
     { title: "Configuración", icon: "bi-gear", link: "/settings" },
     { title: "Bitácora", icon: "bi-journal", link: "/admin/bitacora" },
+    { title: "LogsDeSistema", icon: "bi-file-earmark-text", link: "/admin/logsdesistema" }
   ];
 
   return (
