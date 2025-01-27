@@ -9,11 +9,11 @@ const Dashboard = () => {
    
 
     { title: "Usuarios", icon: "bi-people", link: "/admin/users" },
-    { title: "Órdenes", icon: "bi-cart", link: "/orders" },
+    { title: "Órdenes", icon: "bi-cart", link: "/admin/Ordenes" },
     { title: "Reportes", icon: "bi-graph-up", link: "/reports" },
     { title: "Configuración", icon: "bi-gear", link: "/settings" },
     { title: "Bitácora", icon: "bi-journal", link: "/admin/bitacora" },
-    { title: "LogsDeSistema", icon: "bi-file-earmark-text", link: "/admin/logsdesistema" }
+    { title: "registro  ", icon: "bi-file-earmark-text", link: "/admin/logsdesistema" }
   ];
 
   return (
