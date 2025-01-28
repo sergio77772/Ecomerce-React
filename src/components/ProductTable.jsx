@@ -288,12 +288,12 @@ const ProductTable = () => {
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
-            <th>ID</th>
+            <th>codigoArticulo</th>
             <th>descripcion</th>
-            <th>preciocosto</th>
+            <th>Imagen</th>
             <th>precioventa</th>
             <th>desposito</th>
-            <th>codigoArticulo</th>
+            
             <th>Estado</th>
             <th>Acciones</th>
           </tr>
@@ -301,12 +301,20 @@ const ProductTable = () => {
         <tbody>
           {producto.map((category) => (
             <tr key={category.idproducto}>
-              <td>{category.idproducto}</td>
+             <td>{category.codigoArticulo}</td>
               <td>{category.descripcion}</td>
-              <td>{category.preciocosto}</td>
+              <td>
+                {category.imagen && (
+                 <img
+                  src={`${process.env.REACT_APP_BASE_URL}${category.imagen}`}
+                  alt={category.descripcion}
+                  style={{ width: "50px"}}
+                />
+              )}
+              </td>
+
               <td>{category.precioventa}</td>
               <td>{category.deposito}</td>
-              <td>{category.codigoArticulo}</td>
               <td>{category.estado}</td>
               <td>
                 <button

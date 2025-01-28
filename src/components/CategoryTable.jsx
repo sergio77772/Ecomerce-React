@@ -216,7 +216,7 @@ const CategoryTable = () => {
                   />
                 )}
               </td>
-              <td>
+              <td>{Category.acciones}
                 <button
                   className="btn btn-warning btn-sm me-2"
                   onClick={() => handleEdit(Category)}
