@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import SkeletonTable from "./skeleton/SkeletonTable";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
@@ -16,11 +17,14 @@ const UserTable = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(50);
+  const [loading, setLoading] = useState(true);
 
   const API_URL = process.env.REACT_APP_API + "users.php";
+  
 
   // Fetch all users from the backend
   const fetchUsers = async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem('token');  // Get the token from localStorage
       const response = await fetch(API_URL, {
@@ -35,6 +39,8 @@ const UserTable = () => {
       setFilteredUsers(data.data || []);
     } catch (error) {
       console.error("Error fetching users:", error);
+    }finally {
+      setLoading(false); 
     }
   };
 
@@ -140,6 +146,15 @@ const UserTable = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  if (loading) {
+    return <div>
+      <SkeletonTable rows={5} columns={5} />;
+      </div>
+  }
+
+
+
 
   return (
     <div className="container mt-4">

@@ -1,7 +1,7 @@
 {
   "name": "ecommerce",
-  "homepage": "http://ferreteria.nortejujuy.com.ar/",
-  "version": "0.1.0",
+  "homepage": "https://distribuidoraassefperico.com.ar/",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
@@ -19,6 +19,7 @@
     "react-router-dom": "^6.4.0",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
+    "sweetalert2": "^11.15.10",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

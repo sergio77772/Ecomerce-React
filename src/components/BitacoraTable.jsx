@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import SkeletonTable from "./skeleton/SkeletonTable";
 
 const BitacoraTable = () => {
   const [bitacora, setbitacora] = useState([]);
@@ -149,9 +150,10 @@ const BitacoraTable = () => {
     setIsEditing(false); // Activar modo alta
     setModalVisible(true);
   };
-
   if (loading) {
-    return <div className="text-center">Cargando bitacora...</div>;
+    return <div className="text-center">
+      <SkeletonTable rows={5} columns={5} />
+    </div>;
   }
 
   if (error) {
