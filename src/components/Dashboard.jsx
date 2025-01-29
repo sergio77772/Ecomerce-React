@@ -7,13 +7,14 @@ const Dashboard = () => {
     { title: "SubCategorias", icon: "bi-tags", link: "/admin/subcategorias" },
     { title: "provedores", icon: "bi-tags", link: "/admin/proveedor" },
    
-
+    
     { title: "Usuarios", icon: "bi-people", link: "/admin/users" },
     { title: "Órdenes", icon: "bi-cart", link: "/admin/Ordenes" },
     { title: "Reportes", icon: "bi-graph-up", link: "/reports" },
     { title: "Configuración", icon: "bi-gear", link: "/settings" },
     { title: "Bitácora", icon: "bi-journal", link: "/admin/bitacora" },
     { title: "Registro  ", icon: "bi-file-earmark-text", link: "/admin/logsdesistema" }
+    { title: "Mesa de Ayuda  ", icon: "bi-info-circle-fill", link: "/admin/logsdesistema" }
   ];
 
   return (
