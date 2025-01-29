@@ -30,6 +30,7 @@ const Login = () => {
         // Store token in localStorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("usuario", correo);
+        
         // Store token in localStorage
         navigate("/admin/dashboard"); // Redirect to the dashboard or home page
       } else {
