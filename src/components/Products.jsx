@@ -1,276 +1,155 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
-
-import Skeleton from "react-loading-skeleton";
+import Skeletonlog from "./Skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Products = () => {
-  const [data, setData] = useState([]);
-  const [filter, setFilter] = useState(data);
-  const [loading, setLoading] = useState(false);
-  let componentMounted = true;
+  const [products, setProducts] = useState([]); // Productos obtenidos de la API
+  const [loading, setLoading] = useState(false); // Estado de carga
+  const [search, setSearch] = useState(""); // Estado para la búsqueda
+  const [page, setPage] = useState(1); // Página actual
+  const [totalPages, setTotalPages] = useState(1); // Total de páginas para la paginación
 
   const dispatch = useDispatch();
 
   const addProduct = (product) => {
-    dispatch(addCart(product));
+    if (product?.descripcion) {
+      dispatch(addCart(product));
+      toast.success(`${product.descripcion} añadido al carrito!`);
+    } else {
+      toast.error("Error al añadir el producto.");
+    }
   };
 
   useEffect(() => {
-    const getProducts = async () => {
+    const fetchProducts = async () => {
       setLoading(true);
-      const response = await fetch("https://fakestoreapi.com/products/");
-      if (componentMounted) {
-        setData(await response.clone().json());
-        setData([]);// COMENTAR PARA VER LA LISTA DE PRODUCTOS
-        setFilter(await response.json());
-        setFilter([])// COMENTAR PARA VER LA LISTA DE PRODUCTOS
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API}productos.php?endpoint=producto&search=${search}&page=${page}&limit=20` // Cambiar el límite a 40
+        );
+        const data = await response.json();
+
+        console.log("Respuesta de la API:", data); // Verificar estructura en consola
+
+        if (Array.isArray(data.producto)) {
+          setProducts(data.producto);
+          // Asumir que la respuesta incluye el número total de páginas
+          setTotalPages(data.totalPages || 1); // Cambiar según lo que devuelva la API
+        } else {
+          console.error("La API no devolvió un array en 'producto'.");
+          setProducts([]);
+        }
+      } catch (error) {
+        console.error("Error al cargar los productos:", error);
+        toast.error("No se pudieron cargar los productos.");
+        setProducts([]);
+      } finally {
         setLoading(false);
       }
-
-      return () => {
-        componentMounted = false;
-      };
     };
 
-    getProducts();
-  }, []);
+    fetchProducts();
+  }, [search, page]); // Ejecutar la búsqueda y paginación cuando cambie alguno de estos valores
 
-  const Loading = () => {
-    return (
-      <>
-        <div className="col-12 py-5 text-center">
-          <Skeleton height={40} width={560} />
-        </div>
-        <div className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
-          <Skeleton height={592} />
-        </div>
-        <div className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
-          <Skeleton height={592} />
-        </div>
-        <div className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
-          <Skeleton height={592} />
-        </div>
-        <div className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
-          <Skeleton height={592} />
-        </div>
-        <div className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
-          <Skeleton height={592} />
-        </div>
-        <div className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
-          <Skeleton height={592} />
-        </div>
-      </>
-    );
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value); // Actualiza el estado de búsqueda
+    setPage(1); // Resetea la página a la 1 cuando se realiza una búsqueda
   };
 
-  const filterProduct = (cat) => {
-    const updatedList = data.filter((item) => item.category === cat);
-    setFilter(updatedList);
-  };
-
-  const ShowProducts = () => {
-    return (
-      <>
-        <div className="buttons text-center py-5">
-          {/*
-          <button
-            className="btn btn-outline-dark btn-sm m-2"
-            onClick={() => setFilter(data)}
-          >
-            Todo
-          </button>
-<<<<<<< HEAD
-        */} 
-
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("men's clothing")}>
-           <img  src="./assets/candado.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           <span style={{ fontSize: '16px' }}>Candados</span>
-      
-        </button>
-
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("women's clothing")}>
-           <img  src="./assets/cerraduras.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-         
-           <span style={{ fontSize: '16px' }}>Cerraduras</span>
-        </button>
-       
-       
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("jewelery")}>
-           <img  src="./assets/manijas.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Manijas
-        </button>
-
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("electronics")}>
-           <img  src="./assets/manijones.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Manijones
-        </button>
-
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("men's clothing")}>
-           <img  src="./assets/cerrojos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Cerrojos
-        </button>
-
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("women's clothing")}>
-           <img  src="./assets/pomos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Pomos
-        </button>
-       
-       
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("jewelery")}>
-           <img  src="./assets/cerrojos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Cerrojos
-        </button>
-
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("electronics")}>
-           <img  src="./assets/manijas.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Manijones
-        </button>
-
-
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("men's clothing")}>
-           <img  src="./assets/candado.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Candados
-        </button>
-
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("women's clothing")}>
-           <img  src="./assets/cerraduras.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Cerraduras
-        </button>
-       
-       
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("jewelery")}>
-           <img  src="./assets/cerrojos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Cerrojos
-        </button>
-
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("electronics")}>
-           <img  src="./assets/manijas.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Manijones
-        </button>
-
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("men's clothing")}>
-           <img  src="./assets/candado.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Candados
-        </button>
-
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("women's clothing")}>
-           <img  src="./assets/cerraduras.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Cerraduras
-        </button>
-       
-       
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("jewelery")}>
-           <img  src="./assets/cerrojos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Cerrojos
-        </button>
-
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("women's clothing")}>
-           <img  src="./assets/cerraduras.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Cerraduras
-        </button>
-       
-       
-        <button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("jewelery")}>
-           <img  src="./assets/cerrojos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Cerrojos
-        </button>
-
-<button className="btn btn-outline-dark btn-sm m-2"
-           onClick={() => filterProduct("jewelery")}>
-           <img  src="./assets/cerrojos.png" alt="Icono"style={{ width: '100px', height: '100px', marginRight: '5px' }} />
-           Cerrojos
-        </button>
-
-
+  const Loading = () => <Skeletonlog />;
+  
+  
+  const ShowProducts = () => (
+    <>
+      {products.length === 0 ? (
+        <div className="col-12 text-center">
+          <p>No se encontraron productos.</p>
         </div>
-
-        {filter.map((product) => {
-          return (
-            <div
-              id={product.id}
-              key={product.id}
-              className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4"
-            >
-              <div className="card text-center h-100" key={product.id}>
-                <img
-                  className="card-img-top p-3"
-                  src={product.image}
-                  alt="Card"
-                  height={300}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">
-                    {product.title.substring(0, 12)}...
-                  </h5>
-                  <p className="card-text">
-                    {product.description.substring(0, 90)}...
-                  </p>
-                </div>
-                <ul className="list-group list-group-flush">
-                  <li className="list-group-item lead">$ {product.price}</li>
-                  {/* <li className="list-group-item">Dapibus ac facilisis in</li>
-                    <li className="list-group-item">Vestibulum at eros</li> */}
-                </ul>
-                <div className="card-body">
-                  <Link
-                    to={"/product/" + product.id}
-                    className="btn btn-dark m-1"
-                  >
-                    Comprar ahora
-                  </Link>
-                  <button
-                    className="btn btn-dark m-1"
-                    onClick={() => {
-                      toast.success("Added to cart");
-                      addProduct(product);
-                    }}
-                  >
-                    Añadir al Carrito
-                  </button>
-                </div>
+      ) : (
+        products.map((product) => (
+          <div key={product.idproducto} className="col-md-4 col-sm-6 col-xs-12 mb-4">
+            <div className="card text-center h-100">
+              <img
+                className="card-img-top p-3"
+                src={`${process.env.REACT_APP_BASE_URL}`+product.imagen}
+                alt={product.descripcion}
+                height={300}
+              />
+              <div className="card-body">
+                <h5 className="card-title">{product.descripcion}</h5>
+                <p className="card-text">${parseFloat(product.precioventa).toFixed(2)}</p>
+                <button
+                  className="btn btn-outline-dark btn-sm"
+                  onClick={() => addProduct(product)}
+                >
+                  Añadir al carrito
+                </button>
+                <Link
+                  to={`/products/${product.idproducto}`}
+                  className="btn btn-dark btn-sm ml-2"
+                >
+                  Ver detalles
+                </Link>
               </div>
             </div>
-          );
-        })}
-      </>
-    );
-  };
-  return (
-    <>
-      <div className="container my-3 py-3">
-        <div className="row">
-          <div className="col-12">
-            <h2 className="display-5 text-center">Qué estas buscando?</h2>
-            <hr />
           </div>
-        </div>
-        <div className="row justify-content-center">
-          {loading ? <Loading /> : <ShowProducts />}
+        ))
+      )}
+    </>
+  );
+
+  // Función para cambiar de página
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
+    }
+  };
+
+  return (
+    <div className="container my-4">
+      {/* Barra de búsqueda */}
+      <div className="row mb-4">
+        <div className="col-12">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Buscar productos..."
+            value={search}
+            onChange={handleSearchChange}
+          />
         </div>
       </div>
-    </>
+
+      {/* Mostrar productos o carga */}
+      <div className="row">{loading ? <Loading /> : <ShowProducts />}</div>
+
+      {/* Paginación */}
+      <div className="row mt-4">
+        <div className="col-12 text-center">
+          <button
+            className="btn btn-outline-dark"
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+          >
+            Anterior
+          </button>
+          <span className="mx-3">
+            Página {page} de {totalPages}
+          </span>
+          <button
+            className="btn btn-outline-dark"
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages}
+          >
+            Siguiente
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

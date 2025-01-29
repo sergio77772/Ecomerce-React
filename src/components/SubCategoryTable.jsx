@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import  SkeletonTable from "./skeleton/SkeletonTable"
 
 const SubCategoryTable = () => {
   const [subcategoria, setsubcategoria] = useState([]);
@@ -142,8 +143,8 @@ const SubCategoryTable = () => {
     setModalVisible(true);
   };
 
-  if (loading) {
-    return <div className="text-center">Cargando categoria...</div>;
+  if (loading) { 
+    return <SkeletonTable rows={10} columns={5} />;
   }
 
   if (error) {

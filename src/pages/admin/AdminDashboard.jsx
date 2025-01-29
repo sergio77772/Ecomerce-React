@@ -6,7 +6,7 @@ const AdminDashboard = () => {
     <>
       <Navbar />
       <Main />
-     <Dashboard/>
+       <Dashboard/>
       <Footer />
     </>
   );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import  SkeletonTable from "./skeleton/SkeletonTable"
 
 const ProveedorTable = () => {
   const [proveedor, setproveedor] = useState([]);
@@ -176,7 +177,9 @@ const ProveedorTable = () => {
   };
 
   if (loading) {
-    return <div className="text-center">Cargando Proveedor...</div>;
+    return <div className="text-center">
+      <SkeletonTable rows={5} columns={5} />
+    </div>;
   }
 
   if (error) {
