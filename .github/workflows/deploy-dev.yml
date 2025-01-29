@@ -1,9 +1,9 @@
-name: Deploy React App to FTP Server
+name: Deploy React App to FTP Server (Developer)
 
 on:
   push:
     branches:
-      - developer  # Cambia "main" por la rama que activará el despliegue
+      - developer
 
 jobs:
   ftp-deploy:
@@ -16,8 +16,10 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'  # Usa la versión de Node.js que requiera tu proyecto
+        node-version: '18'
 
+    - name: Set up .env for Developer
+      run: cp .env.developer .env
     - name: Install Dependencies
       run: npm install
 
@@ -30,8 +32,8 @@ jobs:
         server: vt000269.ferozo.com
         username: ftp@vt000269.ferozo.com
         password: 19tozuBUno
-        local-dir: build/  # Asegúrate de que termine con una barra
-        server-dir: public_html/distribuidora/  # Asegúrate de que termine con una barra
+        local-dir: build/
+        server-dir: public_html/
         exclude: |
-          **/.git*     # Excluir archivos relacionados con Git
-          **/.github*  # Excluir configuraciones internas de GitHub Actions
+          **/.git*
+          **/.github*
