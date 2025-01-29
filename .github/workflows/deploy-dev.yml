@@ -18,9 +18,6 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Set homepage for Developer
-      run: jq '.homepage="https://nortejujuy.com.ar/distribuidora/"' package.json > temp.json && mv temp.json package.json
-
     - name: Set up .env for Developer
       run: cp .env.developer .env
 
@@ -37,7 +34,7 @@ jobs:
         username: ftp@vt000269.ferozo.com
         password: 19tozuBUno
         local-dir: build/
-        server-dir: public_html/distribuidora/
+        server-dir: public_html/
         exclude: |
           **/.git*
           **/.github*
