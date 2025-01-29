@@ -7,8 +7,11 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Products = () => {
-  const [products, setProducts] = useState([]); // Estado inicial vacío
-  const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState([]); // Productos obtenidos de la API
+  const [loading, setLoading] = useState(false); // Estado de carga
+  const [search, setSearch] = useState(""); // Estado para la búsqueda
+  const [page, setPage] = useState(1); // Página actual
+  const [totalPages, setTotalPages] = useState(1); // Total de páginas para la paginación
 
   const dispatch = useDispatch();
 
@@ -26,30 +29,36 @@ const Products = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}productos.php?endpoint=producto&search=&page=1&limit=30`
+          `${process.env.REACT_APP_API}productos.php?endpoint=producto&search=${search}&page=${page}&limit=20` // Cambiar el límite a 40
         );
         const data = await response.json();
 
         console.log("Respuesta de la API:", data); // Verificar estructura en consola
 
-        // Asegurar que data.producto sea un array antes de asignarlo
         if (Array.isArray(data.producto)) {
           setProducts(data.producto);
+          // Asumir que la respuesta incluye el número total de páginas
+          setTotalPages(data.totalPages || 1); // Cambiar según lo que devuelva la API
         } else {
           console.error("La API no devolvió un array en 'producto'.");
-          setProducts([]); // Evita errores en el .map()
+          setProducts([]);
         }
       } catch (error) {
         console.error("Error al cargar los productos:", error);
         toast.error("No se pudieron cargar los productos.");
-        setProducts([]); // Evitar .map() sobre datos inválidos
+        setProducts([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchProducts();
-  }, []);
+  }, [search, page]); // Ejecutar la búsqueda y paginación cuando cambie alguno de estos valores
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value); // Actualiza el estado de búsqueda
+    setPage(1); // Resetea la página a la 1 cuando se realiza una búsqueda
+  };
 
   const Loading = () => (
     <>
@@ -76,7 +85,7 @@ const Products = () => {
             <div className="card text-center h-100">
               <img
                 className="card-img-top p-3"
-                src={ `${process.env.REACT_APP_BASE_URL}`+product.imagen}
+                src={`${process.env.REACT_APP_BASE_URL}`+product.imagen}
                 alt={product.descripcion}
                 height={300}
               />
@@ -103,9 +112,53 @@ const Products = () => {
     </>
   );
 
+  // Función para cambiar de página
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
+    }
+  };
+
   return (
     <div className="container my-4">
+      {/* Barra de búsqueda */}
+      <div className="row mb-4">
+        <div className="col-12">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Buscar productos..."
+            value={search}
+            onChange={handleSearchChange}
+          />
+        </div>
+      </div>
+
+      {/* Mostrar productos o carga */}
       <div className="row">{loading ? <Loading /> : <ShowProducts />}</div>
+
+      {/* Paginación */}
+      <div className="row mt-4">
+        <div className="col-12 text-center">
+          <button
+            className="btn btn-outline-dark"
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+          >
+            Anterior
+          </button>
+          <span className="mx-3">
+            Página {page} de {totalPages}
+          </span>
+          <button
+            className="btn btn-outline-dark"
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages}
+          >
+            Siguiente
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
