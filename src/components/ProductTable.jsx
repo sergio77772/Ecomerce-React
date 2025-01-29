@@ -36,7 +36,7 @@ const ProductTable = () => {
   const limit = 10; // Límite de elementos por página
   const limitOthers = 100; // Límite de elementos por página
 
-  const API = process.env.REACT_APP_API + "productos.php?endpoint=producto";
+  const API = process.env.REACT_APP_API + "admProductos.php?endpoint=producto";
   const API_CATEGORIA = process.env.REACT_APP_API + "categorias.php?endpoint=categoria"; //agregue para buscar categoria
   const API_SUBCATEGORIA = process.env.REACT_APP_API + "subcategorias.php?endpoint=subcategoria";
   const API_PROVEEDOR = process.env.REACT_APP_API + "proveedor.php?endpoint=proveedor";
