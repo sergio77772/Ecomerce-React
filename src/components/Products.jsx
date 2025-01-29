@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
-import Skeleton from "react-loading-skeleton";
+import Skeletonlog from "./Skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -60,19 +60,9 @@ const Products = () => {
     setPage(1); // Resetea la página a la 1 cuando se realiza una búsqueda
   };
 
-  const Loading = () => (
-    <>
-      <div className="col-12 py-5 text-center">
-        <Skeleton height={40} width={560} />
-      </div>
-      {Array.from({ length: 6 }).map((_, index) => (
-        <div key={index} className="col-md-4 col-sm-6 col-12 mb-4">
-          <Skeleton height={400} />
-        </div>
-      ))}
-    </>
-  );
-
+  const Loading = () => <Skeletonlog />;
+  
+  
   const ShowProducts = () => (
     <>
       {products.length === 0 ? (
