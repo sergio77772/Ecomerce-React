@@ -8,6 +8,8 @@ const ProductTable = () => {
   const [debouncedSearch, setDebouncedSearch] = useState(""); // Estado para el debounce
 
   const [error, setError] = useState(null);
+  const usuario = localStorage.getItem('usuario')|| 'no hay detalle';
+
   const [selectedCategory, setSelectedCategory] = useState({
     idcategoria: "",
     idsubcategoria: "",
@@ -25,6 +27,7 @@ const ProductTable = () => {
     estado: "",
     nivel: "",
     imagen: "",
+    nombre:usuario
   });
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
@@ -44,7 +47,6 @@ const ProductTable = () => {
   const [categories, setCategories] = useState([]); //agregue para buscar categoria
   const [subcategoria, setsubcategoria] = useState([]);
   const [proveedor, setProveedor] = useState([]);
-
   useEffect(() => {
     loadproducto();
     loadCategoria();
