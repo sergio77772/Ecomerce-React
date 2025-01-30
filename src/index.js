@@ -24,6 +24,7 @@ import AdminProveedor  from "./pages/admin/AdminProveedor"; // Ajusta la ruta se
 import AdminSubCategory  from "./pages/admin/AdminSubCategory";
 import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de administracion
 import AdminBitacora from "./pages/admin/AdminBitacora";
+import AdminMesa from "./pages/admin/AdminMesa";
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "react-hot-toast";
 import AdminUsers from "./pages/admin/AdminUsers";
@@ -54,6 +55,7 @@ root.render(
           <Route path="/admin/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
           <Route path="/admin/users" element={token ? <AdminUsers /> : <Navigate to="/login" />} />
           <Route path="/admin/bitacora" element ={<AdminBitacora/>} />
+          <Route path="/admin/mesa" element ={<AdminMesa/>} />
           <Route path="/admin/logsDeSistema" element = {<AdminLogsDeSistema/>} />
           <Route path="/admin/ordenes" element = { <AdminOdenes/> } />
           <Route path="/product/*" element= {<PageNotFound />} />
