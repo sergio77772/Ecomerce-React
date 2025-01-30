@@ -642,6 +642,15 @@ const ProductTable = () => {
                   <label htmlFor="imagen" className="form-label">
                     Imagen
                   </label>
+                  {selectedCategory.imagen && (
+                    <div className="mb-2">
+                      <img
+                        src={process.env.REACT_APP_BASE_URL + selectedCategory.imagen}
+                        alt="Vista previa"
+                        style={{ width: "100px", height: "auto", marginBottom: "10px" }}
+                      />
+                    </div>
+                  )}
                   <input
                     type="file"
                     className="form-control"
