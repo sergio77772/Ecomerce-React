@@ -13,8 +13,8 @@ const Dashboard = () => {
     { title: "Reportes", icon: "bi-graph-up", link: "/reports" },
     { title: "Configuración", icon: "bi-gear", link: "/settings" },
     { title: "Bitácora", icon: "bi-journal", link: "/admin/bitacora" },
-    { title: "Registro  ", icon: "bi-file-earmark-text", link: "/admin/logsdesistema" }
-    { title: "Mesa de Ayuda  ", icon: "bi-info-circle-fill", link: "/admin/logsdesistema" }
+    { title: "Registro  ", icon: "bi-file-earmark-text", link: "/admin/logsdesistema" },
+    { title: "Mesa de Ayuda  ", icon: "bi-info-circle-fill", link: "/admin/mesa" }
   ];
 
   return (
