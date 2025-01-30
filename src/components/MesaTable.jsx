@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const MarcaTable = () => {
-  const [marca, setmarca] = useState([]);
+const MesaTable = () => {
+  const [mesa, setmesa] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState({
@@ -20,22 +20,23 @@ const MarcaTable = () => {
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10; // Límite de elementos por página
 
-  const API = process.env.REACT_APP_API + "marcas.php?endpoint=marcas";
+  const API = process.env.REACT_APP_API + "mesa.php?endpoint=mesa";
 
   useEffect(() => {
-    loadmarca();
+    loadmesa();
   }, [search, currentPage]);
 
-  const loadmarca = async () => {
+  const loadmesa = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await fetch(`${API}&search=${search}&page=${currentPage}&limit=${limit}`);
       if (!response.ok) {
-        throw new Error("Error al cargar las marcas.");
+        throw new Error("Error al cargar las mesa.");
       }
       const data = await response.json();
-      setmarca(data.marca || []);
+      setmesa(data.mesa || []);
+      console.log("mesa", data);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
@@ -50,7 +51,7 @@ const MarcaTable = () => {
       estado: category.estado || "",
       imagen: category.imagen || "",
     
-      idmarca: category.idmarca,
+      idmesa: category.idmesa,
     });
     setImageFile(null);
     setIsEditing(true); // Activar modo edición
@@ -64,7 +65,7 @@ const MarcaTable = () => {
         const formData = new FormData();
         formData.append("image", imageFile);
 
-        const uploadResponse = await fetch(`${process.env.REACT_APP_API}marcas.php?endpoint=upload`, {
+        const uploadResponse = await fetch(`${process.env.REACT_APP_API}mesa.php?endpoint=upload`, {
           method: "POST",
           body: formData,
         });
@@ -79,7 +80,7 @@ const MarcaTable = () => {
 
       const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
       const endpoint = isEditing
-        ? `${API}&id=${selectedCategory.idmarca}`
+        ? `${API}&id=${selectedCategory.idmesa}`
         : `${API}`;
 
       const response = await fetch(endpoint, {
@@ -92,33 +93,33 @@ const MarcaTable = () => {
 
       if (!response.ok) {
         throw new Error(
-          isEditing ? "Error al actualizar la marcas." : "Error al crear la marcas."
+          isEditing ? "Error al actualizar la mesa." : "Error al crear la mesa."
         );
       }
 
       alert(
         isEditing
-          ? "marcas actualizada exitosamente"
-          : "marcas creada exitosamente"
+          ? "mesa actualizada exitosamente"
+          : "mesa creada exitosamente"
       );
       setModalVisible(false);
-      loadmarca();
+      loadmesa();
     } catch (err) {
       alert(err.message);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de eliminar esta marcas? ")) return;
+    if (!window.confirm("¿Estás seguro de eliminar esta mesa? ")) return;
     try {
       const response = await fetch(`${API}&id=${id}`, {
         method: "DELETE",
       });
       if (!response.ok) {
-        throw new Error("Error al eliminar la marcas.");
+        throw new Error("Error al eliminar la mesa.");
       }
-      alert("marcas eliminada exitosamente");
-      loadmarca();
+      alert("mesa eliminada exitosamente");
+      loadmesa();
     } catch (err) {
       alert(err.message);
     }
@@ -143,7 +144,7 @@ const MarcaTable = () => {
   };
 
   if (loading) {
-    return <div className="text-center">Cargando marcas...</div>;
+    return <div className="text-center">Cargando mesa...</div>;
   }
 
   if (error) {
@@ -152,13 +153,13 @@ const MarcaTable = () => {
 
   return (
     <div className="container mt-4">
-      <h1 className="mb-4">Gestión de marcas</h1>
+      <h1 className="mb-4">Gestión de Mesa de Ayuda</h1>
 
       <div className="mb-3">
         <input
           type="text"
           className="form-control"
-          placeholder="Buscar marcas..."
+          placeholder="Buscar mesa..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -166,7 +167,7 @@ const MarcaTable = () => {
 
       <div className="mb-3 text-end">
         <button className="btn btn-success" onClick={handleCreate}>
-          Añadir marcas
+          Añadir mesa
         </button>
       </div>
 
@@ -174,19 +175,26 @@ const MarcaTable = () => {
         <thead className="thead-dark">
           <tr>
             <th>ID</th>
-            <th>Nombre</th>
+            <th>Fecha Hora</th>
             <th>Estado</th>
+            <th>Descripcion</th>
+            <th>Solucion</th>
             <th>Imagen</th>
           
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {marca.map((category) => (
-            <tr key={category.idmarca}>
-              <td>{category.idmarca}</td>
-              <td>{category.nombre}</td>
+          {mesa.map((category) => (
+            <tr key={category.idmesa}>
+              <td>{category.idmesa}</td>
+              <td>{category.fechahora}</td>
               <td>{category.estado}</td>
+              <td>{category.nombre}</td>
+              <td>{category.solucion}</td>
+             
+           
+             
               <td>
                 {category.imagen && (
                   <img
@@ -205,7 +213,7 @@ const MarcaTable = () => {
                 </button>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(category.idmarca)}
+                  onClick={() => handleDelete(category.idmesa)}
                 >
                   Eliminar
                 </button>
@@ -247,7 +255,7 @@ const MarcaTable = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
-                {isEditing ? "Editar marcas" : "Añadir marcas"}
+                {isEditing ? "Editar mesa" : "Añadir mesa"}
               </h5>
               <button
                 type="button"
@@ -257,8 +265,32 @@ const MarcaTable = () => {
             </div>
             <form onSubmit={handleSave}>
               <div className="modal-body">
+
+              <div className="mb-3">
+                      <label htmlFor="estado" className="form-label">
+                        Estado
+                      </label>
+                      <select
+                        className="form-control"
+                        id="estado"
+                        value={selectedCategory.estado}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            estado: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="">Seleccionar estado</option>
+                        <option value="ERROR SISTEMA">Error Sistema</option>
+                        <option value="MODIFICACIONES">Modificaciones</option>
+                        <option value="SUGERENCIA">Sugerencia</option>
+                        <option value="OTROS">Otros</option>
+                      </select>
+                    </div>
+
                 <div className="mb-3">
-                  <label>Nombre</label>
+                  <label>Descripción</label>
                   <input
                     type="text"
                     className="form-control"
@@ -268,17 +300,22 @@ const MarcaTable = () => {
                     }
                   />
                 </div>
+            
                 <div className="mb-3">
-                  <label>Estado</label>
+                  <label>Solución</label>
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedCategory.estado}
+                    value={selectedCategory.solucion}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, estado: e.target.value })
+                      setSelectedCategory({ ...selectedCategory, solucion: e.target.value })
                     }
                   />
                 </div>
+
+              
+
+
                 <div className="mb-3">
                   <label>Imagen</label>
                   {selectedCategory.imagen && (
@@ -300,7 +337,7 @@ const MarcaTable = () => {
               </div>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary">
-                  {isEditing ? "Guardar Cambios" : "Crear marcas"}
+                  {isEditing ? "Guardar Cambios" : "Crear mesa"}
                 </button>
                 <button
                   type="button"
@@ -318,4 +355,4 @@ const MarcaTable = () => {
   );
 };
 
-export default MarcaTable;
+export default MesaTable;

@@ -165,7 +165,7 @@ const ProductTable = () => {
         formData.append("image", imageFile);
 
         const uploadResponse = await fetch(
-          `${process.env.REACT_APP_API}productos.php?endpoint=upload`,
+          `${process.env.REACT_APP_API}admProductos.php?endpoint=upload`,
           {
             method: "POST",
             body: formData,
