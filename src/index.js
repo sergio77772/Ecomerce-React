@@ -30,6 +30,7 @@ import { Toaster } from "react-hot-toast";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminLogsDeSistema from "./pages/admin/AdminLogsDeSistema";
 import AdminOdenes from "./pages/admin/AdminOrdenes";
+import AdminComercio from "./pages/admin/AdminComercio";
 const token = localStorage.getItem('token');
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -56,6 +57,8 @@ root.render(
           <Route path="/admin/users" element={token ? <AdminUsers /> : <Navigate to="/login" />} />
           <Route path="/admin/bitacora" element ={<AdminBitacora/>} />
           <Route path="/admin/mesa" element ={<AdminMesa/>} />
+          <Route path="/admin/comercio" element ={<AdminComercio/>} />
+
           <Route path="/admin/logsDeSistema" element = {<AdminLogsDeSistema/>} />
           <Route path="/admin/ordenes" element = { <AdminOdenes/> } />
           <Route path="/product/*" element= {<PageNotFound />} />
