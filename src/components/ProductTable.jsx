@@ -621,16 +621,34 @@ const ProductTable = () => {
                    </div>
 
                    <div className="mb-3">
-                  <label><strong>Nivel</strong></label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.nivel}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, nivel: e.target.value })
-                    }
-                  />
-                </div>
+                      <label htmlFor="Nivel" className="form-label">
+                      <strong>Nivel</strong>
+                      </label>
+                      <select
+                        className="form-control"
+                        id="nivel"
+                        value={selectedCategory.nivel}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            nivel: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="">Seleccionar Nivel</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        
+                      </select>
+                    </div>
+
+
+
+
                   </div>
 
 
