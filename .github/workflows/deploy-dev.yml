@@ -17,6 +17,8 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
+    - name: Set homepage for Developer
+      run: jq '.homepage="https://nortejujuy.com.ar/"' package.json > temp.json && mv temp.json package.json
 
     - name: Set up .env for Developer
       run: cp .env.developer .env

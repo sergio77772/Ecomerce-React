@@ -6,19 +6,21 @@ const Navbar = () => {
     const state = useSelector(state => state.handleCart)
     const token = localStorage.getItem('token') // Obtener el token del localStorage
     const navigate = useNavigate() // Usamos useNavigate para redirigir al usuario
-
+    const comercio = useSelector((state) => state.comercio.comercio);
+   console.log(comercio)
     const handleLogout = () => {
         // Eliminar el token del localStorage
         localStorage.removeItem('token')
-
         // Redirigir al usuario a la página de inicio (o cualquier otra página)
         navigate('/')
     }
 
+    
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
             <div className="container">
-                <NavLink className="navbar-brand fw-bold fs-4 px-2" to="/">Distribuidora Assef Perico</NavLink>
+                <NavLink className="navbar-brand fw-bold fs-4 px-2" to="/">{comercio.Nombre}</NavLink>
 
                 <button className="navbar-toggler mx-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>

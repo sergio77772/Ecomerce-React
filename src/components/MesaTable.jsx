@@ -8,6 +8,7 @@ const MesaTable = () => {
   const [selectedCategory, setSelectedCategory] = useState({
     nombre: "",
     estado: "",
+    solucion: "",
     imagen: "",
   
   });
@@ -49,7 +50,9 @@ const MesaTable = () => {
     setSelectedCategory({
       nombre: category.nombre || "",
       estado: category.estado || "",
+      solucion: category.solucion || "",
       imagen: category.imagen || "",
+     
     
       idmesa: category.idmesa,
     });
@@ -136,6 +139,7 @@ const MesaTable = () => {
       nombre: "",
       estado: "",
       imagen: "",
+      solucion: "",
      
     });
     setImageFile(null);
