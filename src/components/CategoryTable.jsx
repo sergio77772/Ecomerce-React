@@ -10,6 +10,7 @@ const CategoryTable = () => {
     nombre: "",
     estado: "",
     imagen: "",
+    idcategoria:""
   });
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
@@ -94,7 +95,7 @@ const CategoryTable = () => {
 
       const method = isEditing ? "PUT" : "POST";
       const endpoint = isEditing
-        ? `${API}&id=${selectedCategory.idcategories}`
+        ? `${API}&id=${selectedCategory.idcategoria}`
         : `${API}`;
 
       const response = await fetch(endpoint, {
