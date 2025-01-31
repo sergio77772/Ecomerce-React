@@ -14,6 +14,7 @@ const Dashboard = () => {
     { title: "Configuración", icon: "bi-gear", link: "/settings" },
     { title: "Bitácora", icon: "bi-journal", link: "/admin/bitacora" },
     { title: "Registro  ", icon: "bi-file-earmark-text", link: "/admin/logsdesistema" },
+    { title: "Mi Comercio ", icon: "bi bi-house-gear", link: "/admin/comercio" },
     { title: "Mesa de Ayuda  ", icon: "bi-info-circle-fill", link: "/admin/mesa" }
   ];
 

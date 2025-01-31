@@ -88,7 +88,7 @@ const ProductTable = () => {
   const loadCategoria = async () => {
     try {
       const response = await fetch(
-        `${API_CATEGORIA}&search=${search}&page=${currentPage}&limit=${limitOthers}`
+        `${API_CATEGORIA}&search=${search}&page=${1}&limit=${limitOthers}`
       );
       if (!response.ok) {
         throw new Error("Error al cargar los categoria.");
@@ -103,7 +103,7 @@ const ProductTable = () => {
   const loadsubcategoria = async () => {
     try {
       const response = await fetch(
-        `${API_SUBCATEGORIA}&search=${search}&page=${currentPage}&limit=${limitOthers}`
+        `${API_SUBCATEGORIA}&search=${search}&page=${1}&limit=${limitOthers}`
       );
       if (!response.ok) {
         throw new Error("Error al cargar los subcategoria.");
@@ -119,7 +119,7 @@ const ProductTable = () => {
   const loadProveedor = async () => {
     try {
       const response = await fetch(
-        `${API_PROVEEDOR}&search=${search}&page=${currentPage}&limit=${limitOthers}`
+        `${API_PROVEEDOR}&search=${search}&page=${1}&limit=${limitOthers}`
       );
       if (!response.ok) {
         throw new Error("Error al cargar los categoria.");
