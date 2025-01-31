@@ -383,7 +383,8 @@ const ProductTable = () => {
                   <div className="col-md-6">
                   <div className="mb-3">
                   
-                  <label>idcategoria</label>
+                  <label><strong>ID Categoria</strong></label>
+
                   <select
                     className="form-control"
                     value={selectedCategory.idcategoria}
@@ -402,7 +403,7 @@ const ProductTable = () => {
 
                 </div>
                 <div className="mb-3">
-                <label>idproveedor</label>
+                <label><strong>ID Proveedor</strong></label>
                 <select
                     className="form-control"
                     value={selectedCategory.idproveedor}
@@ -418,20 +419,20 @@ const ProductTable = () => {
                   </select>
                 </div>
                 <div className="mb-3">
-                  <label>descripcioncompleta</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.descripcioncompleta}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, descripcioncompleta: e.target.value })
-                    }
-                  />
-                </div>
+                <label><strong>Descripción Completa</strong></label>
+                <textarea
+                  className="form-control"
+                  value={selectedCategory.descripcioncompleta}
+                  onChange={(e) =>
+                    setSelectedCategory({ ...selectedCategory, descripcioncompleta: e.target.value })
+                  }
+                  rows="4" // Puedes ajustar el número de filas según necesites
+                />
+              </div>
             
                     <div className="mb-3">
                       <label htmlFor="descripcion" className="form-label">
-                        Descripción
+                      <strong> Descripción</strong>
                       </label>
                       <input
                         type="text"
@@ -449,7 +450,7 @@ const ProductTable = () => {
                     </div>
                     <div className="mb-3">
                       <label htmlFor="codigoArticulo" className="form-label">
-                        Código Artículo
+                      <strong> Código Artículo</strong>
                       </label>
                       <input
                         type="text"
@@ -467,7 +468,7 @@ const ProductTable = () => {
                     </div>
                     <div className="mb-3">
                       <label htmlFor="stockmin" className="form-label">
-                        Stock Mínimo
+                      <strong>Stock Mínimo</strong>
                       </label>
                       <input
                         type="number"
@@ -485,7 +486,7 @@ const ProductTable = () => {
                     </div>
                     <div className="mb-3">
                       <label htmlFor="stock" className="form-label">
-                        Stock
+                      <strong>Stock</strong>
                       </label>
                       <input
                         type="number"
@@ -503,7 +504,7 @@ const ProductTable = () => {
                     </div>
 
                     <div className="mb-3">
-                  <label>ubicacion</label>
+                  <label><strong>Ubicación</strong></label>
                   <input
                     type="text"
                     className="form-control"
@@ -518,7 +519,7 @@ const ProductTable = () => {
 
                   <div className="col-md-6">
                   <div className="mb-3">
-                <label>idsubcategoria</label>
+                <label><strong>ID SubCategoria</strong></label>
                 <select
                     className="form-control"
                     value={selectedCategory.idsubcategoria}
@@ -535,7 +536,7 @@ const ProductTable = () => {
                   </div>
                     <div className="mb-3">
                       <label htmlFor="precioventa" className="form-label">
-                        Precio Venta
+                      <strong> Precio Venta</strong>
                       </label>
                       <input
                         type="number"
@@ -553,7 +554,7 @@ const ProductTable = () => {
                     </div>
                     <div className="mb-3">
                       <label htmlFor="preciocosto" className="form-label">
-                        Precio Costo
+                      <strong> Precio Costo</strong>
                       </label>
                       <input
                         type="number"
@@ -571,7 +572,7 @@ const ProductTable = () => {
                     </div>
                     <div className="mb-3">
                       <label htmlFor="deposito" className="form-label">
-                        Depósito
+                      <strong>Depósito</strong>
                       </label>
                       <input
                         type="text"
@@ -589,7 +590,7 @@ const ProductTable = () => {
                     </div>
                     <div className="mb-3">
                       <label htmlFor="estado" className="form-label">
-                        Estado
+                      <strong>Estado</strong>
                       </label>
                       <select
                         className="form-control"
@@ -608,7 +609,7 @@ const ProductTable = () => {
                       </select>
                     </div>
                     <div className="mb-3">
-                  <label>stockmax</label>
+                  <label><strong>Stock Max</strong></label>
                   <input
                     type="text"
                     className="form-control"
@@ -620,16 +621,34 @@ const ProductTable = () => {
                    </div>
 
                    <div className="mb-3">
-                  <label>Nivel</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.nivel}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, nivel: e.target.value })
-                    }
-                  />
-                </div>
+                      <label htmlFor="Nivel" className="form-label">
+                      <strong>Nivel</strong>
+                      </label>
+                      <select
+                        className="form-control"
+                        id="nivel"
+                        value={selectedCategory.nivel}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            nivel: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="">Seleccionar Nivel</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        
+                      </select>
+                    </div>
+
+
+
+
                   </div>
 
 
@@ -640,7 +659,7 @@ const ProductTable = () => {
                 {/* Imagen */}
                 <div className="mb-3">
                   <label htmlFor="imagen" className="form-label">
-                    Imagen
+                  <strong>Imagen</strong>
                   </label>
                   {selectedCategory.imagen && (
                     <div className="mb-2">
