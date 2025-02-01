@@ -365,7 +365,8 @@ const ProductTable = () => {
         style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
         aria-hidden={!modalVisible}
       >
-        <div className="modal-dialog">
+
+       <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
@@ -378,147 +379,30 @@ const ProductTable = () => {
               ></button>
             </div>
             <form onSubmit={handleSave}>
-              <div className="modal-body">
+            <div className="modal-body">
                 <div className="row">
-                  <div className="col-md-6">
-                  <div className="mb-3">
                   
-                  <label><strong>ID Categoria</strong></label>
+                    <div className="col-md-4">
+                      <div className="mb-3">                  
+                      <label><strong>ID Categoria</strong></label>
+                      <select
+                        className="form-control"
+                        value={selectedCategory.idcategoria}
+                        onChange={(e) =>
+                          setSelectedCategory({ ...selectedCategory, idcategoria: e.target.value })
+                        }
+                      >
+                        {categories.map((elemento) => {return (
+                          <option key={elemento.idcategoria} value={elemento.idcategoria}>
+                            {elemento.nombre}
+                          </option>
+                        )})}
+                      </select>
+                    </div>
+                    </div>
 
-                  <select
-                    className="form-control"
-                    value={selectedCategory.idcategoria}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, idcategoria: e.target.value })
-                    }
-                  >
-                     {categories.map((elemento) => {return (
-                      <option key={elemento.idcategoria} value={elemento.idcategoria}>
-                        {elemento.nombre}
-                      </option>
-                    )})}
-                  </select>
-
-
-
-                </div>
+                <div className="col-md-4">
                 <div className="mb-3">
-                <label><strong>ID Proveedor</strong></label>
-                <select
-                    className="form-control"
-                    value={selectedCategory.idproveedor}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, idproveedor: e.target.value })
-                    }
-                  >
-                     {proveedor.map((elemento) => {return (
-                      <option key={elemento.idproveedor} value={elemento.idproveedor}>
-                        {elemento.nombre}
-                      </option>
-                    )})}
-                  </select>
-                </div>
-                <div className="mb-3">
-                <label><strong>Descripción Completa</strong></label>
-                <textarea
-                  className="form-control"
-                  value={selectedCategory.descripcioncompleta}
-                  onChange={(e) =>
-                    setSelectedCategory({ ...selectedCategory, descripcioncompleta: e.target.value })
-                  }
-                  rows="4" // Puedes ajustar el número de filas según necesites
-                />
-              </div>
-            
-                    <div className="mb-3">
-                      <label htmlFor="descripcion" className="form-label">
-                      <strong> Descripción</strong>
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="descripcion"
-                        value={selectedCategory.descripcion}
-                        onChange={(e) =>
-                          setSelectedCategory({
-                            ...selectedCategory,
-                            descripcion: e.target.value,
-                          })
-                        }
-                        required
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label htmlFor="codigoArticulo" className="form-label">
-                      <strong> Código Artículo</strong>
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="codigoArticulo"
-                        value={selectedCategory.codigoArticulo}
-                        onChange={(e) =>
-                          setSelectedCategory({
-                            ...selectedCategory,
-                            codigoArticulo: e.target.value,
-                          })
-                        }
-                        required
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label htmlFor="stockmin" className="form-label">
-                      <strong>Stock Mínimo</strong>
-                      </label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="stockmin"
-                        value={selectedCategory.stockmin}
-                        onChange={(e) =>
-                          setSelectedCategory({
-                            ...selectedCategory,
-                            stockmin: e.target.value,
-                          })
-                        }
-                        required
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label htmlFor="stock" className="form-label">
-                      <strong>Stock</strong>
-                      </label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="stock"
-                        value={selectedCategory.stock}
-                        onChange={(e) =>
-                          setSelectedCategory({
-                            ...selectedCategory,
-                            stock: e.target.value,
-                          })
-                        }
-                        required
-                      />
-                    </div>
-
-                    <div className="mb-3">
-                  <label><strong>Ubicación</strong></label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.ubicacion}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, ubicacion: e.target.value })
-                    }
-                  />
-                </div>
-
-                  </div>
-
-                  <div className="col-md-6">
-                  <div className="mb-3">
                 <label><strong>ID SubCategoria</strong></label>
                 <select
                     className="form-control"
@@ -534,7 +418,52 @@ const ProductTable = () => {
                     )})}
                   </select>
                   </div>
-                    <div className="mb-3">
+                  </div>
+
+
+                  <div className="col-md-4">
+                  <div className="mb-3">
+                <label><strong>ID Proveedor</strong></label>
+                <select
+                    className="form-control"
+                    value={selectedCategory.idproveedor}
+                    onChange={(e) =>
+                      setSelectedCategory({ ...selectedCategory, idproveedor: e.target.value })
+                    }
+                  >
+                     {proveedor.map((elemento) => {return (
+                      <option key={elemento.idproveedor} value={elemento.idproveedor}>
+                        {elemento.nombre}
+                      </option>
+                    )})}
+                  </select>
+              
+                </div>
+                </div>
+         </div>
+         <div className="row">
+                <div className="col-md-8">         
+                <div className="mb-3">
+                      <label htmlFor="descripcion" className="form-label">
+                      <strong> Descripción(30 caracteres)</strong>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="descripcion"
+                        value={selectedCategory.descripcion}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            descripcion: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                   </div>
+                    <div className="col-md-4">
+                   <div className="mb-3">
                       <label htmlFor="precioventa" className="form-label">
                       <strong> Precio Venta</strong>
                       </label>
@@ -552,25 +481,69 @@ const ProductTable = () => {
                         required
                       />
                     </div>
-                    <div className="mb-3">
-                      <label htmlFor="preciocosto" className="form-label">
-                      <strong> Precio Costo</strong>
+                    </div>
+                   
+            </div>
+         <div className="row">
+               <div className="col-md-4">
+            <div className="mb-3">
+                      <label htmlFor="stockmin" className="form-label">
+                      <strong>Stock Mínimo</strong>
                       </label>
                       <input
                         type="number"
                         className="form-control"
-                        id="preciocosto"
-                        value={selectedCategory.preciocosto}
+                        id="stockmin"
+                        value={selectedCategory.stockmin}
                         onChange={(e) =>
                           setSelectedCategory({
                             ...selectedCategory,
-                            preciocosto: e.target.value,
+                            stockmin: e.target.value,
                           })
                         }
                         required
                       />
                     </div>
-                    <div className="mb-3">
+                    </div>
+         <div className="col-md-4">
+         <div className="mb-3">
+                      <label htmlFor="stock" className="form-label">
+                      <strong>Stock</strong>
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="stock"
+                        value={selectedCategory.stock}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            stock: e.target.value,
+                          })
+                        }
+                        required
+                      />
+            </div>
+            </div>
+            <div className="col-md-4">
+         <div className="mb-3">
+                  <label><strong>Stock Max</strong></label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={selectedCategory.stockmax}
+                    onChange={(e) =>
+                      setSelectedCategory({ ...selectedCategory, stockmax: e.target.value })
+                    }
+                  />
+         </div>
+         </div>
+
+
+                 
+        <div className="row">
+        <div className="col-md-4">
+        <div className="mb-3">
                       <label htmlFor="deposito" className="form-label">
                       <strong>Depósito</strong>
                       </label>
@@ -588,7 +561,22 @@ const ProductTable = () => {
                         required
                       />
                     </div>
+                    </div>
+                    <div className="col-md-4">
                     <div className="mb-3">
+                      <label><strong>Ubicación</strong></label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={selectedCategory.ubicacion}
+                        onChange={(e) =>
+                          setSelectedCategory({ ...selectedCategory, ubicacion: e.target.value })
+                        }
+                      />
+                </div>
+                 </div>
+                 <div className="col-md-4">
+                 <div className="mb-3">
                       <label htmlFor="estado" className="form-label">
                       <strong>Estado</strong>
                       </label>
@@ -608,19 +596,66 @@ const ProductTable = () => {
                         <option value="Inactivo">Inactivo</option>
                       </select>
                     </div>
+                    </div>
+        </div>
+        <div className="row">
+        <div className="col-md-12">
+        <div className="mb-3">
+                <label><strong>Descripción Completa</strong></label>
+                <textarea
+                  className="form-control"
+                  value={selectedCategory.descripcioncompleta}
+                  onChange={(e) =>
+                    setSelectedCategory({ ...selectedCategory, descripcioncompleta: e.target.value })
+                  }
+                  rows="3" // Puedes ajustar el número de filas según necesites
+                />
+              </div>
+              </div>
+              </div>
+              <div className="row">
+              <div className="col-md-4">
+              <div className="mb-3">
+                      <label htmlFor="codigoArticulo" className="form-label">
+                      <strong> Código Artículo</strong>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="codigoArticulo"
+                        value={selectedCategory.codigoArticulo}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            codigoArticulo: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    </div>
+                    <div className="col-md-4">
                     <div className="mb-3">
-                  <label><strong>Stock Max</strong></label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.stockmax}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, stockmax: e.target.value })
-                    }
-                  />
-                   </div>
-
-                   <div className="mb-3">
+                      <label htmlFor="preciocosto" className="form-label">
+                      <strong> Precio Costo</strong>
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="preciocosto"
+                        value={selectedCategory.preciocosto}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            preciocosto: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    </div>
+                    <div className="col-md-4">
+                    <div className="mb-3">
                       <label htmlFor="Nivel" className="form-label">
                       <strong>Nivel</strong>
                       </label>
@@ -645,17 +680,12 @@ const ProductTable = () => {
                         
                       </select>
                     </div>
+                    </div>
+                   
 
+        </div>
 
-
-
-                  </div>
-
-
-
-
-                </div>
-
+        <div className="row">
                 {/* Imagen */}
                 <div className="mb-3">
                   <label htmlFor="imagen" className="form-label">
@@ -678,7 +708,18 @@ const ProductTable = () => {
                     onChange={(e) => setImageFile(e.target.files[0])}
                   />
                 </div>
-              </div>
+
+       </div>
+
+
+
+
+
+         </div>
+
+
+
+                </div>
               <div className="modal-footer">
                 <button
                   type="button"
