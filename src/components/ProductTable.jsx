@@ -44,6 +44,7 @@ const ProductTable = () => {
   const API_SUBCATEGORIA = process.env.REACT_APP_API + "subcategorias.php?endpoint=subcategoria";
   const API_PROVEEDOR = process.env.REACT_APP_API + "proveedor.php?endpoint=proveedor";
 
+  
   const [categories, setCategories] = useState([]); //agregue para buscar categoria
   const [subcategoria, setsubcategoria] = useState([]);
   const [proveedor, setProveedor] = useState([]);
