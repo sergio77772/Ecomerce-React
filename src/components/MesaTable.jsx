@@ -50,8 +50,9 @@ const MesaTable = () => {
     setSelectedCategory({
       nombre: category.nombre || "",
       estado: category.estado || "",
-      imagen: category.imagen || "",
       solucion: category.solucion || "",
+      imagen: category.imagen || "",
+     
     
       idmesa: category.idmesa,
     });
@@ -271,7 +272,7 @@ const MesaTable = () => {
 
               <div className="mb-3">
                       <label htmlFor="estado" className="form-label">
-                        Estado
+                      <strong> Estado</strong>
                       </label>
                       <select
                         className="form-control"
@@ -291,36 +292,33 @@ const MesaTable = () => {
                         <option value="OTROS">Otros</option>
                       </select>
                     </div>
+                    <div className="mb-3">
+                <label><strong>Descripción</strong></label>
+                <textarea
+                  className="form-control"
+                  value={selectedCategory.nombre}
+                  onChange={(e) =>
+                    setSelectedCategory({ ...selectedCategory, nombre: e.target.value })
+                  }
+                  rows="4" // Puedes ajustar el número de filas según necesites
+                />
+              </div>
+
+                          
+              <div className="mb-3">
+                <label><strong>Solución</strong></label>
+                <textarea
+                  className="form-control"
+                  value={selectedCategory.solucion}
+                  onChange={(e) =>
+                    setSelectedCategory({ ...selectedCategory, solucion: e.target.value })
+                  }
+                  rows="4" // Puedes ajustar el número de filas según necesites
+                />
+              </div>
 
                 <div className="mb-3">
-                  <label>Descripción</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.nombre}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, nombre: e.target.value })
-                    }
-                  />
-                </div>
-            
-                <div className="mb-3">
-                  <label>Solución</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.solucion}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, solucion: e.target.value })
-                    }
-                  />
-                </div>
-
-              
-
-
-                <div className="mb-3">
-                  <label>Imagen</label>
+                  <label><strong>Imagen</strong></label>
                   {selectedCategory.imagen && (
                     <div className="mb-2">
                       <img

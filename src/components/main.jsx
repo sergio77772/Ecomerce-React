@@ -1,29 +1,56 @@
-import React from "react";
+import React, { useEffect } from "react";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchComercio } from "../redux/action";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const comercio = useSelector((state) => state.comercio.comercio);
+  const base = process.env.REACT_APP_BASE_URL;
+
+  useEffect(() => {
+    dispatch(fetchComercio()); // Obtener datos de la API al cargar
+  }, [dispatch]);
+
+  // Si no hay imágenes, mostrar mensaje de carga
+  if (!comercio || !comercio.imagenes) {
+    return <p className="text-center">Cargando imágenes...</p>;
+  }
+
+  let imagenes = [];
+  try {
+    // Convertir la cadena JSON en un array real
+    imagenes = JSON.parse(comercio.imagenes).map((img) =>
+      img.replace(/^\/img\//, `${base}/img/`)
+    );
+  } catch (error) {
+    console.error("Error al parsear las imágenes:", error);
+  }
+
+  // Configuración del carrusel
+  const responsive = {
+    superLargeDesktop: { breakpoint: { max: 4000, min: 1024 }, items: 1 },
+    desktop: { breakpoint: { max: 1024, min: 768 }, items: 1 },
+    tablet: { breakpoint: { max: 768, min: 464 }, items: 1 },
+    mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
+  };
+
   return (
-    <>
-      <div className="hero border-1 pb-3">
-        <div className="card bg-dark text-white border-0 mx-3">
-          <img
-            className="card-img img-fluid"
-
-            src="../assets/distribuidora.jpg"
-            alt="Card"
-            height={500}
-          />
-          <div className="card-img-overlay d-flex align-items-center">
-            <div className="container">
-             {/* <h5 className="card-title fs-1 text fw-lighter">Distribuidora Assef Perico</h5>
-              <p className="card-text fs-5 d-none d-sm-block ">
-                 info@distribuidoraassefperico.com.ar.
-              </p> */}
-
-            </div>
+    <div className="container mt-4">
+      <Carousel responsive={responsive} infinite autoPlay autoPlaySpeed={3000}>
+        {imagenes.map((img, index) => (
+          <div key={index} className="p-2">
+            <img
+              src={img}
+              alt={`Imagen ${index + 1}`}
+              className="img-fluid rounded"
+              style={{ maxHeight: "400px", objectFit: "cover", width: "100%" }}
+            />
           </div>
-        </div>
-      </div>
-    </>
+        ))}
+      </Carousel>
+    </div>
   );
 };
 
