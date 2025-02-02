@@ -293,8 +293,7 @@ const ProductTable = () => {
             <th>descripcion</th>
             <th>Imagen</th>
             <th>precioventa</th>
-            <th>desposito</th>
-            
+            <th>desposito</th>            
             <th>Estado</th>
             <th>Acciones</th>
           </tr>
@@ -379,10 +378,11 @@ const ProductTable = () => {
             <form onSubmit={handleSave}>
               <div className="modal-body">
                 <div className="row">
+
                   <div className="col-md-6">
-                  <div className="mb-3">
-                  
                   <label>idcategoria</label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>                
+               
                   <select
                     className="form-control"
                     value={selectedCategory.idcategoria}
@@ -630,10 +630,6 @@ const ProductTable = () => {
                   />
                 </div>
                   </div>
-
-
-
-
                 </div>
 
                 {/* Imagen */}
