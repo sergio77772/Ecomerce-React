@@ -384,8 +384,9 @@ const ProductTable = () => {
                 <div className="row">
                   
                     <div className="col-md-4">
-                      <div className="mb-3">                  
-                      <label><strong>ID Categoria</strong></label>
+                    <label><strong>ID Categoria</strong></label>
+                    <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                 
                       <select
                         className="form-control"
                         value={selectedCategory.idcategoria}
@@ -402,9 +403,9 @@ const ProductTable = () => {
                     </div>
                     </div>
 
-                <div className="col-md-4">
-                <div className="mb-3">
+                <div className="col-md-4">              
                 <label><strong>ID SubCategoria</strong></label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
                 <select
                     className="form-control"
                     value={selectedCategory.idsubcategoria}
@@ -423,8 +424,8 @@ const ProductTable = () => {
 
 
                   <div className="col-md-4">
-                  <div className="mb-3">
-                <label><strong>ID Proveedor</strong></label>
+                  <label><strong>ID Proveedor</strong></label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
                 <select
                     className="form-control"
                     value={selectedCategory.idproveedor}
@@ -444,10 +445,11 @@ const ProductTable = () => {
          </div>
          <div className="row">
                 <div className="col-md-8">         
-                <div className="mb-3">
-                      <label htmlFor="descripcion" className="form-label">
-                      <strong> Descripción(30 caracteres)</strong>
+                      <label htmlFor="descripcion" className="form-label">                        
+                      <strong> Descripción(30 caracteres)</strong>                      
                       </label>
+                     <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="text"
                         className="form-control"
@@ -464,10 +466,11 @@ const ProductTable = () => {
                     </div>
                    </div>
                     <div className="col-md-4">
-                   <div className="mb-3">
-                      <label htmlFor="precioventa" className="form-label">
+                       <label htmlFor="precioventa" className="form-label">
                       <strong> Precio Venta</strong>
                       </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="number"
                         className="form-control"
@@ -487,10 +490,12 @@ const ProductTable = () => {
             </div>
          <div className="row">
                <div className="col-md-4">
-            <div className="mb-3">
+          
                       <label htmlFor="stockmin" className="form-label">
                       <strong>Stock Mínimo</strong>
                       </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="number"
                         className="form-control"
@@ -507,10 +512,12 @@ const ProductTable = () => {
                     </div>
                     </div>
          <div className="col-md-4">
-         <div className="mb-3">
+      
                       <label htmlFor="stock" className="form-label">
                       <strong>Stock</strong>
                       </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="number"
                         className="form-control"
@@ -527,8 +534,10 @@ const ProductTable = () => {
             </div>
             </div>
             <div className="col-md-4">
-         <div className="mb-3">
+       
                   <label><strong>Stock Max</strong></label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                   <input
                     type="text"
                     className="form-control"
@@ -543,11 +552,12 @@ const ProductTable = () => {
 
                  
         <div className="row">
-        <div className="col-md-4">
-        <div className="mb-3">
+        <div className="col-md-4">      
                       <label htmlFor="deposito" className="form-label">
                       <strong>Depósito</strong>
                       </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="text"
                         className="form-control"
@@ -563,9 +573,10 @@ const ProductTable = () => {
                       />
                     </div>
                     </div>
-                    <div className="col-md-4">
-                    <div className="mb-3">
+                    <div className="col-md-4">               
                       <label><strong>Ubicación</strong></label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="text"
                         className="form-control"
@@ -576,11 +587,12 @@ const ProductTable = () => {
                       />
                 </div>
                  </div>
-                 <div className="col-md-4">
-                 <div className="mb-3">
+                 <div className="col-md-4">               
                       <label htmlFor="estado" className="form-label">
                       <strong>Estado</strong>
                       </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <select
                         className="form-control"
                         id="estado"
@@ -601,8 +613,9 @@ const ProductTable = () => {
         </div>
         <div className="row">
         <div className="col-md-12">
-        <div className="mb-3">
-                <label><strong>Descripción Completa</strong></label>
+        <label><strong>Descripción Completa</strong></label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                 <textarea
                   className="form-control"
                   value={selectedCategory.descripcioncompleta}
@@ -616,10 +629,12 @@ const ProductTable = () => {
               </div>
               <div className="row">
               <div className="col-md-4">
-              <div className="mb-3">
+           
                       <label htmlFor="codigoArticulo" className="form-label">
                       <strong> Código Artículo</strong>
                       </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="text"
                         className="form-control"
@@ -636,10 +651,11 @@ const ProductTable = () => {
                     </div>
                     </div>
                     <div className="col-md-4">
-                    <div className="mb-3">
-                      <label htmlFor="preciocosto" className="form-label">
+                     <label htmlFor="preciocosto" className="form-label">
                       <strong> Precio Costo</strong>
                       </label>
+                      <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="number"
                         className="form-control"
@@ -656,10 +672,11 @@ const ProductTable = () => {
                     </div>
                     </div>
                     <div className="col-md-4">
-                    <div className="mb-3">
-                      <label htmlFor="Nivel" className="form-label">
+                       <label htmlFor="Nivel" className="form-label">
                       <strong>Nivel</strong>
                       </label>
+                     <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <select
                         className="form-control"
                         id="nivel"
@@ -688,10 +705,11 @@ const ProductTable = () => {
 
         <div className="row">
                 {/* Imagen */}
-                <div className="mb-3">
                   <label htmlFor="imagen" className="form-label">
                   <strong>Imagen</strong>
                   </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                   {selectedCategory.imagen && (
                     <div className="mb-2">
                       <img
