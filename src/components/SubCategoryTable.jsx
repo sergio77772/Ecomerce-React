@@ -7,7 +7,9 @@ const SubCategoryTable = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState({
+
     nombre: "",
+    idcategoria:"",
     estado: "",
     imagen: "",
   
@@ -20,11 +22,15 @@ const SubCategoryTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10; // Límite de elementos por página
+  const limitOthers = 100; // Límite de elementos por página
 
   const API = process.env.REACT_APP_API + "subcategorias.php?endpoint=subcategoria";
+  const API_CATEGORIA = process.env.REACT_APP_API + "categorias.php?endpoint=categoria";
 
+   const [categories, setCategories] = useState([]);
   useEffect(() => {
     loadsubcategoria();
+    loadCategoria();
   }, [search, currentPage]);
 
   const loadsubcategoria = async () => {
@@ -33,10 +39,11 @@ const SubCategoryTable = () => {
     try {
       const response = await fetch(`${API}&search=${search}&page=${currentPage}&limit=${limit}`);
       if (!response.ok) {
-        throw new Error("Error al cargar las categorias.");
+        throw new Error("Error al cargar las SubCategorias.");
       }
       const data = await response.json();
       setsubcategoria(data.subcategoria || []);
+      console.log("subcategoria", data);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
@@ -44,10 +51,27 @@ const SubCategoryTable = () => {
       setLoading(false);
     }
   };
+  const loadCategoria = async () => {
+    try {
+      const response = await fetch(
+        `${API_CATEGORIA}&search=${search}&page=${1}&limit=${limitOthers}`
+      );
+      if (!response.ok) {
+        throw new Error("Error al cargar los categoria.");
+      }
+      const data = await response.json();
+      setCategories(data.categories || []);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+
 
   const handleEdit = (Category) => {
     setSelectedCategory({
       nombre: Category.nombre || "",
+      idcategoria: Category.idcategoria || "",
       estado: Category.estado || "",
       imagen: Category.imagen || "",
     
@@ -99,8 +123,8 @@ const SubCategoryTable = () => {
 
       alert(
         isEditing
-          ? "categoria actualizada exitosamente"
-          : "categoria creada exitosamente"
+          ? "Subcategoria actualizada exitosamente"
+          : "Subcategoria creada exitosamente"
       );
       setModalVisible(false);
       loadsubcategoria();
@@ -118,7 +142,7 @@ const SubCategoryTable = () => {
       if (!response.ok) {
         throw new Error("Error al eliminar la categoria.");
       }
-      alert("categoria eliminada exitosamente");
+      alert("SubCategoria eliminada exitosamente");
       loadsubcategoria();
     } catch (err) {
       alert(err.message);
@@ -134,6 +158,7 @@ const SubCategoryTable = () => {
   const handleCreate = () => {
     setSelectedCategory({
       nombre: "",
+      idcategoria: "",
       estado: "",
       imagen: "",
      
@@ -159,7 +184,7 @@ const SubCategoryTable = () => {
         <input
           type="text"
           className="form-control"
-          placeholder="Buscar categoria..."
+          placeholder="Buscar SubCategoria..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -167,7 +192,7 @@ const SubCategoryTable = () => {
 
       <div className="mb-3 text-end">
         <button className="btn btn-success" onClick={handleCreate}>
-          Añadir subcategoria
+          Añadir SubCategoria
         </button>
       </div>
 
@@ -175,7 +200,8 @@ const SubCategoryTable = () => {
         <thead className="thead-dark">
           <tr>
             <th>ID</th>
-            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Categoria</th>
             <th>Estado</th>
             <th>Imagen</th>
           
@@ -186,7 +212,8 @@ const SubCategoryTable = () => {
           {subcategoria.map((Category) => (
             <tr key={Category.idsubcategoria}>
               <td>{Category.idsubcategoria}</td>
-              <td>{Category.nombre}</td>             
+              <td>{Category.nombre}</td>    
+              <td>{Category.idcategoria}</td>         
               <td>{Category.estado}</td>
               <td>
                 {Category.imagen && (
@@ -248,7 +275,7 @@ const SubCategoryTable = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
-                {isEditing ? "Editar categoria" : "Añadir categoria"}
+                {isEditing ? "Editar SubCategoria" : "Añadir SubCategoria"}
               </h5>
               <button
                 type="button"
@@ -258,8 +285,9 @@ const SubCategoryTable = () => {
             </div>
             <form onSubmit={handleSave}>
               <div className="modal-body">
-                <div className="mb-3">
-                  <label>Nombre</label>
+              <label><strong>Descripción</strong></label>
+               
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}> 
                   <input
                     type="text"
                     className="form-control"
@@ -269,21 +297,45 @@ const SubCategoryTable = () => {
                     }
                   />
                 </div>
-               
-
-                <div className="mb-3">
-                  <label>Estado</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.estado}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, estado: e.target.value })
-                    }
-                  />
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}> 
+                <select
+                        className="form-control"
+                        value={selectedCategory.idcategoria}
+                        onChange={(e) =>
+                          setSelectedCategory({ ...selectedCategory, idcategoria: e.target.value })
+                        }
+                      >
+                        {categories.map((elemento) => {return (
+                          <option key={elemento.idcategoria} value={elemento.idcategoria}>
+                            {elemento.nombre}
+                          </option>
+                        )})}
+                      </select>
                 </div>
-                <div className="mb-3">
-                  <label>Imagen</label>
+
+
+
+                <label><strong>Estado</strong></label>               
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}> 
+                <select
+                        className="form-control"
+                        id="estado"
+                        value={selectedCategory.estado}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            estado: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="">Seleccionar estado</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                      </select>
+                </div>
+                <label><strong>Imagen</strong></label>  
+               
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}> 
                   {selectedCategory.imagen && (
                     <div className="mb-2">
                       <img
@@ -303,7 +355,7 @@ const SubCategoryTable = () => {
               </div>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary">
-                  {isEditing ? "Guardar Cambios" : "Crear categoria"}
+                  {isEditing ? "Guardar Cambios" : "Crear SubCategoria"}
                 </button>
                 <button
                   type="button"

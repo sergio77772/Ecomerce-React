@@ -291,12 +291,11 @@ const ProductTable = () => {
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
-            <th>codigoArticulo</th>
-            <th>descripcion</th>
+            <th>Código Articulo</th>
+            <th>Descripción</th>
             <th>Imagen</th>
-            <th>precioventa</th>
-            <th>desposito</th>
-            
+            <th>Precio Venta</th>
+            <th>Desposito</th>            
             <th>Estado</th>
             <th>Acciones</th>
           </tr>
@@ -444,7 +443,7 @@ const ProductTable = () => {
                 </div>
          </div>
          <div className="row">
-                <div className="col-md-8">         
+                <div className="col-md-4">         
                       <label htmlFor="descripcion" className="form-label">                        
                       <strong> Descripción(30 caracteres)</strong>                      
                       </label>
@@ -476,10 +475,33 @@ const ProductTable = () => {
                         className="form-control"
                         id="precioventa"
                         value={selectedCategory.precioventa}
+                        style={{ textAlign: "right" }}
                         onChange={(e) =>
                           setSelectedCategory({
                             ...selectedCategory,
                             precioventa: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    </div>
+                    <div className="col-md-4">
+                     <label htmlFor="preciocosto" className="form-label">
+                      <strong> Precio Costo</strong>
+                      </label>
+                      <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="preciocosto"
+                        value={selectedCategory.preciocosto}
+                        style={{ textAlign: "right" }}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            preciocosto: e.target.value,
                           })
                         }
                         required
@@ -501,6 +523,7 @@ const ProductTable = () => {
                         className="form-control"
                         id="stockmin"
                         value={selectedCategory.stockmin}
+                        style={{ textAlign: "right" }}
                         onChange={(e) =>
                           setSelectedCategory({
                             ...selectedCategory,
@@ -523,6 +546,7 @@ const ProductTable = () => {
                         className="form-control"
                         id="stock"
                         value={selectedCategory.stock}
+                        style={{ textAlign: "right" }}
                         onChange={(e) =>
                           setSelectedCategory({
                             ...selectedCategory,
@@ -542,6 +566,7 @@ const ProductTable = () => {
                     type="text"
                     className="form-control"
                     value={selectedCategory.stockmax}
+                    style={{ textAlign: "right" }}
                     onChange={(e) =>
                       setSelectedCategory({ ...selectedCategory, stockmax: e.target.value })
                     }
@@ -563,6 +588,7 @@ const ProductTable = () => {
                         className="form-control"
                         id="deposito"
                         value={selectedCategory.deposito}
+                     
                         onChange={(e) =>
                           setSelectedCategory({
                             ...selectedCategory,
@@ -650,27 +676,7 @@ const ProductTable = () => {
                       />
                     </div>
                     </div>
-                    <div className="col-md-4">
-                     <label htmlFor="preciocosto" className="form-label">
-                      <strong> Precio Costo</strong>
-                      </label>
-                      <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
-
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="preciocosto"
-                        value={selectedCategory.preciocosto}
-                        onChange={(e) =>
-                          setSelectedCategory({
-                            ...selectedCategory,
-                            preciocosto: e.target.value,
-                          })
-                        }
-                        required
-                      />
-                    </div>
-                    </div>
+                   
                     <div className="col-md-4">
                        <label htmlFor="Nivel" className="form-label">
                       <strong>Nivel</strong>
