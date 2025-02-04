@@ -63,7 +63,6 @@ const ProductTable = () => {
       console.log("selectedCategory", selectedCategory);
       if (selectedCategory) {
         const filtered = subcategoria.filter(subcategorya => subcategorya.idcategoria === selectedCategory);
-        filteredSubcategories =subcategoria.filter(subcategorya => subcategorya.idcategoria === selectedCategory); //uso de variable correcto
         setFilteredSubcategories(filtered);
     }
   }, [selectedCategory, subcategoria]);
