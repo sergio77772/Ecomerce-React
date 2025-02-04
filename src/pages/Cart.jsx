@@ -6,9 +6,10 @@ import { Link } from "react-router-dom";
 
 
 const Cart = () => {
+  
   const state = useSelector((state) => state.handleCart);
   const dispatch = useDispatch();
-
+ 
   const EmptyCart = () => {
     return (
       <div className="container">
@@ -25,7 +26,6 @@ const Cart = () => {
   };
 
   const addItem = (product) => {
-    console.log("Producto agregado:", product);
     dispatch(addCart(product));
   };
   const removeItem = (product) => {
@@ -43,10 +43,7 @@ const Cart = () => {
     totalItems += item.qty;
     });
 
-    state.map((item) => {
-    
-      return (totalItems += item.qty);
-    });
+   
     return (
       <>
         <section className="h-100 gradient-custom">
@@ -59,6 +56,7 @@ const Cart = () => {
                   </div>
                   <div className="card-body">
                     {state.map((item) => {
+                      console.log(item)
                       return (
                         <div key={item.idproducto}>
                           <div className="row d-flex align-items-center">
@@ -69,9 +67,9 @@ const Cart = () => {
                                 data-mdb-ripple-color="light"
                               >
                                 <img
-                                  src={item.image }
+                                  src={`https://distribuidoraassefperico.com.ar/${item.imagen}`}
                                   // className="w-100"
-                                  alt={item.title}
+                                  alt={item.descripcion}
                                   width={100}
                                   height={75}
                                 
@@ -81,7 +79,7 @@ const Cart = () => {
                           {/* NOMBRE DEL PRODUCTO */}
                             <div className="col-lg-5 col-md-6">
                               <p>
-                                <strong>{item.title}</strong>
+                                <strong>{item.descripcion}</strong>
                               </p>
                               {/* <p>Color: blue</p>
                               <p>Size: M</p> */}
@@ -116,7 +114,7 @@ const Cart = () => {
                               <p className="text-start text-md-center">
                                 <strong>
                                   <span className="text-muted">{item.qty}</span>{" "}
-                                  x ${item.price}
+                                  x ${item.precioventa}
                                 </strong>
                               </p>
                             </div>
