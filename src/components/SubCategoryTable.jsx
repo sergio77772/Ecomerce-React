@@ -168,6 +168,14 @@ const SubCategoryTable = () => {
     setModalVisible(true);
   };
 
+  const getCategoryNameById = (id) => {
+    const category = categories.find((cat) => cat.idcategoria === id);
+    return category ? category.nombre : "Desconocido";
+  };
+
+
+
+
   if (loading) { 
     return <SkeletonTable rows={10} columns={5} />;
   }
@@ -196,6 +204,9 @@ const SubCategoryTable = () => {
         </button>
       </div>
 
+
+
+
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
@@ -212,8 +223,9 @@ const SubCategoryTable = () => {
           {subcategoria.map((Category) => (
             <tr key={Category.idsubcategoria}>
               <td>{Category.idsubcategoria}</td>
-              <td>{Category.nombre}</td>    
-              <td>{Category.idcategoria}</td>         
+              <td>{Category.nombre}</td>   
+              <td>{getCategoryNameById(Category.idcategoria)}</td> 
+               
               <td>{Category.estado}</td>
               <td>
                 {Category.imagen && (
@@ -297,7 +309,9 @@ const SubCategoryTable = () => {
                     }
                   />
                 </div>
+                <label><strong>ID Categoria</strong></label>
                 <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}> 
+               
                 <select
                         className="form-control"
                         value={selectedCategory.idcategoria}

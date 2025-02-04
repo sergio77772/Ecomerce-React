@@ -48,12 +48,25 @@ const ProductTable = () => {
   const [categories, setCategories] = useState([]); //agregue para buscar categoria
   const [subcategoria, setsubcategoria] = useState([]);
   const [proveedor, setProveedor] = useState([]);
+  const [filteredSubcategories, setFilteredSubcategories] = useState([]);
   useEffect(() => {
     loadproducto();
     loadCategoria();
-    loadsubcategoria(); //agregue para buscar categoria
+   {/* loadsubcategoria();  */}//agregue para buscar categoria
+  
     loadProveedor();
   }, [debouncedSearch, currentPage]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      if (selectedCategory) {
+        const filtered = subcategoria.filter(subcategoria => subcategoria.idcategoria === selectedCategory);
+      setFilteredSubcategories(filtered);
+    }
+  }}, [selectedCategory, subcategoria]);
+
+
+
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -116,6 +129,15 @@ const ProductTable = () => {
       setError(err.message);
     }
   };
+
+  const handleCategoryChange = (e) => {
+    const idcategoria = e.target.value;
+    setSelectedCategory(idcategoria);
+    loadsubcategoria(idcategoria);
+  };
+
+
+
 
   const loadProveedor = async () => {
     try {
@@ -389,9 +411,7 @@ const ProductTable = () => {
                       <select
                         className="form-control"
                         value={selectedCategory.idcategoria}
-                        onChange={(e) =>
-                          setSelectedCategory({ ...selectedCategory, idcategoria: e.target.value })
-                        }
+                        onChange={handleCategoryChange}
                       >
                         {categories.map((elemento) => {return (
                           <option key={elemento.idcategoria} value={elemento.idcategoria}>
@@ -404,20 +424,17 @@ const ProductTable = () => {
 
                 <div className="col-md-4">              
                 <label><strong>ID SubCategoria</strong></label>
-                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
-                <select
-                    className="form-control"
-                    value={selectedCategory.idsubcategoria}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, idsubcategoria: e.target.value })
-                    }
-                  >
-                     {subcategoria.map((elemento) => {return (
-                      <option key={elemento.idsubcategoria} value={elemento.idsubcategoria}>
-                        {elemento.nombre}
-                      </option>
-                    )})}
-                  </select>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}> 
+
+
+                <select id="idsubcategoria" className="form-control">
+                   <option value="">Seleccionar Subcategoría</option>
+                  {filteredSubcategories.map((elemento) => (
+                   <option key={elemento.idsubcategoria} value={elemento.idsubcategoria}>
+                   {elemento.nombre}
+                </option>
+            ))}
+          </select>
                   </div>
                   </div>
 
