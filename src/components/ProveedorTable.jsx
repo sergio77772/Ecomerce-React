@@ -212,16 +212,11 @@ const ProveedorTable = () => {
             <th>ID</th>
             <th>Nombre</th>
             <th>Cuit</th>
-            <th>Iva</th>
+          
             <th>Telefono</th>
             <th>Telefono1</th>
-            <th>Fax</th>
-            <th>Direccion</th>
-            <th>Email</th>
-            <th>Banco</th>
-            <th>Tipocuenta</th>
-            <th>Cbu</th>
-            <th>Provincia</th>
+         
+          
             <th>Estado</th>
             <th>Imagen</th>
           
@@ -234,16 +229,11 @@ const ProveedorTable = () => {
               <td>{provee.idproveedor}</td>
               <td>{provee.nombre}</td>
               <td>{provee.cuit}</td>
-              <td>{provee.iva}</td>
+           
               <td>{provee.telefono}</td>
               <td>{provee.telefono1}</td>
-              <td>{provee.fax}</td>
-              <td>{provee.direccion}</td>
-              <td>{provee.email}</td>
-              <td>{provee.banco}</td>
-              <td>{provee.tipocuenta}</td>
-              <td>{provee.cbu}</td>
-              <td>{provee.provincia}</td>
+            
+            
               <td>{provee.estado}</td>
               <td>
                 {provee.imagen && (
@@ -301,7 +291,7 @@ const ProveedorTable = () => {
         style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
         aria-hidden={!modalVisible}
       >
-        <div className="modal-dialog">
+          <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
@@ -313,10 +303,16 @@ const ProveedorTable = () => {
                 onClick={() => setModalVisible(false)}
               ></button>
             </div>
+
             <form onSubmit={handleSave}>
               <div className="modal-body">
-                <div className="mb-3">
-                  <label>Nombre</label>
+
+              <div className="row">
+                  
+                  <div className="col-md-8">
+                  <label><strong>Proveedor</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                
                   <input
                     type="text"
                     className="form-control"
@@ -325,9 +321,12 @@ const ProveedorTable = () => {
                       setSelectedprovee({ ...selectedprovee, nombre: e.target.value })
                     }
                   />
-                </div>
-                <div className="mb-3">
-                  <label>Cuit</label>
+                
+                  </div>
+                  </div>
+                  <div className="col-md-4">
+                  <label><strong>Cuit</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
@@ -336,9 +335,16 @@ const ProveedorTable = () => {
                       setSelectedprovee({ ...selectedprovee, cuit: e.target.value })
                     }
                   />
-                </div>
-                <div className="mb-3">
-                  <label>iva</label>
+                  </div>
+                  </div>
+                
+
+                   </div>  
+
+                   <div className="row">
+                   <div className="col-md-4">
+                  <label><strong>Iva</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
@@ -347,9 +353,15 @@ const ProveedorTable = () => {
                       setSelectedprovee({ ...selectedprovee, iva: e.target.value })
                     }
                   />
-                </div>
-                <div className="mb-3">
-                  <label>telefono</label>
+
+                  </div>
+                  </div>
+
+
+
+                  <div className="col-md-4">
+                  <label><strong>Teléfono</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
@@ -358,9 +370,13 @@ const ProveedorTable = () => {
                       setSelectedprovee({ ...selectedprovee, telefono: e.target.value })
                     }
                   />
-                </div>
-                <div className="mb-3">
-                  <label>telefono1</label>
+
+
+                  </div>
+                  </div>
+                  <div className="col-md-4">
+                  <label><strong>Teléfono1</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
@@ -369,9 +385,18 @@ const ProveedorTable = () => {
                       setSelectedprovee({ ...selectedprovee, telefono1: e.target.value })
                     }
                   />
-                </div>
-                <div className="mb-3">
-                  <label>fax</label>
+
+
+                  </div>
+                  </div>
+               
+
+                   </div>  
+                   <div className="row">
+                  
+                   <div className="col-md-4">
+                  <label><strong>Fax</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
@@ -380,9 +405,12 @@ const ProveedorTable = () => {
                       setSelectedprovee({ ...selectedprovee, fax: e.target.value })
                     }
                   />
-                </div>
-                <div className="mb-3">
-                  <label>direccion</label>
+                  </div>
+                  </div>
+
+                  <div className="col-md-8">
+                  <label><strong>Dirección</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
@@ -391,9 +419,15 @@ const ProveedorTable = () => {
                       setSelectedprovee({ ...selectedprovee, direccion: e.target.value })
                     }
                   />
-                </div>
-                <div className="mb-3">
-                  <label>email</label>
+                  </div>
+                  </div>
+              
+                   </div>  
+                   <div className="row">
+                  
+                   <div className="col-md-8">
+                  <label><strong>Mail</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
@@ -402,9 +436,13 @@ const ProveedorTable = () => {
                       setSelectedprovee({ ...selectedprovee, email: e.target.value })
                     }
                   />
-                </div>
-                <div className="mb-3">
-                  <label>banco</label>
+                  </div>
+                  </div>
+                  </div>
+                  <div className="row">
+                  <div className="col-md-4">
+                  <label><strong>Banco</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
@@ -413,9 +451,12 @@ const ProveedorTable = () => {
                       setSelectedprovee({ ...selectedprovee, banco: e.target.value })
                     }
                   />
-                </div>
-                <div className="mb-3">
-                  <label>tipocuenta</label>
+                  </div>
+                  </div>
+
+                  <div className="col-md-4">
+                  <label><strong>Tipo de Cuenta</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
@@ -424,9 +465,11 @@ const ProveedorTable = () => {
                       setSelectedprovee({ ...selectedprovee, tipocuenta: e.target.value })
                     }
                   />
-                </div>
-                <div className="mb-3">
-                  <label>cbu</label>
+                  </div>
+                  </div>
+                  <div className="col-md-4">
+                  <label><strong>CBU</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
@@ -435,9 +478,13 @@ const ProveedorTable = () => {
                       setSelectedprovee({ ...selectedprovee, cbu: e.target.value })
                     }
                   />
-                </div>
-                <div className="mb-3">
-                  <label>provincia</label>
+                  </div>
+                  </div>
+                  </div>
+                  <div className="row">
+                  <div className="col-md-4">
+                  <label><strong>Provincia</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
@@ -446,21 +493,38 @@ const ProveedorTable = () => {
                       setSelectedprovee({ ...selectedprovee, provincia: e.target.value })
                     }
                   />
-                </div>
+                  </div>
+                  </div>
 
-                <div className="mb-3">
-                  <label>Estado</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedprovee.estado}
-                    onChange={(e) =>
-                      setSelectedprovee({ ...selectedprovee, estado: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="mb-3">
-                  <label>Imagen</label>
+                  
+                 
+                  
+                  <div className="col-md-4">
+                  <label><strong>Estado</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                  <select
+                        className="form-control"
+                        id="estado"
+                        value={selectedprovee.estado}
+                        onChange={(e) =>
+                          setSelectedprovee({
+                            ...selectedprovee,
+                            estado: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="">Seleccionar estado</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                      </select>
+                  </div>
+                  </div>
+                  </div>  
+                  <div className="col-md-4">
+                  <label><strong>Imagen</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+               
+              
                   {selectedprovee.imagen && (
                     <div className="mb-2">
                       <img
@@ -475,7 +539,18 @@ const ProveedorTable = () => {
                     className="form-control"
                     onChange={(e) => setImageFile(e.target.files[0])}
                   />
-                </div>
+               
+                  </div>
+                  </div>
+                 
+
+               
+                
+                 
+
+
+
+
              
               </div>
               <div className="modal-footer">

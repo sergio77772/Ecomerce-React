@@ -196,7 +196,7 @@ const CategoryTable = () => {
         <thead className="thead-dark">
           <tr>
             <th>ID</th>
-            <th>Nombre</th>
+            <th>Descripción</th>
             <th>Estado</th>
             <th>Imagen</th>
             <th>Acciones</th>
@@ -275,9 +275,9 @@ const CategoryTable = () => {
               ></button>
             </div>
             <form onSubmit={handleSave}>
-              <div className="modal-body">
-                <div className="mb-3">
-                  <label>Nombre</label>
+              <div className="modal-body">              
+              <label><strong>Descripción</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>    
                   <input
                     type="text"
                     className="form-control"
@@ -288,19 +288,27 @@ const CategoryTable = () => {
                   />
                 </div>
 
-                <div className="mb-3">
-                  <label>Estado</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCategory.estado}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, estado: e.target.value })
-                    }
-                  />
+                <label><strong>Estado</strong></label>               
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}> 
+                  <select
+                        className="form-control"
+                        id="estado"
+                        value={selectedCategory.estado}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            estado: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="">Seleccionar estado</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                      </select>
                 </div>
-                <div className="mb-3">
-                  <label>Imagen</label>
+                <label><strong>Imagen</strong></label>  
+               
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}> 
                   {selectedCategory.imagen && (
                     <div className="mb-2">
                       <img
