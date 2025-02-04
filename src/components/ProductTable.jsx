@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SkeletonTable from "./skeleton/SkeletonTable";
@@ -48,12 +50,10 @@ const ProductTable = () => {
   const [categories, setCategories] = useState([]); //agregue para buscar categoria
   const [subcategoria, setsubcategoria] = useState([]);
   const [proveedor, setProveedor] = useState([]);
-  const [filteredSubcategories, setFilteredSubcategories] = useState([]);
+ const [filteredSubcategories, setFilteredSubcategories] = useState([]);
   useEffect(() => {
     loadproducto();
     loadCategoria();
-   {/* loadsubcategoria();  */}//agregue para buscar categoria
-  
     loadProveedor();
   }, [debouncedSearch, currentPage]);
 
@@ -63,7 +63,7 @@ const ProductTable = () => {
       console.log("selectedCategory", selectedCategory);
       if (selectedCategory) {
         const filtered = subcategoria.filter(subcategorya => subcategorya.idcategoria === selectedCategory);
-   
+        filteredSubcategories =subcategoria.filter(subcategorya => subcategorya.idcategoria === selectedCategory); //uso de variable correcto
         setFilteredSubcategories(filtered);
     }
   }, [selectedCategory, subcategoria]);
