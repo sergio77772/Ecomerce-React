@@ -114,10 +114,10 @@ const ProductTable = () => {
     }
   };
 
-  const loadsubcategoria = async () => {
+  const loadsubcategoria = async (idcategoria) => {
     try {
       const response = await fetch(
-        `${API_SUBCATEGORIA}&search=${search}&page=${1}&limit=${limitOthers}`
+        `${API_SUBCATEGORIA}&search=${idcategoria}&page=${1}&limit=${limitOthers}`
       );
       if (!response.ok) {
         throw new Error("Error al cargar los subcategoria.");
