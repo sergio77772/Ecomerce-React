@@ -7,6 +7,9 @@ const MesaTable = () => {
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState({
     nombre: "",
+    titulo: "",
+    estados: "",
+    dias: "",
     estado: "",
     solucion: "",
     imagen: "",
@@ -49,6 +52,9 @@ const MesaTable = () => {
   const handleEdit = (category) => {
     setSelectedCategory({
       nombre: category.nombre || "",
+      titulo: category.titulo || "",
+      estados: category.estados || "",
+      dias: category.dias || "",
       estado: category.estado || "",
       solucion: category.solucion || "",
       imagen: category.imagen || "",
@@ -137,6 +143,9 @@ const MesaTable = () => {
   const handleCreate = () => {
     setSelectedCategory({
       nombre: "",
+      titulo: "",
+      estados: "",
+      dias: "",
       estado: "",
       imagen: "",
       solucion: "",
@@ -180,9 +189,10 @@ const MesaTable = () => {
           <tr>
             <th>ID</th>
             <th>Fecha Hora</th>
+            <th>Módulo</th>
+            <th>Titulo</th>
             <th>Estado</th>
-            <th>Descripcion</th>
-            <th>Solucion</th>
+            <th>Dias</th>
             <th>Imagen</th>
           
             <th>Acciones</th>
@@ -194,8 +204,9 @@ const MesaTable = () => {
               <td>{category.idmesa}</td>
               <td>{category.fechahora}</td>
               <td>{category.estado}</td>
-              <td>{category.nombre}</td>
-              <td>{category.solucion}</td>
+              <td>{category.titulo}</td>
+              <td>{category.estados}</td>
+              <td>{category.dias}</td>
              
            
              
@@ -215,12 +226,12 @@ const MesaTable = () => {
                 >
                   Editar
                 </button>
-                <button
+             {/*   <button
                   className="btn btn-danger btn-sm"
                   onClick={() => handleDelete(category.idmesa)}
                 >
                   Eliminar
-                </button>
+                </button>  */}
               </td>
             </tr>
           ))}
@@ -255,7 +266,7 @@ const MesaTable = () => {
         style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
         aria-hidden={!modalVisible}
       >
-        <div className="modal-dialog">
+       <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
@@ -268,13 +279,14 @@ const MesaTable = () => {
               ></button>
             </div>
             <form onSubmit={handleSave}>
-              <div className="modal-body">
-
-              <div className="mb-3">
-                      <label htmlFor="estado" className="form-label">
-                      <strong> Estado</strong>
-                      </label>
-                      <select
+           
+            <div className="modal-body">
+            <div className="row">
+                  
+                  <div className="col-md-4">
+                  <label><strong>Módulo</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                  <select
                         className="form-control"
                         id="estado"
                         value={selectedCategory.estado}
@@ -285,16 +297,47 @@ const MesaTable = () => {
                           })
                         }
                       >
-                        <option value="">Seleccionar estado</option>
-                        <option value="ERROR SISTEMA">Error Sistema</option>
-                        <option value="MODIFICACIONES">Modificaciones</option>
-                        <option value="SUGERENCIA">Sugerencia</option>
-                        <option value="OTROS">Otros</option>
+                        <option value="">Seleccionar Módulo</option>
+                        <option value="Inicio">Inicio</option>
+                        <option value="Novedad">Novedad</option>
+                        <option value="Contacto">Contacto</option>
+                        <option value="Admin/Productos">Admin/Productos</option>
+                        <option value="Admin/Categorías">Admin/Categorías</option>
+                        <option value="Admin/SubCategoría">Admin/SubCategoria</option>
+                        <option value="Admin/Proveedor">Admin/Proveedor</option>
+                        <option value="Admin/Usuarios">Admin/Usuarios</option>
+                        <option value="Admin/Ordenes">Admin/Ordenes</option>
+                        <option value="Admin/Reportes">Admin/Reportes</option>
+                        <option value="Admin/Configuración">Admin/Configuración</option>
+                        <option value="Admin/Bitácora">Admin/Bitácora</option>
+                        <option value="Admin/Mi Comercio">Mi Comercio</option>
+
                       </select>
-                    </div>
-                    <div className="mb-3">
-                <label><strong>Descripción</strong></label>
-                <textarea
+
+                  </div>
+                  </div>  
+                  <div className="col-md-8">
+                  <label><strong>Título</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                  <input
+                  className="form-control"
+                  value={selectedCategory.titulo}
+                  onChange={(e) =>
+                    setSelectedCategory({ ...selectedCategory, titulo: e.target.value })
+                  }
+         
+                />
+
+                  </div>
+                  </div>  
+
+           </div>  
+           <div className="row">
+                  
+                  <div className="col-md-12">
+                  <label><strong>Problema</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                  <textarea
                   className="form-control"
                   value={selectedCategory.nombre}
                   onChange={(e) =>
@@ -302,23 +345,17 @@ const MesaTable = () => {
                   }
                   rows="4" // Puedes ajustar el número de filas según necesites
                 />
-              </div>
 
-                          
-              <div className="mb-3">
-                <label><strong>Solución</strong></label>
-                <textarea
-                  className="form-control"
-                  value={selectedCategory.solucion}
-                  onChange={(e) =>
-                    setSelectedCategory({ ...selectedCategory, solucion: e.target.value })
-                  }
-                  rows="4" // Puedes ajustar el número de filas según necesites
-                />
-              </div>
+                  </div>
+                  </div>  
+                 
 
-                <div className="mb-3">
-                  <label><strong>Imagen</strong></label>
+           </div>  
+           <div className="row">
+                  
+                  <div className="col-md-12">
+                  <label><strong>Ingrese una Imagen para detectar mas rápido el Problema</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   {selectedCategory.imagen && (
                     <div className="mb-2">
                       <img
@@ -333,9 +370,100 @@ const MesaTable = () => {
                     className="form-control"
                     onChange={(e) => setImageFile(e.target.files[0])}
                   />
-                </div>
-             
+
+                  </div>
+                  </div>  
+                 
+
+           </div>  
+
+
+
+           <div className="row">
+                  
+                  <div className="col-md-4">
+                  <label><strong>Estado(Desarrollador)</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                  <select
+                        className="form-control"
+                        id="estados"
+                        value={selectedCategory.estados}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            estados: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="">Seleccionar Estado</option>
+                        <option value="Análisis">Análisis</option>
+                        <option value="Proceso">Proceso</option>
+                        <option value="Nuevo">Nuevo</option>
+                        <option value="Terminado">Terminado</option>
+                        <option value="Cancelado">Cancelado</option>
+
+                      </select>
+
+                  </div>
+                  </div>  
+                  <div className="col-md-4">
+                  <label><strong>Cant. Días (Desarrollador)</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                  <select
+                        className="form-control"
+                        id="dias"
+                        value={selectedCategory.dias}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            dias: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="">Seleccionar Dias</option>
+                        <option value="1 días">1 días</option>
+                        <option value="2 días">2 días</option>
+                        <option value="3 días">3 días</option>
+                        <option value="4 días">4 días</option>
+                        <option value="5 días">5 días</option>
+                        <option value="6 días">6 días</option>
+                        <option value="7 días">7 días</option>
+                        <option value="8 días">8 días</option>
+                        <option value="9 días">9 días</option>
+                        <option value="10 días">10 días</option>    
+
+
+
+
+                      </select>
+
+                  </div>
+                  </div>  
+
+           </div>  
+           <div className="row">
+                  
+                  <div className="col-md-12">
+                  <label><strong>Solución(Desarrollador)</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                  <textarea
+                  className="form-control"
+                  value={selectedCategory.solucion}
+                  onChange={(e) =>
+                    setSelectedCategory({ ...selectedCategory, solucion: e.target.value })
+                  }
+                  rows="4" // Puedes ajustar el número de filas según necesites
+                />
+
+                  </div>
+                  </div>  
+                
+
+           </div>  
+         
+
               </div>
+
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary">
                   {isEditing ? "Guardar Cambios" : "Crear mesa"}

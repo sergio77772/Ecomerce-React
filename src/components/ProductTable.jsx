@@ -48,12 +48,25 @@ const ProductTable = () => {
   const [categories, setCategories] = useState([]); //agregue para buscar categoria
   const [subcategoria, setsubcategoria] = useState([]);
   const [proveedor, setProveedor] = useState([]);
+  const [filteredSubcategories, setFilteredSubcategories] = useState([]);
   useEffect(() => {
     loadproducto();
     loadCategoria();
-    loadsubcategoria(); //agregue para buscar categoria
+   {/* loadsubcategoria();  */}//agregue para buscar categoria
+  
     loadProveedor();
   }, [debouncedSearch, currentPage]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      if (selectedCategory) {
+        const filtered = subcategoria.filter(subcategoria => subcategoria.idcategoria === selectedCategory);
+      setFilteredSubcategories(filtered);
+    }
+  }}, [selectedCategory, subcategoria]);
+
+
+
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -101,10 +114,10 @@ const ProductTable = () => {
     }
   };
 
-  const loadsubcategoria = async () => {
+  const loadsubcategoria = async (idcategoria) => {
     try {
       const response = await fetch(
-        `${API_SUBCATEGORIA}&search=${search}&page=${1}&limit=${limitOthers}`
+        `${API_SUBCATEGORIA}&search=${idcategoria}&page=${1}&limit=${limitOthers}`
       );
       if (!response.ok) {
         throw new Error("Error al cargar los subcategoria.");
@@ -116,6 +129,15 @@ const ProductTable = () => {
       setError(err.message);
     }
   };
+
+  const handleCategoryChange = (e) => {
+    const idcategoria = e.target.value;
+    setSelectedCategory(idcategoria);
+    loadsubcategoria(idcategoria);
+  };
+
+
+
 
   const loadProveedor = async () => {
     try {
@@ -291,11 +313,11 @@ const ProductTable = () => {
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
-            <th>codigoArticulo</th>
-            <th>descripcion</th>
+            <th>Código Articulo</th>
+            <th>Descripción</th>
             <th>Imagen</th>
-            <th>precioventa</th>
-            <th>desposito</th>            
+            <th>Precio Venta</th>
+            <th>Desposito</th>            
             <th>Estado</th>
             <th>Acciones</th>
           </tr>
@@ -383,14 +405,13 @@ const ProductTable = () => {
                 <div className="row">
                   
                     <div className="col-md-4">
-                      <div className="mb-3">                  
-                      <label><strong>ID Categoria</strong></label>
+                    <label><strong>ID Categoria</strong></label>
+                    <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                 
                       <select
                         className="form-control"
                         value={selectedCategory.idcategoria}
-                        onChange={(e) =>
-                          setSelectedCategory({ ...selectedCategory, idcategoria: e.target.value })
-                        }
+                        onChange={handleCategoryChange}
                       >
                         {categories.map((elemento) => {return (
                           <option key={elemento.idcategoria} value={elemento.idcategoria}>
@@ -401,29 +422,26 @@ const ProductTable = () => {
                     </div>
                     </div>
 
-                <div className="col-md-4">
-                <div className="mb-3">
+                <div className="col-md-4">              
                 <label><strong>ID SubCategoria</strong></label>
-                <select
-                    className="form-control"
-                    value={selectedCategory.idsubcategoria}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, idsubcategoria: e.target.value })
-                    }
-                  >
-                     {subcategoria.map((elemento) => {return (
-                      <option key={elemento.idsubcategoria} value={elemento.idsubcategoria}>
-                        {elemento.nombre}
-                      </option>
-                    )})}
-                  </select>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}> 
+
+
+                <select id="idsubcategoria" className="form-control">
+                   <option value="">Seleccionar Subcategoría</option>
+                  {filteredSubcategories.map((elemento) => (
+                   <option key={elemento.idsubcategoria} value={elemento.idsubcategoria}>
+                   {elemento.nombre}
+                </option>
+            ))}
+          </select>
                   </div>
                   </div>
 
 
                   <div className="col-md-4">
-                  <div className="mb-3">
-                <label><strong>ID Proveedor</strong></label>
+                  <label><strong>ID Proveedor</strong></label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
                 <select
                     className="form-control"
                     value={selectedCategory.idproveedor}
@@ -442,11 +460,12 @@ const ProductTable = () => {
                 </div>
          </div>
          <div className="row">
-                <div className="col-md-8">         
-                <div className="mb-3">
-                      <label htmlFor="descripcion" className="form-label">
-                      <strong> Descripción(30 caracteres)</strong>
+                <div className="col-md-4">         
+                      <label htmlFor="descripcion" className="form-label">                        
+                      <strong> Descripción(30 caracteres)</strong>                      
                       </label>
+                     <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="text"
                         className="form-control"
@@ -463,15 +482,17 @@ const ProductTable = () => {
                     </div>
                    </div>
                     <div className="col-md-4">
-                   <div className="mb-3">
-                      <label htmlFor="precioventa" className="form-label">
+                       <label htmlFor="precioventa" className="form-label">
                       <strong> Precio Venta</strong>
                       </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="number"
                         className="form-control"
                         id="precioventa"
                         value={selectedCategory.precioventa}
+                        style={{ textAlign: "right" }}
                         onChange={(e) =>
                           setSelectedCategory({
                             ...selectedCategory,
@@ -482,19 +503,44 @@ const ProductTable = () => {
                       />
                     </div>
                     </div>
+                    <div className="col-md-4">
+                     <label htmlFor="preciocosto" className="form-label">
+                      <strong> Precio Costo</strong>
+                      </label>
+                      <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="preciocosto"
+                        value={selectedCategory.preciocosto}
+                        style={{ textAlign: "right" }}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            preciocosto: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                    </div>
+                    </div>
                    
             </div>
          <div className="row">
                <div className="col-md-4">
-            <div className="mb-3">
+          
                       <label htmlFor="stockmin" className="form-label">
                       <strong>Stock Mínimo</strong>
                       </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="number"
                         className="form-control"
                         id="stockmin"
                         value={selectedCategory.stockmin}
+                        style={{ textAlign: "right" }}
                         onChange={(e) =>
                           setSelectedCategory({
                             ...selectedCategory,
@@ -506,15 +552,18 @@ const ProductTable = () => {
                     </div>
                     </div>
          <div className="col-md-4">
-         <div className="mb-3">
+      
                       <label htmlFor="stock" className="form-label">
                       <strong>Stock</strong>
                       </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="number"
                         className="form-control"
                         id="stock"
                         value={selectedCategory.stock}
+                        style={{ textAlign: "right" }}
                         onChange={(e) =>
                           setSelectedCategory({
                             ...selectedCategory,
@@ -526,12 +575,15 @@ const ProductTable = () => {
             </div>
             </div>
             <div className="col-md-4">
-         <div className="mb-3">
+       
                   <label><strong>Stock Max</strong></label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                   <input
                     type="text"
                     className="form-control"
                     value={selectedCategory.stockmax}
+                    style={{ textAlign: "right" }}
                     onChange={(e) =>
                       setSelectedCategory({ ...selectedCategory, stockmax: e.target.value })
                     }
@@ -542,16 +594,18 @@ const ProductTable = () => {
 
                  
         <div className="row">
-        <div className="col-md-4">
-        <div className="mb-3">
+        <div className="col-md-4">      
                       <label htmlFor="deposito" className="form-label">
                       <strong>Depósito</strong>
                       </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="text"
                         className="form-control"
                         id="deposito"
                         value={selectedCategory.deposito}
+                     
                         onChange={(e) =>
                           setSelectedCategory({
                             ...selectedCategory,
@@ -562,9 +616,10 @@ const ProductTable = () => {
                       />
                     </div>
                     </div>
-                    <div className="col-md-4">
-                    <div className="mb-3">
+                    <div className="col-md-4">               
                       <label><strong>Ubicación</strong></label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="text"
                         className="form-control"
@@ -575,11 +630,12 @@ const ProductTable = () => {
                       />
                 </div>
                  </div>
-                 <div className="col-md-4">
-                 <div className="mb-3">
+                 <div className="col-md-4">               
                       <label htmlFor="estado" className="form-label">
                       <strong>Estado</strong>
                       </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <select
                         className="form-control"
                         id="estado"
@@ -600,8 +656,9 @@ const ProductTable = () => {
         </div>
         <div className="row">
         <div className="col-md-12">
-        <div className="mb-3">
-                <label><strong>Descripción Completa</strong></label>
+        <label><strong>Descripción Completa</strong></label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                 <textarea
                   className="form-control"
                   value={selectedCategory.descripcioncompleta}
@@ -615,10 +672,12 @@ const ProductTable = () => {
               </div>
               <div className="row">
               <div className="col-md-4">
-              <div className="mb-3">
+           
                       <label htmlFor="codigoArticulo" className="form-label">
                       <strong> Código Artículo</strong>
                       </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <input
                         type="text"
                         className="form-control"
@@ -634,31 +693,13 @@ const ProductTable = () => {
                       />
                     </div>
                     </div>
+                   
                     <div className="col-md-4">
-                    <div className="mb-3">
-                      <label htmlFor="preciocosto" className="form-label">
-                      <strong> Precio Costo</strong>
-                      </label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="preciocosto"
-                        value={selectedCategory.preciocosto}
-                        onChange={(e) =>
-                          setSelectedCategory({
-                            ...selectedCategory,
-                            preciocosto: e.target.value,
-                          })
-                        }
-                        required
-                      />
-                    </div>
-                    </div>
-                    <div className="col-md-4">
-                    <div className="mb-3">
-                      <label htmlFor="Nivel" className="form-label">
+                       <label htmlFor="Nivel" className="form-label">
                       <strong>Nivel</strong>
                       </label>
+                     <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                       <select
                         className="form-control"
                         id="nivel"
@@ -687,10 +728,11 @@ const ProductTable = () => {
 
         <div className="row">
                 {/* Imagen */}
-                <div className="mb-3">
                   <label htmlFor="imagen" className="form-label">
                   <strong>Imagen</strong>
                   </label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+
                   {selectedCategory.imagen && (
                     <div className="mb-2">
                       <img
