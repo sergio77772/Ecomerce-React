@@ -118,7 +118,7 @@ const MesaTable = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  /*const handleDelete = async (id) => {
     if (!window.confirm("¿Estás seguro de eliminar esta mesa? ")) return;
     try {
       const response = await fetch(`${API}&id=${id}`, {
@@ -133,6 +133,7 @@ const MesaTable = () => {
       alert(err.message);
     }
   };
+  */
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
