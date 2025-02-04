@@ -10,8 +10,9 @@ const handleCart = (state = getInitialCart(), action) => {
 
   switch (action.type) {
     case "ADDITEM":
+      console.log(product)
       // Check if product already in cart
-      const exist = state.find((x) => x.id === product.id);
+      const exist = state.find((x) => x.idproducto === product.idproducto);
       if (exist) {
         // Increase the quantity
         updatedCart = state.map((x) =>
@@ -25,7 +26,7 @@ const handleCart = (state = getInitialCart(), action) => {
       return updatedCart;
 
     case "DELITEM":
-      const exist2 = state.find((x) => x.id === product.id);
+      const exist2 = state.find((x) => x.idproducto === product.idproducto);
       if (exist2.qty === 1) {
         updatedCart = state.filter((x) => x.id !== exist2.id);
       } else {

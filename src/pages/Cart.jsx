@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Footer, Navbar } from "../components";
 import { useSelector, useDispatch } from "react-redux";
 import { addCart, delCart } from "../redux/action";
 import { Link } from "react-router-dom";
+
 
 const Cart = () => {
   const state = useSelector((state) => state.handleCart);
@@ -24,6 +25,7 @@ const Cart = () => {
   };
 
   const addItem = (product) => {
+    console.log("Producto agregado:", product);
     dispatch(addCart(product));
   };
   const removeItem = (product) => {
@@ -31,14 +33,18 @@ const Cart = () => {
   };
 
   const ShowCart = () => {
+    
     let subtotal = 0;
     let shipping = 30.0;
     let totalItems = 0;
-    state.map((item) => {
-      return (subtotal += item.price * item.qty);
+
+    state.forEach((item) => {
+    subtotal += item.price * item.qty;
+    totalItems += item.qty;
     });
 
     state.map((item) => {
+    
       return (totalItems += item.qty);
     });
     return (
@@ -54,23 +60,25 @@ const Cart = () => {
                   <div className="card-body">
                     {state.map((item) => {
                       return (
-                        <div key={item.id}>
+                        <div key={item.idproducto}>
                           <div className="row d-flex align-items-center">
+
                             <div className="col-lg-3 col-md-12">
                               <div
                                 className="bg-image rounded"
                                 data-mdb-ripple-color="light"
                               >
                                 <img
-                                  src={item.image}
+                                  src={item.image }
                                   // className="w-100"
                                   alt={item.title}
                                   width={100}
                                   height={75}
+                                
                                 />
                               </div>
                             </div>
-
+                          {/* NOMBRE DEL PRODUCTO */}
                             <div className="col-lg-5 col-md-6">
                               <p>
                                 <strong>{item.title}</strong>
@@ -78,7 +86,7 @@ const Cart = () => {
                               {/* <p>Color: blue</p>
                               <p>Size: M</p> */}
                             </div>
-
+                          {/* BOTONES PARA AUMENTAR O DISMINUIR CANTIDAD */}
                             <div className="col-lg-4 col-md-6">
                               <div
                                 className="d-flex mb-4"
@@ -160,6 +168,7 @@ const Cart = () => {
       </>
     );
   };
+
 
   return (
     <>

@@ -7,12 +7,13 @@ const Navbar = () => {
     const token = localStorage.getItem('token') // Obtener el token del localStorage
     const navigate = useNavigate() // Usamos useNavigate para redirigir al usuario
     const comercio = useSelector((state) => state.comercio.comercio);
-   console.log(comercio)
+    const cartItems = useSelector(state => state.handleCart);
+    const totalItems = cartItems.reduce((total, item) => total + item.qty, 0);
     const handleLogout = () => {
         // Eliminar el token del localStorage
         localStorage.removeItem('token')
         // Redirigir al usuario a la página de inicio (o cualquier otra página)
-        navigate('/')
+        navigate('/');
     }
 
     
@@ -60,7 +61,8 @@ const Navbar = () => {
                         <NavLink to="/register" className="btn btn-outline-dark m-2"><i className="fa fa-user-plus mr-1"></i> Mi Cuenta</NavLink></>
                     )}
 
-                        <NavLink to="/cart" className="btn btn-outline-dark m-2"><i className="fa fa-cart-shopping mr-1"></i> Carro ({state.length}) </NavLink>
+                            <NavLink to="/cart" className="btn btn-outline-dark m-2"><i className="fa fa-shopping-cart mr-1"></i> Carro ({totalItems})
+                        </NavLink>
                     </div>
                 </div>
             </div>
