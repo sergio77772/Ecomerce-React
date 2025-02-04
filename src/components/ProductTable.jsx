@@ -58,12 +58,14 @@ const ProductTable = () => {
   }, [debouncedSearch, currentPage]);
 
   useEffect(() => {
-    if (selectedCategory) {
+    console.log("idcategoria", selectedCategory);
+
+    
       if (selectedCategory) {
-        const filtered = subcategoria.filter(subcategoria => subcategoria.idcategoria === selectedCategory);
+        const filtered = categories.filter(subcategoria => subcategoria.idcategoria === selectedCategory);
       setFilteredSubcategories(filtered);
     }
-  }}, [selectedCategory, subcategoria]);
+  }, [selectedCategory, categories]);
 
 
 
@@ -114,10 +116,10 @@ const ProductTable = () => {
     }
   };
 
-  const loadsubcategoria = async () => {
+  const loadsubcategoria = async (idcategoria) => {
     try {
       const response = await fetch(
-        `${API_SUBCATEGORIA}&search=${search}&page=${1}&limit=${limitOthers}`
+        `${API_SUBCATEGORIA}&search=${idcategoria}&page=${1}&limit=${limitOthers}`
       );
       if (!response.ok) {
         throw new Error("Error al cargar los subcategoria.");
@@ -131,7 +133,9 @@ const ProductTable = () => {
   };
 
   const handleCategoryChange = (e) => {
+
     const idcategoria = e.target.value;
+    console.log("idcategoria1", idcategoria);
     setSelectedCategory(idcategoria);
     loadsubcategoria(idcategoria);
   };
@@ -427,11 +431,11 @@ const ProductTable = () => {
                 <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}> 
 
 
-                <select id="idsubcategoria" className="form-control">
+                <select id="subcategoria" className="form-control">
                    <option value="">Seleccionar Subcategoría</option>
-                  {filteredSubcategories.map((elemento) => (
-                   <option key={elemento.idsubcategoria} value={elemento.idsubcategoria}>
-                   {elemento.nombre}
+                  {filteredSubcategories.map((subcategoria) => (
+                   <option key={subcategoria.idsubcategoria} value={subcategoria.idsubcategoria}>
+                   {subcategoria.nombre}
                 </option>
             ))}
           </select>
