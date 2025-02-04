@@ -58,14 +58,12 @@ const ProductTable = () => {
   }, [debouncedSearch, currentPage]);
 
   useEffect(() => {
-    console.log("idcategoria", selectedCategory);
-
-    
+    if (selectedCategory) {
       if (selectedCategory) {
-        const filtered = categories.filter(subcategoria => subcategoria.idcategoria === selectedCategory);
+        const filtered = subcategoria.filter(subcategoria => subcategoria.idcategoria === selectedCategory);
       setFilteredSubcategories(filtered);
     }
-  }, [selectedCategory, categories]);
+  }}, [selectedCategory, subcategoria]);
 
 
 
@@ -133,9 +131,7 @@ const ProductTable = () => {
   };
 
   const handleCategoryChange = (e) => {
-
     const idcategoria = e.target.value;
-    console.log("idcategoria1", idcategoria);
     setSelectedCategory(idcategoria);
     loadsubcategoria(idcategoria);
   };
@@ -431,11 +427,11 @@ const ProductTable = () => {
                 <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}> 
 
 
-                <select id="subcategoria" className="form-control">
+                <select id="idsubcategoria" className="form-control">
                    <option value="">Seleccionar Subcategoría</option>
-                  {filteredSubcategories.map((subcategoria) => (
-                   <option key={subcategoria.idsubcategoria} value={subcategoria.idsubcategoria}>
-                   {subcategoria.nombre}
+                  {filteredSubcategories.map((elemento) => (
+                   <option key={elemento.idsubcategoria} value={elemento.idsubcategoria}>
+                   {elemento.nombre}
                 </option>
             ))}
           </select>
