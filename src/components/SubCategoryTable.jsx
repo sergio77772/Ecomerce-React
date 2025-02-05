@@ -26,6 +26,7 @@ const SubCategoryTable = () => {
 
   const API = process.env.REACT_APP_API + "subcategorias.php?endpoint=subcategoria";
   const API_CATEGORIA = process.env.REACT_APP_API + "categorias.php?endpoint=categoria";
+  const APIB = process.env.REACT_APP_API + "bitacora.php?endpoint=bitacora";
 
    const [categories, setCategories] = useState([]);
   useEffect(() => {
@@ -120,6 +121,26 @@ const SubCategoryTable = () => {
           isEditing ? "Error al actualizar la categoria." : "Error al crear la subcategoria."
         );
       }
+// Aquí agregamos la llamada al API de bitácora
+const bitacoraResponse =  await fetch(APIB, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    fechahora: new Date().toISOString(),
+    modulo: "SUBCATEGORIA",
+    mensaje:`  ${selectedCategory.nombre}
+            -  ${selectedCategory.estado}  
+            -  ${selectedCategory.imagen}     ` ,
+    usuario:"BRENDA",
+    imagen:"",
+  }),
+});
+console.log("bitacora",bitacoraResponse);
+if (!bitacoraResponse.ok) {
+  throw new Error("Error al registrar en la bitácora.");
+}
 
       alert(
         isEditing

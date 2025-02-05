@@ -45,6 +45,7 @@ const ProductTable = () => {
   const API_CATEGORIA = process.env.REACT_APP_API + "categorias.php?endpoint=categoria"; //agregue para buscar categoria
   const API_SUBCATEGORIA = process.env.REACT_APP_API + "subcategorias.php?endpoint=subcategoria";
   const API_PROVEEDOR = process.env.REACT_APP_API + "proveedor.php?endpoint=proveedor";
+  const APIB = process.env.REACT_APP_API + "bitacora.php?endpoint=bitacora";
 
   
   const [categories, setCategories] = useState([]); //agregue para buscar categoria
@@ -224,6 +225,47 @@ const ProductTable = () => {
           isEditing ? "Error al actualizar la Producto." : "Error al crear la Producto."
         );
       }
+// Aquí agregamos la llamada al API de bitácora
+const bitacoraResponse =  await fetch(APIB, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    fechahora: new Date().toISOString(),
+    modulo: "PRODUCTO",
+    mensaje:`  ${selectedCategory.idcategoria}         
+            -  ${selectedCategory.idsubcategoria}
+            -  ${selectedCategory.idproveedor} 
+            -  ${selectedCategory.descripcion}
+            -  ${selectedCategory.precioventa}
+            -  ${selectedCategory.preciocosto}
+            -  ${selectedCategory.idsubcategoria}
+            -  ${selectedCategory.deposito} 
+            -  ${selectedCategory.ubicacion}
+            -  ${selectedCategory.stockmin}
+            -  ${selectedCategory.stock}
+            -  ${selectedCategory.stockmax}
+            -  ${selectedCategory.descripcioncompleta}
+            -  ${selectedCategory.deposito} 
+            -  ${selectedCategory.ubicacion}
+            -  ${selectedCategory.codigoArticulo}
+            -  ${selectedCategory.estado}  
+            -  ${selectedCategory.nivel}
+            -  ${selectedCategory.imagen}
+            ` ,
+    usuario:"BRENDA",
+    imagen:"",
+  }),
+});
+console.log("bitacora",bitacoraResponse);
+if (!bitacoraResponse.ok) {
+  throw new Error("Error al registrar en la bitácora.");
+}
+
+
+
+
 
       alert(
         isEditing ? "Producto actualizada exitosamente" : "Producto creada exitosamente"

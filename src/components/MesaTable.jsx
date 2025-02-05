@@ -25,6 +25,7 @@ const MesaTable = () => {
   const limit = 10; // Límite de elementos por página
 
   const API = process.env.REACT_APP_API + "mesa.php?endpoint=mesa";
+  const APIB = process.env.REACT_APP_API + "bitacora.php?endpoint=bitacora";
 
   useEffect(() => {
     loadmesa();
@@ -105,6 +106,34 @@ const MesaTable = () => {
           isEditing ? "Error al actualizar la mesa." : "Error al crear la mesa."
         );
       }
+
+// Aquí agregamos la llamada al API de bitácora
+const bitacoraResponse = await fetch(APIB, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    fechahora: new Date().toISOString(),
+    modulo: "MESA DE AYUDA",
+    mensaje:`  ${selectedCategory.estado}         
+            -  ${selectedCategory.titulo}
+            -  ${selectedCategory.nombre} 
+            -  ${selectedCategory.estados}
+            -  ${selectedCategory.dias}
+            -  ${selectedCategory.solucion}`
+             ,
+    usuario:"BRENDA",
+    imagen:"",
+  }),
+});
+console.log("bitacora",bitacoraResponse);
+if (!bitacoraResponse.ok) {
+  throw new Error("Error al registrar en la bitácora.");
+}
+
+
+
 
       alert(
         isEditing
