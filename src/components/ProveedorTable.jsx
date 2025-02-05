@@ -33,6 +33,7 @@ const ProveedorTable = () => {
   const limit = 10; // Límite de elementos por página
 
   const API = process.env.REACT_APP_API + "proveedor.php?endpoint=proveedor";
+  const APIB = process.env.REACT_APP_API + "bitacora.php?endpoint=bitacora";
 
   useEffect(() => {
     loadproveedor();
@@ -118,7 +119,38 @@ const ProveedorTable = () => {
           isEditing ? "Error al actualizar la Proveedor." : "Error al crear la Proveedor."
         );
       }
-
+// Aquí agregamos la llamada al API de bitácora
+const bitacoraResponse =  fetch(APIB, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    fechahora: new Date().toISOString(),
+    modulo: "PROVEEDORES",
+    mensaje:`  ${selectedprovee.nombre}         
+            -  ${selectedprovee.cuit}
+            -  ${selectedprovee.iva} 
+            -  ${selectedprovee.telefono}
+            -  ${selectedprovee.telefono1}
+            -  ${selectedprovee.fax}
+            -  ${selectedprovee.direccion}
+            -  ${selectedprovee.email} 
+            -  ${selectedprovee.banco}
+            -  ${selectedprovee.tipocuenta}
+            -  ${selectedprovee.cbu}
+            -  ${selectedprovee.provincia}
+            -  ${selectedprovee.estado}
+            -  ${selectedprovee.imagen}
+          ` ,                      
+    usuario:"BRENDA",
+    imagen:"",
+  }),
+});
+console.log("bitacora",bitacoraResponse);
+if (!bitacoraResponse.ok) {
+  throw new Error("Error al registrar en la bitácora.");
+}
       alert(
         isEditing
           ? "Proveedor actualizada exitosamente"
