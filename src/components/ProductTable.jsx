@@ -45,27 +45,22 @@ const ProductTable = () => {
   const API_CATEGORIA = process.env.REACT_APP_API + "categorias.php?endpoint=categoria"; //agregue para buscar categoria
   const API_SUBCATEGORIA = process.env.REACT_APP_API + "subcategorias.php?endpoint=subcategoria";
   const API_PROVEEDOR = process.env.REACT_APP_API + "proveedor.php?endpoint=proveedor";
+  const APIB = process.env.REACT_APP_API + "bitacora.php?endpoint=bitacora";
 
   
   const [categories, setCategories] = useState([]); //agregue para buscar categoria
   const [subcategoria, setsubcategoria] = useState([]);
   const [proveedor, setProveedor] = useState([]);
- const [filteredSubcategories, setFilteredSubcategories] = useState([]);
+
+
   useEffect(() => {
     loadproducto();
     loadCategoria();
+    loadsubcategoria();  //agregue para buscar categoria
+  
     loadProveedor();
   }, [debouncedSearch, currentPage]);
 
-
-{/*   filtro de subcategoria en base a la categoria */}
-  useEffect(() => {   
-      console.log("selectedCategory", selectedCategory);
-      if (selectedCategory) {
-        const filtered = subcategoria.filter(subcategorya => subcategorya.idcategoria === selectedCategory);
-        setFilteredSubcategories(filtered);
-    }
-  }, [selectedCategory, subcategoria]);
 
 
 
@@ -116,11 +111,11 @@ const ProductTable = () => {
     }
   };
 
-  const loadsubcategoria = async (idcategoria) => {
-    console.log("idcategoria", idcategoria);
+  const loadsubcategoria = async () => {
+
     try {
       const response = await fetch(
-        `${API_SUBCATEGORIA}&search=${idcategoria}&page=${1}&limit=${limitOthers}`
+        `${API_SUBCATEGORIA}&search=${search}&page=${1}&limit=${limitOthers}`
       );
       if (!response.ok) {
         throw new Error("Error al cargar los subcategoria.");
@@ -133,11 +128,7 @@ const ProductTable = () => {
     }
   };
 
-  const handleCategoryChange = (e) => {
-    const idcategoria = e.target.value;
-    setSelectedCategory(idcategoria);
-    loadsubcategoria(idcategoria);
-  };
+ 
 
 
 
@@ -224,8 +215,45 @@ const ProductTable = () => {
           isEditing ? "Error al actualizar la Producto." : "Error al crear la Producto."
         );
       }
+// Aquí agregamos la llamada al API de bitácora
+const bitacoraResponse =  await fetch(APIB, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    fechahora: new Date().toISOString(),
+    modulo: "PRODUCTO",
+    mensaje:`  ${selectedCategory.idcategoria}         
+            -  ${selectedCategory.idsubcategoria}
+            -  ${selectedCategory.idproveedor} 
+            -  ${selectedCategory.descripcion}
+            -  ${selectedCategory.precioventa}
+            -  ${selectedCategory.preciocosto}
+            -  ${selectedCategory.idsubcategoria}
+            -  ${selectedCategory.deposito} 
+            -  ${selectedCategory.ubicacion}
+            -  ${selectedCategory.stockmin}
+            -  ${selectedCategory.stock}
+            -  ${selectedCategory.stockmax}
+            -  ${selectedCategory.descripcioncompleta}
+            -  ${selectedCategory.deposito} 
+            -  ${selectedCategory.ubicacion}
+            -  ${selectedCategory.codigoArticulo}
+            -  ${selectedCategory.estado}  
+            -  ${selectedCategory.nivel}
+            -  ${selectedCategory.imagen}
+            ` ,
+    usuario:"BRENDA",
+    imagen:"",
+  }),
+});
+console.log("bitacora",bitacoraResponse);
+if (!bitacoraResponse.ok) {
+  throw new Error("Error al registrar en la bitácora.");
+}
 
-      alert(
+ alert(
         isEditing ? "Producto actualizada exitosamente" : "Producto creada exitosamente"
       );
       setModalVisible(false);
@@ -281,6 +309,22 @@ const ProductTable = () => {
     setModalVisible(true);
   };
 
+  {/* busca categoria */}
+  const getCategoryNameById = (id) => {
+    const category = categories.find((cat) => cat.idcategoria === id);
+    return category ? category.nombre : "Sin Categoria";
+  };
+
+
+  {/* busca subcategoria */}
+  const getSubCategoryNameById = (id) => {
+    const scategory = subcategoria.find((cat) => cat.idsubcategoria === id);
+    return scategory ? scategory.nombre : "Sin SubCategoria";
+  };
+
+
+
+
   if (loading) {
     return (
       <div className="container mt-4">
@@ -316,11 +360,12 @@ const ProductTable = () => {
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
-            <th>Código Articulo</th>
+          <th>Categoria</th>
+          <th>Subcategoría</th>
+            <th>Cód.Art</th>
             <th>Descripción</th>
             <th>Imagen</th>
-            <th>Precio Venta</th>
-            <th>Desposito</th>            
+            <th>Precio Venta</th>                
             <th>Estado</th>
             <th>Acciones</th>
           </tr>
@@ -328,6 +373,11 @@ const ProductTable = () => {
         <tbody>
           {producto.map((category) => (
             <tr key={category.idproducto}>
+                  <td>{getCategoryNameById(category.idcategoria)}</td> 
+                 <td>{getSubCategoryNameById(category.idsubcategoria)}</td> 
+  {/* <td>{category.idcategoria}</td>
+ <td>{category.idsubcategoria}</td> */}
+
              <td>{category.codigoArticulo}</td>
               <td>{category.descripcion}</td>
               <td>
@@ -341,7 +391,7 @@ const ProductTable = () => {
               </td>
 
               <td>{category.precioventa}</td>
-              <td>{category.deposito}</td>
+             
               <td>{category.estado}</td>
               <td>
                 <button
@@ -409,35 +459,40 @@ const ProductTable = () => {
                   
                     <div className="col-md-4">
                     <label><strong>ID Categoria</strong></label>
-                    <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
-                 
-                      <select
-                        className="form-control"
-                        value={selectedCategory}
-                        onChange={handleCategoryChange}
-                      >
-                        {categories.map((elemento) => {return (
-                          <option key={elemento.idcategoria} value={elemento.idcategoria}>
-                            {elemento.nombre}
-                          </option>
-                        )})}
-                      </select>
+             
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+                <select
+                    className="form-control"
+                    value={selectedCategory.idcategoria}
+                    onChange={(e) =>
+                      setSelectedCategory({ ...selectedCategory, idcategoria: e.target.value })
+                    }
+                  >
+                     {categories.map((elemento) => {return (
+                      <option key={elemento.idcategoria} value={elemento.idcategoria}>
+                        {elemento.nombre}
+                      </option>
+                    )})}
+                  </select>
                     </div>
                     </div>
 
                 <div className="col-md-4">              
-                <label><strong>ID SubCategoria</strong></label>
-                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}> 
-
-
-                <select id="subcategorya" className="form-control">
-                   <option value="">Seleccionar Subcategoría</option>
-                  {subcategoria.map((subcategorya) => (
-                   <option key={subcategorya.idsubcategoria} value={subcategorya.idsubcategoria}>
-                   {subcategorya.nombre}
-                </option>
-            ))}
-          </select>
+                <label><strong>ID subCategoria</strong></label>
+                <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>  
+                <select
+                    className="form-control"
+                    value={selectedCategory.idsubcategoria}
+                    onChange={(e) =>
+                      setSelectedCategory({ ...selectedCategory, idsubcategoria: e.target.value })
+                    }
+                  >
+                     {subcategoria.map((elemento) => {return (
+                      <option key={elemento.idsubcategoria} value={elemento.idsubcategoria}>
+                        {elemento.nombre}
+                      </option>
+                    )})}
+                  </select>
                   </div>
                   </div>
 

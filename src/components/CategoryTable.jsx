@@ -22,7 +22,8 @@ const CategoryTable = () => {
   const limit = 10;
 
   const API = process.env.REACT_APP_API + "categorias.php?endpoint=categoria";
-  
+  const APIB = process.env.REACT_APP_API + "bitacora.php?endpoint=bitacora";
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
@@ -114,6 +115,28 @@ const CategoryTable = () => {
 
         );
       }
+// Aquí agregamos la llamada al API de bitácora
+const bitacoraResponse =  await fetch(APIB, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    fechahora: new Date().toISOString(),
+    modulo: "CATEGORIA",
+    mensaje:`  ${selectedCategory.nombre}
+            -  ${selectedCategory.estado}  
+            -  ${selectedCategory.imagen}     ` ,
+    usuario:"BRENDA",
+    imagen:"",
+  }),
+});
+console.log("bitacora",bitacoraResponse);
+if (!bitacoraResponse.ok) {
+  throw new Error("Error al registrar en la bitácora.");
+}
+
+
 
       alert(
         isEditing
