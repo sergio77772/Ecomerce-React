@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SkeletonTable from "./skeleton/SkeletonTable";
 
 const UserTable = () => {
-  const [users, setUsers] = useState([]);
+  const [, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [formData, setFormData] = useState({
     id: "",
