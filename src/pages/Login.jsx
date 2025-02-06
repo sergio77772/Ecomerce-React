@@ -29,7 +29,7 @@ const Login = () => {
       if (data.success) {
         // Store token in localStorage
         localStorage.setItem("token", data.token); // Store token in localStorage
-        localStorage.setItem("user",correo) ;
+        localStorage.setItem("user",data.nombre) ;
         navigate("/admin/dashboard"); // Redirect to the dashboard or home page
       } else {
         setError(data.error || "Error al iniciar sesión. Intente nuevamente.");
