@@ -123,6 +123,7 @@ const ProductTable = () => {
       const data = await response.json();
       console.log("subcategoria", data);
       setsubcategoria(data.subcategoria || []);
+      setFilteredSubcategories(data.subcategoria || []);
     } catch (err) {
       setError(err.message);
     }
@@ -130,6 +131,7 @@ const ProductTable = () => {
 {/*  ******************FUNCION DE FILTRO***************    */}
 const handleCategoryChange = (e) => {
   const idcat = e.target.value;
+
   setSelectedCategory({ ...selectedCategory, idcategoria: idcat });
   filtroSubcategoria(idcat);
   console.log("idcat", idcat);
