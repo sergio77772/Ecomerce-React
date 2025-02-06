@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
-import AvatarEditor from "react-avatar-editor";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SkeletonTable from "./skeleton/SkeletonTable";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [formData, setFormData] = useState({
     id: "",
     nombre: "",
@@ -15,12 +15,11 @@ const UserTable = () => {
   });
   const [isEditing, setIsEditing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const [image, setImage] = useState(null);
-  const [zoom, setZoom] = useState(1.2); // Control de zoom
-  const editorRef = useRef(null);
 
   const API_URL = process.env.REACT_APP_API + "users.php";
+
   const URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
@@ -37,6 +36,7 @@ const UserTable = () => {
       });
       const data = await response.json();
       setUsers(data.data || []);
+      setFilteredUsers(data.data || []);
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
@@ -51,18 +51,45 @@ const UserTable = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setImage(file);
-    }
+    setFormData((prev) => ({ ...prev, imagen: file }));
   };
 
-  const handleSaveImage = () => {
-    if (editorRef.current) {
-      const canvas = editorRef.current.getImageScaledToCanvas();
-      canvas.toBlob((blob) => {
-        setFormData((prev) => ({ ...prev, imagen: blob }));
-        setImage(null);
-      }, "image/png");
+  const handleSubmit = async () => {
+    const method = isEditing ? "POST" : "POST"; // Se mantiene POST, pero el backend diferencia la acción
+    const endpoint = isEditing ? API_URL : `${API_URL}?action=register`;
+    const token = localStorage.getItem("token");
+
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("id", formData.id);
+      formDataToSend.append("nombre", formData.nombre);
+      formDataToSend.append("correo", formData.correo);
+      if (!isEditing) {
+        formDataToSend.append("password", formData.password);
+      }
+      formDataToSend.append("direccion", formData.direccion);
+      if (formData.imagen) {
+        formDataToSend.append("imagen", formData.imagen);
+      }
+      if (isEditing) {
+        formDataToSend.append("method", "PUT");
+      }
+
+      const response = await fetch(endpoint, {
+        method,
+        headers: { token: `Bearer ${token}` },
+        body: formDataToSend,
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        fetchUsers();
+        closeModal();
+      } else {
+        console.error(data.error || "Error saving user.");
+      }
+    } catch (error) {
+      console.error("Error saving user:", error);
     }
   };
 
@@ -75,7 +102,6 @@ const UserTable = () => {
       direccion: user.direccion || "",
       imagen: null,
     });
-
     setIsEditing(true);
     setModalVisible(true);
   };
@@ -103,9 +129,8 @@ const UserTable = () => {
 
   const closeModal = () => {
     setModalVisible(false);
-    setIsEditing(false);
     setFormData({ id: "", nombre: "", correo: "", password: "", direccion: "", imagen: null });
-    setImage(null);
+    setIsEditing(false);
   };
 
   if (loading) {
@@ -115,14 +140,16 @@ const UserTable = () => {
   return (
     <div className="container mt-4">
       <h1 className="text-center mb-4">User Management</h1>
-
-      <button className="btn btn-primary mb-3" onClick={() => { 
-        setIsEditing(false); 
-        setModalVisible(true); 
-      }}>
-        Add User
-      </button>
-
+      <div className="d-flex justify-content-between mb-3">
+        <input
+          type="text"
+          placeholder="Search by name or email"
+          className="form-control w-50"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button className="btn btn-primary" onClick={() => setModalVisible(true)}>Add User</button>
+      </div>
       <table className="table table-striped table-bordered">
         <thead className="table-dark">
           <tr>
@@ -134,11 +161,11 @@ const UserTable = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <tr key={user.id}>
               <td>
                 {user.foto ? (
-                  <img src={URL + user.foto} alt="User" style={{ width: 50, height: 50, borderRadius: "50%" }} />
+                  <img src={URL+ user.foto} alt="User" style={{ width: 50, height: 50, borderRadius: "50%" }} />
                 ) : (
                   "No Image"
                 )}
@@ -155,65 +182,29 @@ const UserTable = () => {
         </tbody>
       </table>
 
-      {modalVisible && (
-        <div className="modal show d-block" tabIndex="-1">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">{isEditing ? "Edit User" : "Add User"}</h5>
-                <button type="button" className="btn-close" onClick={closeModal}></button>
-              </div>
-              <div className="modal-body">
-                <form>
-                  <div className="mb-3">
-                    <label className="form-label">Nombre</label>
-                    <input type="text" name="nombre" className="form-control" value={formData.nombre} onChange={handleChange} required />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Correo</label>
-                    <input type="email" name="correo" className="form-control" value={formData.correo} onChange={handleChange} required />
-                  </div>
-
-                  {!isEditing && (
-                    <div className="mb-3">
-                      <label className="form-label">Contraseña</label>
-                      <input type="password" name="password" className="form-control" value={formData.password} onChange={handleChange} required />
-                    </div>
-                  )}
-
-                  <div className="mb-3">
-                    <label className="form-label">Dirección</label>
-                    <input type="text" name="direccion" className="form-control" value={formData.direccion} onChange={handleChange} />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Imagen de perfil</label>
-                    <input type="file" className="form-control" onChange={handleFileChange} />
-                  </div>
-
-                  {image && (
-                    <div className="text-center">
-                      <AvatarEditor
-                        ref={editorRef}
-                        image={image}
-                        width={150}
-                        height={150}
-                        border={50}
-                        borderRadius={75}
-                        scale={zoom}
-                      />
-                      <input type="range" min="1" max="3" step="0.1" value={zoom} onChange={(e) => setZoom(e.target.value)} />
-                      <button className="btn btn-primary mt-2" onClick={handleSaveImage}>Recortar</button>
-                    </div>
-                  )}
-                </form>
-              </div>
+      <div className={`modal fade ${modalVisible ? "show d-block" : ""}`} tabIndex="-1">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">{isEditing ? "Edit User" : "Add User"}</h5>
+              <button type="button" className="btn-close" onClick={closeModal}></button>
+            </div>
+            <div className="modal-body">
+              <form>
+                <input type="text" name="nombre" className="form-control" value={formData.nombre} onChange={handleChange} required />
+                <input type="email" name="correo" className="form-control" value={formData.correo} onChange={handleChange} required />
+                {!isEditing && <input type="password" name="password" className="form-control" value={formData.password} onChange={handleChange} required />}
+                <input type="text" name="direccion" className="form-control" value={formData.direccion} onChange={handleChange} />
+                <input type="file" className="form-control" onChange={handleFileChange} />
+              </form>
+            </div>
+            <div className="modal-footer">
+              <button className="btn btn-secondary" onClick={closeModal}>Cancel</button>
+              <button className="btn btn-primary" onClick={handleSubmit}>{isEditing ? "Update" : "Add"}</button>
             </div>
           </div>
         </div>
-      )}
-
+      </div>
     </div>
   );
 };
