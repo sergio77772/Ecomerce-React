@@ -19,7 +19,6 @@ const UserTable = () => {
   const [loading, setLoading] = useState(true);
 
   const API_URL = process.env.REACT_APP_API + "users.php";
-
   const URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
@@ -55,7 +54,7 @@ const UserTable = () => {
   };
 
   const handleSubmit = async () => {
-    const method = isEditing ? "POST" : "POST"; // Se mantiene POST, pero el backend diferencia la acción
+    const method = "POST";
     const endpoint = isEditing ? API_URL : `${API_URL}?action=register`;
     const token = localStorage.getItem("token");
 
@@ -165,7 +164,7 @@ const UserTable = () => {
             <tr key={user.id}>
               <td>
                 {user.foto ? (
-                  <img src={URL+ user.foto} alt="User" style={{ width: 50, height: 50, borderRadius: "50%" }} />
+                  <img src={URL + user.foto} alt="User" style={{ width: 50, height: 50, borderRadius: "50%" }} />
                 ) : (
                   "No Image"
                 )}
@@ -191,10 +190,23 @@ const UserTable = () => {
             </div>
             <div className="modal-body">
               <form>
+                <label>Name</label>
                 <input type="text" name="nombre" className="form-control" value={formData.nombre} onChange={handleChange} required />
+
+                <label>Email</label>
                 <input type="email" name="correo" className="form-control" value={formData.correo} onChange={handleChange} required />
-                {!isEditing && <input type="password" name="password" className="form-control" value={formData.password} onChange={handleChange} required />}
+
+                {!isEditing && (
+                  <>
+                    <label>Password</label>
+                    <input type="password" name="password" className="form-control" value={formData.password} onChange={handleChange} required />
+                  </>
+                )}
+
+                <label>Address</label>
                 <input type="text" name="direccion" className="form-control" value={formData.direccion} onChange={handleChange} />
+
+                <label>Image</label>
                 <input type="file" className="form-control" onChange={handleFileChange} />
               </form>
             </div>
