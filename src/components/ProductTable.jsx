@@ -47,11 +47,11 @@ const ProductTable = () => {
   const API_PROVEEDOR = process.env.REACT_APP_API + "proveedor.php?endpoint=proveedor";
   const APIB = process.env.REACT_APP_API + "bitacora.php?endpoint=bitacora";
 
-  
+  const [filteredSubcategories, setFilteredSubcategories] = useState([]);
   const [categories, setCategories] = useState([]); //agregue para buscar categoria
   const [subcategoria, setsubcategoria] = useState([]);
   const [proveedor, setProveedor] = useState([]);
-
+ 
 
   useEffect(() => {
     loadproducto();
@@ -127,9 +127,20 @@ const ProductTable = () => {
       setError(err.message);
     }
   };
+{/*  ******************FUNCION DE FILTRO***************    */}
+const handleCategoryChange = (e) => {
+  const idcat = e.target.value;
+  setSelectedCategory({ ...selectedCategory, idcategoria: idcat });
+  filtroSubcategoria(idcat);
+  console.log("idcat", idcat);
+};
 
- 
-
+const filtroSubcategoria = (idcat) => {
+  const idcategoriaNum = Number(idcat); // Convertir idcat a número
+  const subcategoriasFiltradas = subcategoria.filter(sub => sub.idcategoria === idcategoriaNum);
+  console.log("filtro", subcategoriasFiltradas);
+  setFilteredSubcategories(subcategoriasFiltradas);
+};
 
 
 
@@ -216,6 +227,8 @@ const ProductTable = () => {
         );
       }
 // Aquí agregamos la llamada al API de bitácora
+const user= localStorage.getItem('user');
+console.log("user",user);
 const bitacoraResponse =  await fetch(APIB, {
   method: "POST",
   headers: {
@@ -244,7 +257,7 @@ const bitacoraResponse =  await fetch(APIB, {
             -  ${selectedCategory.nivel}
             -  ${selectedCategory.imagen}
             ` ,
-    usuario:"BRENDA",
+    usuario:user,
     imagen:"",
   }),
 });
@@ -492,9 +505,8 @@ if (!bitacoraResponse.ok) {
                 <select
                     className="form-control"
                     value={selectedCategory.idcategoria}
-                    onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, idcategoria: e.target.value })
-                    }
+                    onChange={handleCategoryChange}
+                
                   >
                      {categories.map((elemento) => {return (
                       <option key={elemento.idcategoria} value={elemento.idcategoria}>
@@ -515,7 +527,7 @@ if (!bitacoraResponse.ok) {
                       setSelectedCategory({ ...selectedCategory, idsubcategoria: e.target.value })
                     }
                   >
-                     {subcategoria.map((elemento) => {return (
+                     {filteredSubcategories.map((elemento) => {return (
                       <option key={elemento.idsubcategoria} value={elemento.idsubcategoria}>
                         {elemento.nombre}
                       </option>
