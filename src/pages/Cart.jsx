@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Footer, Navbar } from "../components";
 import { useSelector, useDispatch } from "react-redux";
 import { addCart, delCart } from "../redux/action";
