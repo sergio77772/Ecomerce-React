@@ -33,7 +33,7 @@ const Register = () => {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
-                    "token": "Bearer TU_TOKEN_AQUI"
+                    
                 },
                 body: new URLSearchParams({
                     nombre: formData.nombre,
