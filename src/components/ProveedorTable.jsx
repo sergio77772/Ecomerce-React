@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import  SkeletonTable from "./skeleton/SkeletonTable"
+import { mensajeRespuesta, confirmAction } from "../utils/services";
 
 const ProveedorTable = () => {
   const [proveedor, setproveedor] = useState([]);
@@ -151,33 +152,39 @@ console.log("bitacora",bitacoraResponse);
 if (!bitacoraResponse.ok) {
   throw new Error("Error al registrar en la bitácora.");
 }
-      alert(
-        isEditing
-          ? "Proveedor actualizada exitosamente"
-          : "Proveedor creada exitosamente"
-      );
-      setModalVisible(false);
-      loadproveedor();
-    } catch (err) {
-      alert(err.message);
-    }
-  };
+mensajeRespuesta(
+  isEditing ? "Proveedor actualizado exitosamente" : "Proveedor creado exitosamente",
+  "success"
+);
+setModalVisible(false);
+loadproveedor();
+} catch (err) {
+mensajeRespuesta(err.message, "error");
+}
+};
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de eliminar esta Proveedor? ")) return;
+const handleDelete = async (id) => {
+  const confirmed = await confirmAction(
+    "¿Estás seguro?",
+    "Esta acción no se puede deshacer.",
+    "Sí, eliminar",
+    "Cancelar"
+  );
+
+  if (confirmed) {
     try {
-      const response = await fetch(`${API}&id=${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(`${API}&id=${id}`, { method: "DELETE" });
       if (!response.ok) {
-        throw new Error("Error al eliminar la Proveedor.");
+        throw new Error("Error al eliminar el proveedor.");
       }
-      alert("Proveedor eliminada exitosamente");
+      mensajeRespuesta("Proveedor eliminado exitosamente", "success");
       loadproveedor();
     } catch (err) {
-      alert(err.message);
+      mensajeRespuesta(err.message, "error");
     }
+  
   };
+};
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {

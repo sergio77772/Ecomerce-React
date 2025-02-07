@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SkeletonTable from "./skeleton/SkeletonTable";
+import { mensajeRespuesta, confirmAction } from "../utils/services";
 
 const UserTable = () => {
   const [, setUsers] = useState([]);
@@ -83,12 +84,13 @@ const UserTable = () => {
       const data = await response.json();
       if (data.success) {
         fetchUsers();
+        mensajeRespuesta(isEditing ? "Usuario actualizado exitosamente" : "Usuario creado exitosamente", "success");
         closeModal();
       } else {
-        console.error(data.error || "Error saving user.");
+        mensajeRespuesta(data.error || "Error guardando el usuario.", "error");
       }
     } catch (error) {
-      console.error("Error saving user:", error);
+      mensajeRespuesta("Error guardando el usuario.", "error");
     }
   };
 
@@ -106,26 +108,34 @@ const UserTable = () => {
   };
 
   const handleDeleteUser = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this user?")) return;
+    const confirmed = await confirmAction(
+      "¿Estás seguro?",
+      "Esta acción no se puede deshacer.",
+      "Sí, eliminar",
+      "Cancelar"
+    );
 
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`${API_URL}?id=${id}`, {
-        method: "DELETE",
-        headers: { token: `Bearer ${token}` },
-      });
+    if (confirmed) {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_URL}?id=${id}`, {
+          method: "DELETE",
+          headers: { token: `Bearer ${token}` },
+        });
 
-      const data = await response.json();
-      if (data.success) {
-        fetchUsers();
-      } else {
-        console.error("Error deleting user:", data.error);
+        const data = await response.json();
+        if (data.success) {
+          fetchUsers();
+          mensajeRespuesta("Usuario eliminado exitosamente", "success");
+        } else {
+          mensajeRespuesta("Error al eliminar el usuario.", "error");
+        }
+      } catch (error) {
+        mensajeRespuesta("Error al eliminar el usuario.", "error");
       }
-    } catch (error) {
-      console.error("Error deleting user:", error);
     }
   };
-
+  
   const closeModal = () => {
     setModalVisible(false);
     setFormData({ id: "", nombre: "", correo: "", password: "", direccion: "", imagen: null });
