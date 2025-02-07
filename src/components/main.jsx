@@ -10,8 +10,10 @@ const Home = () => {
   const base = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
-    dispatch(fetchComercio()); // Obtener datos de la API al cargar
-  }, [dispatch]);
+    if (!comercio || Object.keys(comercio).length === 0) {
+      dispatch(fetchComercio()); // Llamar solo si no hay datos
+    }
+  }, [dispatch, comercio]); 
 
   // Si no hay imágenes, mostrar mensaje de carga
   if (!comercio || !comercio.imagenes) {
