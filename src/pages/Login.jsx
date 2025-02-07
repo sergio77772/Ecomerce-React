@@ -1,43 +1,23 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../redux/action/userActions";
 import { Footer, Navbar } from "../components";
+import "bootstrap/dist/css/bootstrap.min.css";  // Estilos de Bootstrap
+import "bootstrap/dist/js/bootstrap.bundle.min.js"; // JS de Bootstrap
 
 const Login = () => {
-  const [correo, setEmail] = useState("");
+  const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const API_URL = process.env.REACT_APP_API + "users.php";
+  const { loading, error } = useSelector((state) => state.user); // Estado global del usuario
 
-  // Handle form submission
+  // Manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-
-    try {
-      const response = await fetch(`${API_URL}?action=login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ correo, password }),
-      });
-
-      const data = await response.json();
-      
-      if (data.success) {
-        // Store token in localStorage
-        localStorage.setItem("token", data.token); // Store token in localStorage
-        localStorage.setItem("user",correo) ;
-        navigate("/admin/dashboard"); // Redirect to the dashboard or home page
-      } else {
-        setError(data.error || "Error al iniciar sesión. Intente nuevamente.");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      setError("Error de red. Intente nuevamente.");
-    }
+    dispatch(loginUser({ correo, password }, navigate)); // Llamar a la acción de Redux
   };
 
   return (
@@ -55,14 +35,14 @@ const Login = () => {
                 </div>
               )}
               <div className="my-3">
-                <label htmlFor="email">Dirección de correo electrónico</label>
+                <label htmlFor="email">Correo electrónico</label>
                 <input
                   type="email"
                   className="form-control"
                   id="email"
                   placeholder="name@example.com"
                   value={correo}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setCorreo(e.target.value)}
                   required
                 />
               </div>
@@ -80,15 +60,15 @@ const Login = () => {
               </div>
               <div className="my-3">
                 <p>
-                  ¿Nuevo aquí?
+                  ¿Nuevo aquí?{" "}
                   <Link to="/register" className="text-decoration-underline text-info">
-                    Registrate
+                    Regístrate
                   </Link>
                 </p>
               </div>
               <div className="text-center">
-                <button className="my-2 mx-auto btn btn-dark" type="submit">
-                  Entrar
+                <button className="my-2 mx-auto btn btn-dark" type="submit" disabled={loading}>
+                  {loading ? "Cargando..." : "Entrar"}
                 </button>
               </div>
             </form>
