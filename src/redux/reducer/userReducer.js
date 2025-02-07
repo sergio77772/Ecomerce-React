@@ -10,7 +10,6 @@ const initialState = {
         return { ...state, loading: true, error: null };
   
       case "USER_LOGIN_SUCCESS":
-        console.log(action.payload)
         return { ...state, loading: false, user: action.payload };
   
       case "USER_LOGIN_FAILURE":

@@ -13,7 +13,9 @@ export const loginUser = (userData) => async (dispatch) => {
   
       if (data.success) {
         localStorage.setItem("token", data.token); // Guardar token
-        localStorage.setItem("userData", JSON.stringify(data)); // Guardar usuario completo
+        localStorage.setItem("userData", JSON.stringify(data));
+        localStorage.setItem("user", JSON.stringify(data.nombre));
+
 
         dispatch({ type: "USER_LOGIN_SUCCESS", payload: data });
       } else {
@@ -26,6 +28,9 @@ export const loginUser = (userData) => async (dispatch) => {
   
   export const logoutUser = () => (dispatch) => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userData");
+    localStorage.removeItem("user");
+
     dispatch({ type: "USER_LOGOUT" });
   };
   

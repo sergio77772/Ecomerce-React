@@ -10,7 +10,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const comercio = useSelector((state) => state.comercio.comercio);
   const usuario = useSelector((state) => state.user.user);
-   console.log(usuario)
   const handleLogout = () => {
     dispatch(logoutUser()); // Eliminamos usuario del estado global y localStorage
     navigate("/");
@@ -49,7 +48,7 @@ const Navbar = () => {
             <li className="nav-item">
               <NavLink className="nav-link" to="/contact">Contacto</NavLink>
             </li>
-            {token && (
+            {usuario?.idrol===1 && (
               <li className="nav-item">
                 <NavLink className="nav-link" to="/admin/dashboard">Administración</NavLink>
               </li>
