@@ -12,7 +12,7 @@ const Register = () => {
     });
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
-
+    const API = process.env.REACT_APP_API +"publicUser.php?action=register"
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -29,7 +29,7 @@ const Register = () => {
         setLoading(true);
 
         try {
-            const response = await fetch("https://distribuidoraassefperico.com.ar/apis-stg/users.php?action=register", {
+            const response = await fetch(API, {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
