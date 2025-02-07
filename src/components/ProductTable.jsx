@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SkeletonTable from "./skeleton/SkeletonTable";
+import { mensajeRespuesta, confirmAction } from "../utils/services";
+
 
 const ProductTable = () => {
   const [producto, setproducto] = useState([]);
@@ -267,32 +269,37 @@ console.log("bitacora",bitacoraResponse);
 if (!bitacoraResponse.ok) {
   throw new Error("Error al registrar en la bitácora.");
 }
+mensajeRespuesta(
+  isEditing ? "Producto actualizada exitosamente" : "Producto creada exitosamente",
+  "success"
+);
 
- alert(
-        isEditing ? "Producto actualizada exitosamente" : "Producto creada exitosamente"
-      );
-      setModalVisible(false);
-      loadproducto();
-    } catch (err) {
-      alert(err.message);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de eliminar esta Producto? ")) return;
-    try {
-      const response = await fetch(`${API}&id=${id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) {
-        throw new Error("Error al eliminar la Producto.");
+setModalVisible(false);
+loadproducto();
+} catch (err) {
+mensajeRespuesta(err.message, "error");
+}
+};
+const handleDelete = async (id) => {
+  const confirmed = await confirmAction(
+      "¿Estás seguro?",
+      "Esta acción no se puede deshacer.",
+      "Sí, eliminar",
+      "Cancelar"
+    );
+    if (confirmed) {
+      try {
+        const response = await fetch(`${API}&id=${id}`, { method: "DELETE" });
+        if (!response.ok)  {
+          throw new Error("Error al eliminar el producto.");
+        }
+        mensajeRespuesta("Producto eliminado exitosamente", "success");
+        loadproducto();
+      } catch (err) {
+        mensajeRespuesta(err.message, "error");
       }
-      alert("Producto eliminada exitosamente");
-      loadproducto();
-    } catch (err) {
-      alert(err.message);
     }
-  };
+};
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -336,9 +343,6 @@ if (!bitacoraResponse.ok) {
     const scategory = subcategoria.find((cat) => cat.idsubcategoria === id);
     return scategory ? scategory.nombre : "Sin SubCategoria";
   };
-
-
-
 
   if (loading) {
     return (

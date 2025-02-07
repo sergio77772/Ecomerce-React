@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import  SkeletonTable from "./skeleton/SkeletonTable"
+import { mensajeRespuesta, confirmAction } from "../utils/services";
+
 
 const SubCategoryTable = () => {
   const [subcategoria, setsubcategoria] = useState([]);
@@ -122,6 +124,8 @@ const SubCategoryTable = () => {
         );
       }
 // Aquí agregamos la llamada al API de bitácora
+const user= localStorage.getItem('user');
+console.log("user",user);
 const bitacoraResponse =  await fetch(APIB, {
   method: "POST",
   headers: {
@@ -133,7 +137,7 @@ const bitacoraResponse =  await fetch(APIB, {
     mensaje:`  ${selectedCategory.nombre}
             -  ${selectedCategory.estado}  
             -  ${selectedCategory.imagen}     ` ,
-    usuario:"BRENDA",
+    usuario:user,
     imagen:"",
   }),
 });
@@ -142,32 +146,37 @@ if (!bitacoraResponse.ok) {
   throw new Error("Error al registrar en la bitácora.");
 }
 
-      alert(
-        isEditing
-          ? "Subcategoria actualizada exitosamente"
-          : "Subcategoria creada exitosamente"
-      );
+mensajeRespuesta(
+  isEditing ? "Subcategoría actualizada exitosamente" : "Subcategoría creada exitosamente",
+  "success"
+);
       setModalVisible(false);
       loadsubcategoria();
     } catch (err) {
-      alert(err.message);
+      mensajeRespuesta(err.message, "error");
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de eliminar esta categoria? ")) return;
+    const confirmed = await confirmAction(
+      "¿Estás seguro?",
+      "Esta acción no se puede deshacer.",
+      "Sí, eliminar",
+      "Cancelar"
+    );
+    if (confirmed) {
+   
     try {
-      const response = await fetch(`${API}&id=${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(`${API}&id=${id}`, { method: "DELETE" });
       if (!response.ok) {
         throw new Error("Error al eliminar la categoria.");
-      }
-      alert("SubCategoria eliminada exitosamente");
+    }
+      mensajeRespuesta("Producto eliminado exitosamente", "success");
       loadsubcategoria();
     } catch (err) {
-      alert(err.message);
+      mensajeRespuesta(err.message, "error");
     }
+   };
   };
 
   const handlePageChange = (newPage) => {

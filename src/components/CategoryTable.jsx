@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import  SkeletonTable from "./skeleton/SkeletonTable"
+import { mensajeRespuesta, confirmAction } from "../utils/services";
+
 
 const CategoryTable = () => {
   const [categories, setCategories] = useState([]);
@@ -138,20 +140,27 @@ if (!bitacoraResponse.ok) {
 
 
 
-      alert(
+      mensajeRespuesta(
         isEditing
           ? "categoria actualizada exitosamente"
-          : "categoria creada exitosamente"
+          : "categoria creada exitosamente","success"
       );
       setModalVisible(false);
       loadcategories();
     } catch (err) {
-      alert(err.message);
+      mensajeRespuesta(err.message, "error");
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de eliminar esta categoria? ")) return;
+     const confirmed = await confirmAction(
+         "¿Estás seguro?",
+         "Esta acción no se puede deshacer.",
+         "Sí, eliminar",
+         "Cancelar"
+       );
+     
+       if (confirmed) {
     try {
       const response = await fetch(`${API}&id=${id}`, {
         method: "DELETE",
@@ -159,11 +168,12 @@ if (!bitacoraResponse.ok) {
       if (!response.ok) {
         throw new Error("Error al eliminar la categoria.");
       }
-      alert("categoria eliminada exitosamente");
+      mensajeRespuesta("categoria eliminada exitosamente", "success");
       loadcategories();
     } catch (err) {
-      alert(err.message);
+      mensajeRespuesta(err.message, "error");
     }
+  }
   };
 
   const handlePageChange = (newPage) => {
