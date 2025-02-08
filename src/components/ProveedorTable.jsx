@@ -5,6 +5,7 @@ import  SkeletonTable from "./skeleton/SkeletonTable"
 const ProveedorTable = () => {
   const [proveedor, setproveedor] = useState([]);
   const [loading, setLoading] = useState(true);
+   const [debouncedSearch, setDebouncedSearch] = useState(""); // Estado para el debounce
   const [error, setError] = useState(null);
   const [selectedprovee, setSelectedprovee] = useState({
     nombre: "",
@@ -37,7 +38,21 @@ const ProveedorTable = () => {
 
   useEffect(() => {
     loadproveedor();
-  }, [search, currentPage]);
+  }, [debouncedSearch, currentPage]);
+
+
+useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 800); // Retraso de 500ms
+
+    return () => clearTimeout(handler); // Limpiar el temporizador al desmontar o cuando el search cambie
+  }, [search]);
+
+
+
+
+
 
   const loadproveedor = async () => {
     setLoading(true);
@@ -296,25 +311,53 @@ if (!bitacoraResponse.ok) {
       </table>
 
       {/* Paginación */}
-      <div className="d-flex justify-content-center">
-        <button
-          className="btn btn-secondary me-2"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Anterior
-        </button>
-        <span className="align-self-center">
-          Página {currentPage} de {totalPages}
-        </span>
-        <button
-          className="btn btn-secondary ms-2"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Siguiente
-        </button>
-      </div>
+       {/* Paginación */}
+<div className="d-flex justify-content-center align-items-center">
+  <button
+    className="btn btn-secondary me-2"
+    onClick={() => handlePageChange(1)}
+    disabled={currentPage === 1}
+  >
+    Inicio
+  </button>
+  <button
+    className="btn btn-secondary me-2"
+    onClick={() => handlePageChange(currentPage - 1)}
+    disabled={currentPage === 1}
+  >
+    Anterior
+  </button>
+
+  {[...Array(5)].map((_, index) => {
+    let page = currentPage - 2 + index;
+    if (page < 1 || page > totalPages) return null; // No mostrar páginas fuera del rango
+
+    return (
+      <button
+        key={page}
+        className={`btn ${page === currentPage ? 'btn-primary' : 'btn-outline-secondary'} mx-1`}
+        onClick={() => handlePageChange(page)}
+      >
+        {page}
+      </button>
+    );
+  })}
+
+  <button
+    className="btn btn-secondary ms-2"
+    onClick={() => handlePageChange(currentPage + 1)}
+    disabled={currentPage === totalPages}
+  >
+    Siguiente
+  </button>
+  <button
+    className="btn btn-secondary ms-2"
+    onClick={() => handlePageChange(totalPages)}
+    disabled={currentPage === totalPages}
+  >
+    Final
+  </button>
+</div>
 
       {/* Modal */}
       <div

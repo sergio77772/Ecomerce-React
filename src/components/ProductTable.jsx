@@ -164,7 +164,7 @@ const filtroSubcategoria = (idcat) => {
 
 
 
-{/*   ****************   duplicado  *************************************
+{/*   ****************   Duplicado  *************************************
   buscar en producto el registro
   guardarlo como nuevo registro
   
@@ -196,10 +196,10 @@ const filtroSubcategoria = (idcat) => {
       stock:          `${Registro.stock}`,
       stockmax:       `${Registro.stockmax}`,
       descripcioncompleta: `${Registro.descripcioncompleta}`, 
-      estado:         `Duplicado`,// Agregar un sufijo para diferenciar el código de artículo duplicado
+      estado:         `Duplicado`,// DUPLICADO
       nivel:          `${Registro.nivel}`,
       imagen:         `${Registro.imagen}`,
-      codigoArticulo: `${Registro.codigoArticulo}-dup`,  
+      codigoArticulo: `${Registro.codigoArticulo}-dup`,  // Agregar un sufijo para diferenciar el código de artículo duplicado
   
     };
            
@@ -246,6 +246,7 @@ const filtroSubcategoria = (idcat) => {
 
   };
 
+  {/*    fin duplicado       */ }
   
   const handleEdit = (category) => {
     setSelectedCategory({
@@ -314,7 +315,9 @@ const filtroSubcategoria = (idcat) => {
         );
       }
       
-// Aquí agregamos la llamada al API de bitácora
+
+
+// BITACORA 
 const usuario = localStorage.getItem('usuario')|| 'no hay detalle';
 console.log("user",usuario);
 const bitacoraResponse =  await fetch(APIB, {
@@ -353,6 +356,8 @@ console.log("bitacora",bitacoraResponse);
 if (!bitacoraResponse.ok) {
   throw new Error("Error al registrar en la bitácora.");
 }
+
+// FIN BITACORA
 
  alert(
         isEditing ? "Producto actualizada exitosamente" : "Producto creada exitosamente"
