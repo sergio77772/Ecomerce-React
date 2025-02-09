@@ -1,10 +1,12 @@
 import React from "react";
 import { Footer,BitacoraTable } from "../../components";
 import Sidebar from "../../components/backoffices/Menu";
+import Header from "../../components/backoffices/Header";
 
 const AdminBitacora = () => {
   return (
     <>
+    <Header/>
       <div className="container-fluid">
         <div className="row">
           {/* Sidebar toma 2 columnas, el resto se lo lleva el Dashboard */}
