@@ -164,6 +164,74 @@ const filtroSubcategoria = (idcat) => {
     }
   };
 
+
+
+{/*   ****************   Duplicado  *************************************
+  buscar en producto el registro
+  guardarlo como nuevo registro
+  
+  */}
+ 
+  const handleDuplicar = async (id) => {
+    const confirmed = await confirmAction(
+      "¿Estás seguro?",
+      "Esta acción no se puede deshacer.",
+      "Sí, duplicar",
+      "Cancelar"
+    );
+  
+    if (confirmed) {
+      try {
+        const registro = producto.find((pro) => pro.idproducto === id);
+        if (!registro) {
+          throw new Error("Producto no encontrado.");
+        }
+  
+        const newProduct = {
+          idcategoria: registro.idcategoria,
+          idsubcategoria: registro.idsubcategoria,
+          idproveedor: registro.idproveedor,
+          descripcion: registro.descripcion,
+          precioventa: registro.precioventa,
+          preciocosto: registro.preciocosto,
+          deposito: registro.deposito,
+          ubicacion: registro.ubicacion,
+          stockmin: registro.stockmin,
+          stock: registro.stock,
+          stockmax: registro.stockmax,
+          descripcioncompleta: registro.descripcioncompleta,
+          estado: "Duplicado",
+          nivel: registro.nivel,
+          imagen: registro.imagen,
+          codigoArticulo: `${registro.codigoArticulo}-dup`,
+        };
+  
+        const response = await fetch(API, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newProduct),
+        });
+  
+        if (!response.ok) {
+          throw new Error("Error al duplicar el producto.");
+        }
+  
+        mensajeRespuesta("Producto duplicado exitosamente", "success");
+        loadproducto();
+      } catch (err) {
+        mensajeRespuesta(err.message, "error");
+      }
+    }
+  };
+
+
+
+ 
+
+  {/*    fin duplicado       */ }
+  
   const handleEdit = (category) => {
     setSelectedCategory({
       idcategoria: category.idcategoria || "",
@@ -230,15 +298,19 @@ const filtroSubcategoria = (idcat) => {
           isEditing ? "Error al actualizar la Producto." : "Error al crear la Producto."
         );
       }
-// Aquí agregamos la llamada al API de bitácora
-const user= localStorage.getItem('user');
-console.log("user",user);
+      
+
+
+// BITACORA 
+const usuario = localStorage.getItem('usuario')|| 'no hay detalle';
+console.log("user",usuario);
 const bitacoraResponse =  await fetch(APIB, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
+
     fechahora: new Date().toISOString(),
     modulo: "PRODUCTO",
     mensaje:`  ${selectedCategory.idcategoria}         
@@ -247,7 +319,6 @@ const bitacoraResponse =  await fetch(APIB, {
             -  ${selectedCategory.descripcion}
             -  ${selectedCategory.precioventa}
             -  ${selectedCategory.preciocosto}
-            -  ${selectedCategory.idsubcategoria}
             -  ${selectedCategory.deposito} 
             -  ${selectedCategory.ubicacion}
             -  ${selectedCategory.stockmin}
@@ -261,7 +332,7 @@ const bitacoraResponse =  await fetch(APIB, {
             -  ${selectedCategory.nivel}
             -  ${selectedCategory.imagen}
             ` ,
-    usuario:user,
+    usuario:usuario,
     imagen:"",
   }),
 });
@@ -291,6 +362,7 @@ const handleDelete = async (id) => {
       try {
         const response = await fetch(`${API}&id=${id}`, { method: "DELETE" });
         if (!response.ok)  {
+          mensajeRespuesta("Error al eliminar el producto.", "error");
           throw new Error("Error al eliminar el producto.");
         }
         mensajeRespuesta("Producto eliminado exitosamente", "success");
@@ -425,6 +497,14 @@ const handleDelete = async (id) => {
                 >
                   Eliminar
                 </button>
+                <button
+                  className="btn btn-info btn-sm me-2"
+                  onClick={() => handleDuplicar(category.idproducto)}
+                >
+                  Duplicar
+                </button>
+
+
               </td>
             </tr>
           ))}
@@ -857,12 +937,7 @@ const handleDelete = async (id) => {
 
        </div>
 
-
-
-
-
          </div>
-
 
 
                 </div>
