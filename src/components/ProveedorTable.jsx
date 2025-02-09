@@ -136,6 +136,7 @@ useEffect(() => {
         );
       }
 // Aquí agregamos la llamada al API de bitácora
+const usuario = localStorage.getItem('usuario')|| 'sin usuario';
 const bitacoraResponse =  fetch(APIB, {
   method: "POST",
   headers: {
@@ -159,7 +160,7 @@ const bitacoraResponse =  fetch(APIB, {
             -  ${selectedprovee.estado}
             -  ${selectedprovee.imagen}
           ` ,                      
-    usuario:"BRENDA",
+    usuario:usuario,
     imagen:"",
   }),
 });
