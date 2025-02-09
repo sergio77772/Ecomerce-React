@@ -8,7 +8,7 @@ const DashboardCard = ({ title, value, bgColor }) => {
         <div className="card-body text-center">
           <h5 className="card-title text-uppercase small">{title}</h5>
           <h2 className="fw-bold">{value}</h2>
-          <a href="#" className="text-white-50 small">Ver más...</a>
+          <a href="/admin/dashboard" className="text-white-50 small">Ver más...</a>
         </div>
       </div>
     </div>
