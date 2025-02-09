@@ -74,16 +74,16 @@ const Navbar = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  {usuario?.imagen ? (
+                  {usuario?.foto ? (
                     <img
-                      src={usuario.imagen}
+                      src={process.env.REACT_APP_BASE_URL+usuario.foto}
                       alt="Usuario"
                       className="rounded-circle me-2"
                       style={{ width: 35, height: 35, objectFit: "cover" }}
                     />
                   ) : (
                     <img
-                    src="https://distribuidoraassefperico.com.ar/img/user/profile.png"
+                    src={process.env.REACT_APP_BASE_URL+'/img/user/profile.png'}
                     alt="Usuario"
                     className="rounded-circle me-2"
                     style={{ width: 35, height: 35, objectFit: "cover" }}
