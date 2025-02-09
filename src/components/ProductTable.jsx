@@ -164,6 +164,92 @@ const filtroSubcategoria = (idcat) => {
     }
   };
 
+
+
+{/*   ****************   Duplicado  *************************************
+  buscar en producto el registro
+  guardarlo como nuevo registro
+  
+  */}
+ 
+
+  const handleDuplicar = async (id) => {
+    {/*  buscar en producto el registro */}
+
+
+    if (!window.confirm("¿Estás seguro Que Duplica el Producto? ")) return;
+
+    const Registro = producto.find((pro) => pro.idproducto === id);
+    console.log("Registro",Registro);
+   
+
+    // Crea un nuevo registro duplicado
+    const newProduct = {
+
+      idcategoria:    `${Registro.idcategoria}`,
+      idsubcategoria: `${Registro.idsubcategoria}`,
+      idproveedor:    `${Registro.idproveedor}`, 
+      descripcion:    `${Registro.descripcion}`,
+      precioventa:    `${Registro.precioventa}`,
+      preciocosto:    `${Registro.preciocosto}`, 
+      deposito:       `${Registro.deposito}`,
+      ubicacion:      `${Registro.ubicacion}`,
+      stockmin:       `${Registro.stockmin}`, 
+      stock:          `${Registro.stock}`,
+      stockmax:       `${Registro.stockmax}`,
+      descripcioncompleta: `${Registro.descripcioncompleta}`, 
+      estado:         `Duplicado`,// DUPLICADO
+      nivel:          `${Registro.nivel}`,
+      imagen:         `${Registro.imagen}`,
+      codigoArticulo: `${Registro.codigoArticulo}-dup`,  // Agregar un sufijo para diferenciar el código de artículo duplicado
+  
+    };
+           
+   
+
+   console.log("newProduct",newProduct);
+
+
+
+   try {
+    // Realiza la solicitud POST a la API para guardar el nuevo producto
+    const uploadResponse = await fetch(API,
+      {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json', // Añadir cabecera para indicar tipo de contenido
+        },
+        body: JSON.stringify(newProduct),
+      }
+    );
+  
+    if (!uploadResponse.ok) {
+      throw new Error("Error api.");
+    }
+  
+    // Aquí puedes manejar la respuesta
+    const responseText = await uploadResponse.text();
+    console.log("Respuesta de la API:", responseText);
+
+    try {
+      const result = JSON.parse(responseText);
+      console.log("Producto guardado exitosamente:", result);
+      alert("Registro Duplicado");
+      loadproducto();
+    } catch (jsonError) {
+      throw new Error("La respuesta de la API no es un JSON válido.");
+    }
+    
+  } catch (error) {
+    console.error('Error:', error);
+    alert("Error de Registro Duplicado");
+  }
+  
+
+  };
+
+  {/*    fin duplicado       */ }
+  
   const handleEdit = (category) => {
     setSelectedCategory({
       idcategoria: category.idcategoria || "",
@@ -230,15 +316,19 @@ const filtroSubcategoria = (idcat) => {
           isEditing ? "Error al actualizar la Producto." : "Error al crear la Producto."
         );
       }
-// Aquí agregamos la llamada al API de bitácora
-const user= localStorage.getItem('user');
-console.log("user",user);
+      
+
+
+// BITACORA 
+const usuario = localStorage.getItem('usuario')|| 'no hay detalle';
+console.log("user",usuario);
 const bitacoraResponse =  await fetch(APIB, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
+
     fechahora: new Date().toISOString(),
     modulo: "PRODUCTO",
     mensaje:`  ${selectedCategory.idcategoria}         
@@ -247,7 +337,6 @@ const bitacoraResponse =  await fetch(APIB, {
             -  ${selectedCategory.descripcion}
             -  ${selectedCategory.precioventa}
             -  ${selectedCategory.preciocosto}
-            -  ${selectedCategory.idsubcategoria}
             -  ${selectedCategory.deposito} 
             -  ${selectedCategory.ubicacion}
             -  ${selectedCategory.stockmin}
@@ -261,7 +350,7 @@ const bitacoraResponse =  await fetch(APIB, {
             -  ${selectedCategory.nivel}
             -  ${selectedCategory.imagen}
             ` ,
-    usuario:user,
+    usuario:usuario,
     imagen:"",
   }),
 });
@@ -425,6 +514,14 @@ const handleDelete = async (id) => {
                 >
                   Eliminar
                 </button>
+                <button
+                  className="btn btn-info btn-sm me-2"
+                  onClick={() => handleDuplicar(category.idproducto)}
+                >
+                  Duplicar
+                </button>
+
+
               </td>
             </tr>
           ))}
@@ -857,12 +954,7 @@ const handleDelete = async (id) => {
 
        </div>
 
-
-
-
-
          </div>
-
 
 
                 </div>
