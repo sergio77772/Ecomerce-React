@@ -302,7 +302,7 @@ const filtroSubcategoria = (idcat) => {
 
 
 // BITACORA 
-const usuario = localStorage.getItem('usuario')|| 'no hay detalle';
+const usuario = localStorage.getItem('usuario')|| 'sin usuario';
 console.log("user",usuario);
 const bitacoraResponse =  await fetch(APIB, {
   method: "POST",

@@ -57,7 +57,7 @@ root.render(
 
           <Route path="/admin/productos" element={token ? <AdminProducts /> : <Navigate to="/login" />} />
           <Route path="/admin/categorias"  element={token ? <AdminCategory /> : <Navigate to="/login" />} />
-          <Route path="/admin/proveedor" element={token ? <AdminProveedor /> : <Navigate to="/login" />} />
+          <Route path="/admin/proveedores" element={token ? <AdminProveedor /> : <Navigate to="/login" />} />
           <Route path="/admin/subcategorias"  element={token ? <AdminSubCategory /> : <Navigate to="/login" />} />
           <Route path="/admin/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
           <Route path="/admin/users" element={token ? <AdminUsers /> : <Navigate to="/login" />} />

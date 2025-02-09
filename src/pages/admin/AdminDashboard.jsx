@@ -1,13 +1,27 @@
 import React from "react";
-import { Navbar, Main, Dashboard, Footer, } from "../../components";
+import { Dashboard, Footer, } from "../../components";
+import Sidebar from "../../components/backoffices/Menu";
+import Header from "../../components/backoffices/Header";
 
 const AdminDashboard = () => {
   return (
     <>
-      <Navbar />
-      <Main />
-       <Dashboard/>
-      <Footer />
+   <Header/>
+   <div className="container-fluid">
+        <div className="row">
+          {/* Sidebar toma 2 columnas, el resto se lo lleva el Dashboard */}
+          <div className="col-md-2 p-0">
+            <Sidebar />
+          </div>
+          <div className="col-md-10 p-4">
+            <Dashboard />  {/*componente */}
+          </div>
+        </div>
+      </div>
+    <Footer />
+  
+
+     
     </>
   );
 };
