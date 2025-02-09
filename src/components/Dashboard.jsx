@@ -1,44 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+
 
 const Dashboard = () => {
-  const adminMenus = [
-    { title: "Productos", icon: "bi-box", link: "/admin/productos" },
-    { title: "Categorías", icon: "bi-tags", link: "/admin/categorias" },
-    { title: "SubCategorias", icon: "bi-tags", link: "/admin/subcategorias" },
-    { title: "provedores", icon: "bi-tags", link: "/admin/proveedor" },
-   
-    
-    { title: "Usuarios", icon: "bi-people", link: "/admin/users" },
-    { title: "Órdenes", icon: "bi-cart", link: "/admin/Ordenes" },
-    { title: "Reportes", icon: "bi-graph-up", link: "/reports" },
-    { title: "Configuración", icon: "bi-gear", link: "/settings" },
-    { title: "Bitácora", icon: "bi-journal", link: "/admin/bitacora" },
-    { title: "Registro  ", icon: "bi-file-earmark-text", link: "/admin/logsdesistema" },
-    { title: "Mi Comercio ", icon: "bi bi-house-gear", link: "/admin/comercio" },
-    { title: "Mesa de Ayuda  ", icon: "bi-info-circle-fill", link: "/admin/mesa" }
-  ];
-
   return (
-    <>
-      <div className="container my-4">
-        <h1 className="text-center mb-4">Panel de Administración</h1>
+    <div className="container my-4">
+
         <div className="row g-4">
-          {adminMenus.map((menu, index) => (
-            <div className="col-md-4 col-sm-6" key={index}>
-              <a href={menu.link} className="text-decoration-none">
-                <div className="card text-center shadow-sm h-100">
-                  <div className="card-body">
-                    <i className={`bi ${menu.icon} display-4 text-primary mb-3`}></i>
-                    <h5 className="card-title">{menu.title}</h5>
-                  </div>
-                </div>
-              </a>
+          <h1 className="mb-4">Inicio</h1>
+          <div className="row text-white">
+            <div className="col-md-3 p-3 bg-primary text-center">
+              <h5>Total de Pedidos</h5>
+              <h2>88</h2>
             </div>
-          ))}
+            <div className="col-md-3 p-3 bg-info text-center">
+              <h5>Total de Ventas</h5>
+              <h2>1M</h2>
+            </div>
+            <div className="col-md-3 p-3 bg-success text-center">
+              <h5>Total de Clientes</h5>
+              <h2>2K</h2>
+            </div>
+            <div className="col-md-3 p-3 bg-secondary text-center">
+              <h5>Personas Online</h5>
+              <h2>0</h2>
+            </div>
+          </div>
+          <div className="mt-4">
+            <h5>Mapa Mundial</h5>
+            <div className="bg-light p-5 text-center">[Mapa aquí]</div>
+          </div>
+          <div className="mt-4">
+            <h5>Analítica de Ventas</h5>
+            <div className="bg-light p-5 text-center">[Gráfico aquí]</div>
+          </div>
         </div>
       </div>
-    </>
+    
   );
 };
 
-export default Dashboard;
+const AdminDashboard = () => {
+  return <Dashboard />;
+};
+
+export default AdminDashboard;
