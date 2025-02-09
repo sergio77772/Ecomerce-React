@@ -172,81 +172,63 @@ const filtroSubcategoria = (idcat) => {
   
   */}
  
-
   const handleDuplicar = async (id) => {
-    {/*  buscar en producto el registro */}
-
-
-    if (!window.confirm("¿Estás seguro Que Duplica el Producto? ")) return;
-
-    const Registro = producto.find((pro) => pro.idproducto === id);
-    console.log("Registro",Registro);
-   
-
-    // Crea un nuevo registro duplicado
-    const newProduct = {
-
-      idcategoria:    `${Registro.idcategoria}`,
-      idsubcategoria: `${Registro.idsubcategoria}`,
-      idproveedor:    `${Registro.idproveedor}`, 
-      descripcion:    `${Registro.descripcion}`,
-      precioventa:    `${Registro.precioventa}`,
-      preciocosto:    `${Registro.preciocosto}`, 
-      deposito:       `${Registro.deposito}`,
-      ubicacion:      `${Registro.ubicacion}`,
-      stockmin:       `${Registro.stockmin}`, 
-      stock:          `${Registro.stock}`,
-      stockmax:       `${Registro.stockmax}`,
-      descripcioncompleta: `${Registro.descripcioncompleta}`, 
-      estado:         `Duplicado`,// DUPLICADO
-      nivel:          `${Registro.nivel}`,
-      imagen:         `${Registro.imagen}`,
-      codigoArticulo: `${Registro.codigoArticulo}-dup`,  // Agregar un sufijo para diferenciar el código de artículo duplicado
-  
-    };
-           
-   
-
-   console.log("newProduct",newProduct);
-
-
-
-   try {
-    // Realiza la solicitud POST a la API para guardar el nuevo producto
-    const uploadResponse = await fetch(API,
-      {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json', // Añadir cabecera para indicar tipo de contenido
-        },
-        body: JSON.stringify(newProduct),
-      }
+    const confirmed = await confirmAction(
+      "¿Estás seguro?",
+      "Esta acción no se puede deshacer.",
+      "Sí, duplicar",
+      "Cancelar"
     );
   
-    if (!uploadResponse.ok) {
-      throw new Error("Error api.");
-    }
+    if (confirmed) {
+      try {
+        const registro = producto.find((pro) => pro.idproducto === id);
+        if (!registro) {
+          throw new Error("Producto no encontrado.");
+        }
   
-    // Aquí puedes manejar la respuesta
-    const responseText = await uploadResponse.text();
-    console.log("Respuesta de la API:", responseText);
-
-    try {
-      const result = JSON.parse(responseText);
-      console.log("Producto guardado exitosamente:", result);
-      alert("Registro Duplicado");
-      loadproducto();
-    } catch (jsonError) {
-      throw new Error("La respuesta de la API no es un JSON válido.");
-    }
-    
-  } catch (error) {
-    console.error('Error:', error);
-    alert("Error de Registro Duplicado");
-  }
+        const newProduct = {
+          idcategoria: registro.idcategoria,
+          idsubcategoria: registro.idsubcategoria,
+          idproveedor: registro.idproveedor,
+          descripcion: registro.descripcion,
+          precioventa: registro.precioventa,
+          preciocosto: registro.preciocosto,
+          deposito: registro.deposito,
+          ubicacion: registro.ubicacion,
+          stockmin: registro.stockmin,
+          stock: registro.stock,
+          stockmax: registro.stockmax,
+          descripcioncompleta: registro.descripcioncompleta,
+          estado: "Duplicado",
+          nivel: registro.nivel,
+          imagen: registro.imagen,
+          codigoArticulo: `${registro.codigoArticulo}-dup`,
+        };
   
-
+        const response = await fetch(API, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newProduct),
+        });
+  
+        if (!response.ok) {
+          throw new Error("Error al duplicar el producto.");
+        }
+  
+        mensajeRespuesta("Producto duplicado exitosamente", "success");
+        loadproducto();
+      } catch (err) {
+        mensajeRespuesta(err.message, "error");
+      }
+    }
   };
+
+
+
+ 
 
   {/*    fin duplicado       */ }
   
@@ -380,6 +362,7 @@ const handleDelete = async (id) => {
       try {
         const response = await fetch(`${API}&id=${id}`, { method: "DELETE" });
         if (!response.ok)  {
+          mensajeRespuesta("Error al eliminar el producto.", "error");
           throw new Error("Error al eliminar el producto.");
         }
         mensajeRespuesta("Producto eliminado exitosamente", "success");
