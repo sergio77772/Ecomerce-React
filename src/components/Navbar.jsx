@@ -50,7 +50,7 @@ const Navbar = () => {
             </li>
             {usuario?.idrol===1 && (
               <li className="nav-item">
-                <NavLink className="nav-link" to="/admin/dashboard">Administración</NavLink>
+                <NavLink className="nav-link" to="/admin/dashboard">Backoffices</NavLink>
               </li>
             )}
           </ul>
@@ -82,7 +82,12 @@ const Navbar = () => {
                       style={{ width: 35, height: 35, objectFit: "cover" }}
                     />
                   ) : (
-                    <i className="fa fa-user-circle fa-2x me-2"></i>
+                    <img
+                    src="http://reylupulo.com/image/cache/profile-45x45.png"
+                    alt="Usuario"
+                    className="rounded-circle me-2"
+                    style={{ width: 35, height: 35, objectFit: "cover" }}
+                  />
                   )}
                   {usuario?.nombre || "Usuario"}
                 </button>
@@ -102,6 +107,14 @@ const Navbar = () => {
                       <i className="fa fa-cog"></i> Configuración
                     </NavLink>
                   </li>
+                  {usuario?.idrol===1 && (
+                  <li>
+                    <NavLink className="dropdown-item" to="/admin/dashboard">
+                      <i className="fa fa-wrench"></i> Backoffices
+                    </NavLink>
+                  </li>
+                  )}
+
                   <li><hr className="dropdown-divider" /></li>
                   <li>
                     <button className="dropdown-item text-danger" onClick={handleLogout}>
