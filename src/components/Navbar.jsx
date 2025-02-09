@@ -83,7 +83,7 @@ const Navbar = () => {
                     />
                   ) : (
                     <img
-                    src="http://reylupulo.com/image/cache/profile-45x45.png"
+                    src="https://distribuidoraassefperico.com.ar/img/user/profile.png"
                     alt="Usuario"
                     className="rounded-circle me-2"
                     style={{ width: 35, height: 35, objectFit: "cover" }}

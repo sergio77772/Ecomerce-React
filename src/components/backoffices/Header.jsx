@@ -37,7 +37,7 @@ const Header = () => {
           aria-expanded="false"
         >
           <img
-            src="http://reylupulo.com/image/cache/profile-45x45.png"
+            src="https://distribuidoraassefperico.com.ar/img/user/profile.png"
             alt="Profile"
             height="40"
             className="rounded-circle me-2"
