@@ -16,7 +16,7 @@ import {
   Login,
   Register,
   Checkout,
-  PageNotFound,
+  PageNotFound,Subcategories
 } from "./pages";
 import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
 import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
@@ -41,6 +41,8 @@ root.render(
           <Route path="/" element={<Home />} />
           <Route path="/product" element={<Products />} />
           <Route path="/product/:id" element={<Product />} />
+          <Route path="/subcategorias/:idcategoria" element={<Subcategories />} />
+
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/cart" element={<Cart />} />
