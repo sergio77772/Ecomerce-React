@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function SubcategoriesList() {
   const { idcategoria } = useParams();
+  const navigate = useNavigate();
   const [subcategories, setSubcategories] = useState([]);
 
   const API_SUBCATEGORIES = process.env.REACT_APP_API + `subcategorias.php?endpoint=subcategoria&idcategoria=${idcategoria}`;
@@ -47,6 +48,9 @@ export default function SubcategoriesList() {
           <p className="text-center">Cargando subcategorías...</p>
         )}
       </div>
+      <button className="btn btn-primary my-3" onClick={() => navigate(-1)}>
+        Volver
+      </button>
     </div>
   );
 }
