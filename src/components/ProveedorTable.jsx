@@ -137,7 +137,7 @@ useEffect(() => {
       }
 // Aquí agregamos la llamada al API de bitácora
 const usuario = localStorage.getItem('user')|| 'sin usuario';
-const bitacoraResponse =  fetch(APIB, {
+const bitacoraResponse =  await fetch(APIB, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
