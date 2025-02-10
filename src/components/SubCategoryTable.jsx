@@ -135,8 +135,8 @@ const SubCategoryTable = () => {
         );
       }
 // Aquí agregamos la llamada al API de bitácora
-const user= localStorage.getItem('user');
-console.log("user",user);
+const usuario = localStorage.getItem('usuario')|| 'sin usuario';
+
 const bitacoraResponse =  await fetch(APIB, {
   method: "POST",
   headers: {
@@ -148,7 +148,7 @@ const bitacoraResponse =  await fetch(APIB, {
     mensaje:`  ${selectedCategory.nombre}
             -  ${selectedCategory.estado}  
             -  ${selectedCategory.imagen}     ` ,
-    usuario:user,
+    usuario:usuario,
     imagen:"",
   }),
 });
