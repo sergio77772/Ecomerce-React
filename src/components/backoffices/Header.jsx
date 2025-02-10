@@ -36,12 +36,23 @@ const Header = () => {
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          <img
-            src="https://distribuidoraassefperico.com.ar/img/user/profile.png"
-            alt="Profile"
-            height="40"
-            className="rounded-circle me-2"
-          />
+             {usuario?.foto ? (
+                    <img
+                      src={process.env.REACT_APP_BASE_URL+usuario.foto}
+                      alt="Usuario"
+                      className="rounded-circle me-2"
+                      style={{ width: 35, height: 35, objectFit: "cover" }}
+                    />
+                  ) : (
+                    <img
+                    src={process.env.REACT_APP_BASE_URL+'/img/user/profile.png'}
+                    alt="Usuario"
+                    className="rounded-circle me-2"
+                    style={{ width: 35, height: 35, objectFit: "cover" }}
+                  />
+                  )}
+                   
+    
           {usuario?.nombre}
         </button>
         <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">

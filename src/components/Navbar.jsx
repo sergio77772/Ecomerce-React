@@ -74,6 +74,7 @@ const Navbar = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
+                  
                   {usuario?.foto ? (
                     <img
                       src={process.env.REACT_APP_BASE_URL+usuario.foto}
