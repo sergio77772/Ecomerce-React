@@ -50,7 +50,7 @@ const Navbar = () => {
             </li>
             {usuario?.idrol===1 && (
               <li className="nav-item">
-                <NavLink className="nav-link" to="/admin/dashboard">Backoffices</NavLink>
+                <NavLink className="nav-link" to="/admin/dashboard">Administración</NavLink>
               </li>
             )}
           </ul>
@@ -74,20 +74,15 @@ const Navbar = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  {usuario?.foto ? (
+                  {usuario?.imagen ? (
                     <img
-                      src={process.env.REACT_APP_BASE_URL+usuario.foto}
+                      src={usuario.imagen}
                       alt="Usuario"
                       className="rounded-circle me-2"
                       style={{ width: 35, height: 35, objectFit: "cover" }}
                     />
                   ) : (
-                    <img
-                    src={process.env.REACT_APP_BASE_URL+'/img/user/profile.png'}
-                    alt="Usuario"
-                    className="rounded-circle me-2"
-                    style={{ width: 35, height: 35, objectFit: "cover" }}
-                  />
+                    <i className="fa fa-user-circle fa-2x me-2"></i>
                   )}
                   {usuario?.nombre || "Usuario"}
                 </button>
@@ -107,14 +102,6 @@ const Navbar = () => {
                       <i className="fa fa-cog"></i> Configuración
                     </NavLink>
                   </li>
-                  {usuario?.idrol===1 && (
-                  <li>
-                    <NavLink className="dropdown-item" to="/admin/dashboard">
-                      <i className="fa fa-wrench"></i> Backoffices
-                    </NavLink>
-                  </li>
-                  )}
-
                   <li><hr className="dropdown-divider" /></li>
                   <li>
                     <button className="dropdown-item text-danger" onClick={handleLogout}>
