@@ -73,8 +73,8 @@ const Navbar = () => {
                   id="userDropdown"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
-                >
-                  {usuario?.imagen ? (
+                > 
+                  {usuario?.foto ? (
                     <img
                       src={usuario.imagen}
                       alt="Usuario"
