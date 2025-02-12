@@ -34,6 +34,8 @@ const Sidebar = () => {
         { title: "Registro", icon: "bi-file-earmark-text", link: "/admin/logsdesistema" },
         { title: "Mi Comercio", icon: "bi-house-gear", link: "/admin/comercio" },
         { title: "Mesa de Ayuda", icon: "bi-info-circle-fill", link: "/admin/mesa" },
+        { title: "Localidades", icon: "bi-geo-alt-fill", link: "/admin/localidades" }
+        
       ],
     },
     { title: "Reportes", icon: "bi-graph-up", link: "/admin/reportes" },

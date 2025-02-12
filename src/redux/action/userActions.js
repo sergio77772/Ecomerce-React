@@ -1,4 +1,4 @@
-export const loginUser = (userData) => async (dispatch) => {
+export const loginUser = (userData, ) => async (dispatch) => {
     dispatch({ type: "USER_LOGIN_REQUEST" });
   
     try {
@@ -18,11 +18,14 @@ export const loginUser = (userData) => async (dispatch) => {
 
 
         dispatch({ type: "USER_LOGIN_SUCCESS", payload: data });
+        return {success: true};
       } else {
         dispatch({ type: "USER_LOGIN_FAILURE", payload: data.message });
+        return { success: false, message: data.message };
       }
     } catch (error) {
       dispatch({ type: "USER_LOGIN_FAILURE", payload: "Error de conexión" });
+      return { success: false, message: "Error de conexión" };
     }
   };
   
