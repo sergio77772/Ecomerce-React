@@ -135,6 +135,7 @@ useEffect(() => {
           isEditing ? "Error al actualizar la Proveedor." : "Error al crear la Proveedor."
         );
       }
+      
 // Aquí agregamos la llamada al API de bitácora
 const usuario = localStorage.getItem('user')|| 'sin usuario';
 const bitacoraResponse =  await fetch(APIB, {
@@ -143,25 +144,28 @@ const bitacoraResponse =  await fetch(APIB, {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    fechahora: new Date().toISOString(),
-    modulo: "PROVEEDORES",
-    mensaje:`  ${selectedprovee.nombre}         
-            -  ${selectedprovee.cuit}
-            -  ${selectedprovee.iva} 
-            -  ${selectedprovee.telefono}
-            -  ${selectedprovee.telefono1}
-            -  ${selectedprovee.fax}
-            -  ${selectedprovee.direccion}
-            -  ${selectedprovee.email} 
-            -  ${selectedprovee.banco}
-            -  ${selectedprovee.tipocuenta}
-            -  ${selectedprovee.cbu}
-            -  ${selectedprovee.provincia}
-            -  ${selectedprovee.estado}
-            -  ${selectedprovee.imagen}
+       fechahora: new Date().toISOString(),
+       usuario:usuario,
+       modulo: "PROVEEDORES",
+       mensaje:`Nombre:  ${selectedprovee.nombre}         
+            -  Cuit: ${selectedprovee.cuit}
+            -  Iva:  ${selectedprovee.iva} 
+            -  Telefono: ${selectedprovee.telefono}
+            -  Telefono1 ${selectedprovee.telefono1}
+            -  Fax: ${selectedprovee.fax}
+            -  Direccion: ${selectedprovee.direccion}
+            -  Email: ${selectedprovee.email} 
+            -  Banco: ${selectedprovee.banco}
+            -  TipoCuenta: ${selectedprovee.tipocuenta}
+            -  CBU: ${selectedprovee.cbu}
+            -  Provincia: ${selectedprovee.provincia}
+            -  Estado: ${selectedprovee.estado}
+            -  Imagen :${selectedprovee.imagen}
+            -  Metodo: : ${method}
+             IDProveedor  ${selectedprovee.idproveedor}
           ` ,                      
-    usuario:usuario,
-    imagen:"",
+       // Diferenciar entre edición y creación
+       imagen: "",
   }),
 });
 console.log("bitacora",bitacoraResponse);

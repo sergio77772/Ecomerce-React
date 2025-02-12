@@ -144,11 +144,12 @@ const bitacoraResponse =  await fetch(APIB, {
   },
   body: JSON.stringify({
     fechahora: new Date().toISOString(),
-    modulo: "SUBCATEGORIA",
-    mensaje:`  ${selectedCategory.nombre}
-            -  ${selectedCategory.estado}  
-            -  ${selectedCategory.imagen}     ` ,
     usuario:usuario,
+    modulo: "SUBCATEGORIA",
+    mensaje:`Nombre:  ${selectedCategory.nombre}
+            - Estado: ${selectedCategory.estado}  
+            - Imagen:  ${selectedCategory.imagen}  
+           -  Metodo: : ${method}   ` ,   
     imagen:"",
   }),
 });

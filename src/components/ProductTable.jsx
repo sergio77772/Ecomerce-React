@@ -312,27 +312,29 @@ const bitacoraResponse =  await fetch(APIB, {
   body: JSON.stringify({
 
     fechahora: new Date().toISOString(),
-    modulo: "PRODUCTO",
-    mensaje:`  ${selectedCategory.idcategoria}         
-            -  ${selectedCategory.idsubcategoria}
-            -  ${selectedCategory.idproveedor} 
-            -  ${selectedCategory.descripcion}
-            -  ${selectedCategory.precioventa}
-            -  ${selectedCategory.preciocosto}
-            -  ${selectedCategory.deposito} 
-            -  ${selectedCategory.ubicacion}
-            -  ${selectedCategory.stockmin}
-            -  ${selectedCategory.stock}
-            -  ${selectedCategory.stockmax}
-            -  ${selectedCategory.descripcioncompleta}
-            -  ${selectedCategory.deposito} 
-            -  ${selectedCategory.ubicacion}
-            -  ${selectedCategory.codigoArticulo}
-            -  ${selectedCategory.estado}  
-            -  ${selectedCategory.nivel}
-            -  ${selectedCategory.imagen}
-            ` ,
     usuario:usuario,
+    modulo: "PRODUCTO",
+    mensaje:`IDCategoria:  ${selectedCategory.idcategoria}         
+            - IDSubcategoria:  ${selectedCategory.idsubcategoria}
+            - IDProveedor: ${selectedCategory.idproveedor} 
+            - Descripcion: ${selectedCategory.descripcion}
+            - PrecioVenta: ${selectedCategory.precioventa}
+            - PrecioCosto: ${selectedCategory.preciocosto}
+            - Deposito: ${selectedCategory.deposito} 
+            - Ubicacion : ${selectedCategory.ubicacion}
+            - StockMin: ${selectedCategory.stockmin}
+            - Stock: ${selectedCategory.stock}
+            - StockMax: ${selectedCategory.stockmax}
+            - DescripcionCompleta: ${selectedCategory.descripcioncompleta}
+            - Deposito: ${selectedCategory.deposito} 
+            - Ubicacion: ${selectedCategory.ubicacion}
+            - CodigoArticulo:  ${selectedCategory.codigoArticulo}
+            - Estado: ${selectedCategory.estado}  
+            - Nivel: ${selectedCategory.nivel}
+            - Imagen: ${selectedCategory.imagen}
+             -  Metodo:  ${method}
+             IDProducto  ${selectedCategory.idproducto}
+            ` ,   
     imagen:"",
   }),
 });
