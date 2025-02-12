@@ -10,6 +10,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const comercio = useSelector((state) => state.comercio.comercio);
   const usuario = useSelector((state) => state.user.user);
+  const baseURL = process.env.REACT_APP_BASE_URL;
   const handleLogout = () => {
     dispatch(logoutUser()); // Eliminamos usuario del estado global y localStorage
     navigate("/");
@@ -74,16 +75,16 @@ const Navbar = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  {usuario?.imagen ? (
-                    <img
-                      src={usuario.imagen}
-                      alt="Usuario"
-                      className="rounded-circle me-2"
-                      style={{ width: 35, height: 35, objectFit: "cover" }}
-                    />
-                  ) : (
-                    <i className="fa fa-user-circle fa-2x me-2"></i>
-                  )}
+                  
+                 <img
+                   src={`${baseURL}${usuario.foto}`}
+                   alt="Usuario"
+                   className="rounded-circle me-2"
+                   style={{ width: 35, height: 35, objectFit: "cover" }}
+      
+                />
+            
+
                   {usuario?.nombre || "Usuario"}
                 </button>
                 <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">

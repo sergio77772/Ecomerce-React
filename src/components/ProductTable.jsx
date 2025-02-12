@@ -87,7 +87,7 @@ const ProductTable = () => {
       }
       const data = await response.json();
       setproducto(data.producto || []);
-      console.log("producto", data);
+      
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
@@ -373,6 +373,9 @@ const handleDelete = async (id) => {
     }
 };
 
+
+
+
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
       setCurrentPage(newPage);
@@ -401,6 +404,38 @@ const handleDelete = async (id) => {
     setImageFile(null);
     setIsEditing(false); // Activar modo alta
     setModalVisible(true);
+  };
+
+  const handleToggleEstado = async (producto) => {
+
+    try {
+      if (producto.estado === "DUPLICADO") return;
+      const nuevoEstado = producto.estado === "Activo" ? "Inactivo" : "Activo";
+  
+      // Actualizar localmente sin recargar la página
+      setproducto((prevProductos) =>
+        prevProductos.map((item) =>
+          item.idproducto === producto.idproducto
+            ? { ...item, estado: nuevoEstado }
+            : item
+        )
+      );
+  
+      // Enviar la actualización al servidor
+      const response = await fetch(`${API}&id=${producto.idproducto}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...producto, estado: nuevoEstado }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Error al actualizar el estado del producto.");
+      }
+    } catch (err) {
+      mensajeRespuesta(err.message, "error");
+    }
   };
 
   {/* busca categoria */}
@@ -456,20 +491,19 @@ const handleDelete = async (id) => {
             <th>Cód.Art</th>
             <th>Descripción</th>
             <th>Imagen</th>
-            <th>Precio Venta</th>                
+            <th >Precio Venta</th>                
             <th>Estado</th>
-            <th>Acciones</th>
+            <th className="col-3">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {producto.map((category) => (
             <tr key={category.idproducto}>
-                  <td>{getCategoryNameById(category.idcategoria)}</td> 
-                 <td>{getSubCategoryNameById(category.idsubcategoria)}</td> 
-  {/* <td>{category.idcategoria}</td>
- <td>{category.idsubcategoria}</td> */}
-
-             <td>{category.codigoArticulo}</td>
+                <td>{getCategoryNameById(category.idcategoria)}</td> 
+                <td>{getSubCategoryNameById(category.idsubcategoria)}</td> 
+            {/* <td>{category.idcategoria}</td>
+                <td>{category.idsubcategoria}</td> */}
+              <td>{category.codigoArticulo}</td>
               <td>{category.descripcion}</td>
               <td>
                 {category.imagen && (
@@ -480,10 +514,50 @@ const handleDelete = async (id) => {
                 />
               )}
               </td>
-
               <td>{category.precioventa}</td>
              
-              <td>{category.estado}</td>
+              <td>
+                {category.estado === "Duplicado" ? (
+                  <span className="badge bg-secondary">Duplicado</span>
+                ) : (
+                <div 
+                 className="d-inline-block"
+                 onClick={() => 
+                  handleToggleEstado(category)
+                }
+                 style={{
+                 width: "50px",
+                 height: "25px",
+                 borderRadius: "25px",
+                 backgroundColor: category.estado === "Activo" ? "#4CAF50" : "#ccc",
+                 display: "flex",
+                 alignItems: "center",
+                 justifyContent: category.estado === "Activo" ? "flex-end" : "flex-start",
+                 padding: "3px",
+                 cursor: "pointer",
+                 transition: "all 0.3s ease",
+                 position: "relative",
+                 userSelect: "none",
+                 
+               }}
+                >
+                <div 
+                 style={{
+                  width: "20px",
+                  height: "20px",
+                  backgroundColor: "#fff",
+                  borderRadius: "50%",
+                  boxShadow: "0 0 2px rgba(0, 0, 0, 0.2)",
+                  transition: "all 0.3s ease",
+                  position:"absolute",
+                  left: category.estado === "Activo" ? "25px" : "3px",
+                  
+               }}
+                ></div>
+                </div>
+                )}
+              </td>
+                
               <td>
                 <button
                   className="btn btn-warning btn-sm me-2"
@@ -492,13 +566,14 @@ const handleDelete = async (id) => {
                   Editar
                 </button>
                 <button
-                  className="btn btn-danger btn-sm"
+                  className="btn btn-danger btn-sm me-2"
                   onClick={() => handleDelete(category.idproducto)}
                 >
                   Eliminar
                 </button>
+
                 <button
-                  className="btn btn-info btn-sm me-2"
+                  className="btn btn-info btn-sm"
                   onClick={() => handleDuplicar(category.idproducto)}
                 >
                   Duplicar
