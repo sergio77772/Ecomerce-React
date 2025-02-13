@@ -414,7 +414,6 @@ const handleDelete = async (id) => {
       if (producto.estado === "DUPLICADO") return;
       const nuevoEstado = producto.estado === "Activo" ? "Inactivo" : "Activo";
   
-      // Actualizar localmente sin recargar la página
       setproducto((prevProductos) =>
         prevProductos.map((item) =>
           item.idproducto === producto.idproducto
@@ -423,7 +422,6 @@ const handleDelete = async (id) => {
         )
       );
   
-      // Enviar la actualización al servidor
       const response = await fetch(`${API}&id=${producto.idproducto}`, {
         method: "PUT",
         headers: {
@@ -485,17 +483,17 @@ const handleDelete = async (id) => {
         </button>
       </div>
 
-      <table className="table table-striped table-hover">
+      <table className="table table-striped  table-hover">
         <thead className="thead-dark">
           <tr>
-          <th>Categoria</th>
-          <th>Subcategoría</th>
-            <th>Cód.Art</th>
-            <th>Descripción</th>
-            <th>Imagen</th>
+          <th >Categoria</th>
+          <th >Subcategoría</th>
+            <th >Cód.Art</th>
+            <th >Descripción</th>
+            <th >Imagen</th>
             <th >Precio Venta</th>                
-            <th>Estado</th>
-            <th className="col-3">Acciones</th>
+            <th >Estado</th>
+            <th className="col-3" >Acciones</th>
           </tr>
         </thead>
         <tbody>

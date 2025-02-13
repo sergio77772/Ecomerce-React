@@ -214,9 +214,31 @@ mensajeRespuesta(
     const category = categories.find((cat) => cat.idcategoria === id);
     return category ? category.nombre : "Desconocido";
   };
-
-
-
+  const handleToggleEstado = async (Category) => {
+    try {
+      const nuevoEstado = Category.estado === "Activo" ? "Inactivo" : "Activo";
+      setsubcategoria((prevSubcategoria) =>
+        prevSubcategoria.map((item) =>
+          item.idsubcategoria === Category.idsubcategoria
+            ? { ...item, estado: nuevoEstado }
+            : item
+        )
+      );
+      const response = await fetch(`${API}&id=${Category.idsubcategoria}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...Category, estado: nuevoEstado }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Error al actualizar el estado de la subcategoría.");
+      }
+     } catch (error) {
+        console.error(error);
+      }
+    };
 
   if (loading) { 
     return <SkeletonTable rows={10} columns={5} />;
@@ -268,7 +290,39 @@ mensajeRespuesta(
               <td>{Category.nombre}</td>   
               <td>{getCategoryNameById(Category.idcategoria)}</td> 
                
-              <td>{Category.estado}</td>
+              <td>
+              <div
+    className="d-inline-block"
+    onClick={() => handleToggleEstado(Category)} // Llamar a la función de toggle
+    style={{
+      width: "50px",
+      height: "25px",
+      borderRadius: "25px",
+      backgroundColor: Category.estado === "Activo" ? "#4CAF50" : "#ccc",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: Category.estado === "Activo" ? "flex-end" : "flex-start",
+      padding: "3px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      position: "relative",
+      userSelect: "none",
+    }}
+  >
+    <div
+      style={{
+        width: "20px",
+        height: "20px",
+        backgroundColor: "#fff",
+        borderRadius: "50%",
+        boxShadow: "0 0 2px rgba(0, 0, 0, 0.2)",
+        transition: "all 0.3s ease",
+        position: "absolute",
+        left: Category.estado === "Activo" ? "25px" : "3px",
+      }}
+    ></div>
+  </div>
+              </td>
               <td>
                 {Category.imagen && (
                   <img
