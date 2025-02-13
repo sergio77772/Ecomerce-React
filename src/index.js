@@ -61,13 +61,8 @@ root.render(
           <Route path="/admin/bitacora" element ={<AdminBitacora/>} />
           <Route path="/admin/mesa" element ={<AdminMesa/>} />
           <Route path="/admin/comercio" element ={<AdminComercio/>} />
-<<<<<<< HEAD
           <Route path="/admin/cliente" element ={<AdminCliente/>} />
 
-=======
-          
-          <Route path ="/admin/Localidades" element = {<AdminLocalidades/> } />
->>>>>>> 3f14ab9c9c00ca9885a445febfe53940ee7f9b57
           <Route path="/admin/logsDeSistema" element = {<AdminLogsDeSistema/>} />
           <Route path="/admin/ordenes" element = { <AdminOdenes/> } />
           <Route path="/product/*" element= {<PageNotFound />} />
