@@ -342,6 +342,8 @@ console.log("bitacora",bitacoraResponse);
 if (!bitacoraResponse.ok) {
   throw new Error("Error al registrar en la bitácora.");
 }
+
+
 mensajeRespuesta(
   isEditing ? "Producto actualizada exitosamente" : "Producto creada exitosamente",
   "success"

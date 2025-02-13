@@ -23,7 +23,8 @@ import {
 } from "./pages";
 import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
 import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
-import AdminProveedor  from "./pages/admin/AdminProveedor"; // Ajusta la ruta según tu estructura
+import AdminProveedor  from "./pages/admin/AdminProveedor"; 
+import AdminCliente  from "./pages/admin/AdminCliente"; // Ajusta la ruta según tu estructura
 import AdminSubCategory  from "./pages/admin/AdminSubCategory";
 import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de administracion
 import AdminBitacora from "./pages/admin/AdminBitacora";
@@ -64,6 +65,7 @@ root.render(
           <Route path="/admin/bitacora" element ={<AdminBitacora/>} />
           <Route path="/admin/mesa" element ={<AdminMesa/>} />
           <Route path="/admin/comercio" element ={<AdminComercio/>} />
+          <Route path="/admin/cliente" element ={<AdminCliente/>} />
 
           <Route path="/admin/logsDeSistema" element = {<AdminLogsDeSistema/>} />
           <Route path="/admin/ordenes" element = { <AdminOdenes/> } />

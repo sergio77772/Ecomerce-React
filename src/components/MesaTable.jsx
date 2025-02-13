@@ -116,6 +116,7 @@ const bitacoraResponse = await fetch(APIB, {
   },
   body: JSON.stringify({
     fechahora: new Date().toISOString(),
+    usuario:usuario,
     modulo: "MESA DE AYUDA",
     mensaje:`  ${selectedCategory.estado}         
             -  ${selectedCategory.titulo}
@@ -124,7 +125,7 @@ const bitacoraResponse = await fetch(APIB, {
             -  ${selectedCategory.dias}
             -  ${selectedCategory.solucion}`
              ,
-    usuario:usuario,
+   
     imagen:"",
   }),
 });

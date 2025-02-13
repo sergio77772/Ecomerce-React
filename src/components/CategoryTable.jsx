@@ -131,7 +131,8 @@ const bitacoraResponse =  await fetch(APIB, {
     mensaje:`Nombre:  ${selectedCategory.nombre}
             -Estado:  ${selectedCategory.estado}  
             -Imagen:  ${selectedCategory.imagen}  
-             -  Metodo: : ${method}   ` ,
+             -  Metodo: : ${method} 
+               ` ,
     imagen:"",
   }),
 });
