@@ -17,7 +17,12 @@ const Login = () => {
   // Manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUser({ correo, password }, navigate)); // Llamar a la acción de Redux
+    const resultado = await dispatch(loginUser({ correo, password })); // Llamar a la acción de Redux
+    if (resultado. success){
+      navigate("/");
+    } else {
+      console.error(resultado. menssage)
+    }
   };
 
   return (
