@@ -87,8 +87,7 @@ const SubCategoryTable = () => {
       nombre: Category.nombre || "",
       idcategoria: Category.idcategoria || "",
       estado: Category.estado || "",
-      imagen: Category.imagen || "",
-    
+      imagen: Category.imagen || "",    
       idsubcategoria: Category.idsubcategoria,
     });
     setImageFile(null);
@@ -203,6 +202,7 @@ mensajeRespuesta(
       idcategoria: "",
       estado: "",
       imagen: "",
+    
      
     });
     setImageFile(null);
