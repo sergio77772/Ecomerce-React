@@ -1,6 +1,3 @@
+const LocalidadesTables = () => {}
 
-const LocalidadesTables = () => {
-
-}
-
-export default LocalidadesTables;
+export default LocalidadesTables

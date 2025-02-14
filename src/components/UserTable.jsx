@@ -1,149 +1,164 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import SkeletonTable from "./skeleton/SkeletonTable";
-import { mensajeRespuesta, confirmAction } from "../utils/services";
+import React, { useState, useEffect } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import SkeletonTable from './skeleton/SkeletonTable'
+import { mensajeRespuesta, confirmAction } from '../utils/services'
 
 const UserTable = () => {
-  const [, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [, setUsers] = useState([])
+  const [filteredUsers, setFilteredUsers] = useState([])
   const [formData, setFormData] = useState({
-    id: "",
-    nombre: "",
-    correo: "",
-    password: "",
-    direccion: "",
+    id: '',
+    nombre: '',
+    correo: '',
+    password: '',
+    direccion: '',
     imagen: null,
-  });
-  const [isEditing, setIsEditing] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(true);
+  })
+  const [isEditing, setIsEditing] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [loading, setLoading] = useState(true)
 
-  const API_URL = process.env.REACT_APP_API + "users.php";
-  const URL = process.env.REACT_APP_BASE_URL;
+  const API_URL = process.env.REACT_APP_API + 'users.php'
+  const URL = process.env.REACT_APP_BASE_URL
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsers()
+  }, [])
 
   const fetchUsers = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token')
       const response = await fetch(API_URL, {
-        method: "GET",
-        headers: { "Content-Type": "application/json", token: `Bearer ${token}` },
-      });
-      const data = await response.json();
-      setUsers(data.data || []);
-      setFilteredUsers(data.data || []);
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          token: `Bearer ${token}`,
+        },
+      })
+      const data = await response.json()
+      setUsers(data.data || [])
+      setFilteredUsers(data.data || [])
     } catch (error) {
-      console.error("Error fetching users:", error);
+      console.error('Error fetching users:', error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prev) => ({ ...prev, imagen: file }));
-  };
+    const file = e.target.files[0]
+    setFormData((prev) => ({ ...prev, imagen: file }))
+  }
 
   const handleSubmit = async () => {
-    const method = "POST";
-    const endpoint = isEditing ? API_URL : `${API_URL}?action=register`;
-    const token = localStorage.getItem("token");
+    const method = 'POST'
+    const endpoint = isEditing ? API_URL : `${API_URL}?action=register`
+    const token = localStorage.getItem('token')
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("id", formData.id);
-      formDataToSend.append("nombre", formData.nombre);
-      formDataToSend.append("correo", formData.correo);
+      const formDataToSend = new FormData()
+      formDataToSend.append('id', formData.id)
+      formDataToSend.append('nombre', formData.nombre)
+      formDataToSend.append('correo', formData.correo)
       if (!isEditing) {
-        formDataToSend.append("password", formData.password);
+        formDataToSend.append('password', formData.password)
       }
-      formDataToSend.append("direccion", formData.direccion);
+      formDataToSend.append('direccion', formData.direccion)
       if (formData.imagen) {
-        formDataToSend.append("imagen", formData.imagen);
+        formDataToSend.append('imagen', formData.imagen)
       }
       if (isEditing) {
-        formDataToSend.append("method", "PUT");
+        formDataToSend.append('method', 'PUT')
       }
 
       const response = await fetch(endpoint, {
         method,
         headers: { token: `Bearer ${token}` },
         body: formDataToSend,
-      });
+      })
 
-      const data = await response.json();
+      const data = await response.json()
       if (data.success) {
-        fetchUsers();
-        mensajeRespuesta(isEditing ? "Usuario actualizado exitosamente" : "Usuario creado exitosamente", "success");
-        closeModal();
+        fetchUsers()
+        mensajeRespuesta(
+          isEditing
+            ? 'Usuario actualizado exitosamente'
+            : 'Usuario creado exitosamente',
+          'success'
+        )
+        closeModal()
       } else {
-        mensajeRespuesta(data.error || "Error guardando el usuario.", "error");
+        mensajeRespuesta(data.error || 'Error guardando el usuario.', 'error')
       }
     } catch (error) {
-      mensajeRespuesta("Error guardando el usuario.", "error");
+      mensajeRespuesta('Error guardando el usuario.', 'error')
     }
-  };
+  }
 
   const handleEditUser = (user) => {
     setFormData({
       id: user.id,
       nombre: user.nombre,
       correo: user.correo,
-      password: "",
-      direccion: user.direccion || "",
+      password: '',
+      direccion: user.direccion || '',
       imagen: null,
-    });
-    setIsEditing(true);
-    setModalVisible(true);
-  };
+    })
+    setIsEditing(true)
+    setModalVisible(true)
+  }
 
   const handleDeleteUser = async (id) => {
     const confirmed = await confirmAction(
-      "¿Estás seguro?",
-      "Esta acción no se puede deshacer.",
-      "Sí, eliminar",
-      "Cancelar"
-    );
+      '¿Estás seguro?',
+      'Esta acción no se puede deshacer.',
+      'Sí, eliminar',
+      'Cancelar'
+    )
 
     if (confirmed) {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem('token')
         const response = await fetch(`${API_URL}?id=${id}`, {
-          method: "DELETE",
+          method: 'DELETE',
           headers: { token: `Bearer ${token}` },
-        });
+        })
 
-        const data = await response.json();
+        const data = await response.json()
         if (data.success) {
-          fetchUsers();
-          mensajeRespuesta("Usuario eliminado exitosamente", "success");
+          fetchUsers()
+          mensajeRespuesta('Usuario eliminado exitosamente', 'success')
         } else {
-          mensajeRespuesta("Error al eliminar el usuario.", "error");
+          mensajeRespuesta('Error al eliminar el usuario.', 'error')
         }
       } catch (error) {
-        mensajeRespuesta("Error al eliminar el usuario.", "error");
+        mensajeRespuesta('Error al eliminar el usuario.', 'error')
       }
     }
-  };
-  
+  }
+
   const closeModal = () => {
-    setModalVisible(false);
-    setFormData({ id: "", nombre: "", correo: "", password: "", direccion: "", imagen: null });
-    setIsEditing(false);
-  };
+    setModalVisible(false)
+    setFormData({
+      id: '',
+      nombre: '',
+      correo: '',
+      password: '',
+      direccion: '',
+      imagen: null,
+    })
+    setIsEditing(false)
+  }
 
   if (loading) {
-    return <SkeletonTable rows={5} columns={5} />;
+    return <SkeletonTable rows={5} columns={5} />
   }
 
   return (
@@ -157,7 +172,12 @@ const UserTable = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <button className="btn btn-primary" onClick={() => setModalVisible(true)}>Add User</button>
+        <button
+          className="btn btn-primary"
+          onClick={() => setModalVisible(true)}
+        >
+          Add User
+        </button>
       </div>
       <table className="table table-striped table-bordered">
         <thead className="table-dark">
@@ -174,61 +194,119 @@ const UserTable = () => {
             <tr key={user.id}>
               <td>
                 {user.foto ? (
-                  <img src={URL + user.foto} alt="User" style={{ width: 50, height: 50, borderRadius: "50%" }} />
+                  <img
+                    src={URL + user.foto}
+                    alt="User"
+                    style={{ width: 50, height: 50, borderRadius: '50%' }}
+                  />
                 ) : (
-                  "No Image"
+                  'No Image'
                 )}
               </td>
               <td>{user.nombre}</td>
               <td>{user.correo}</td>
-              <td>{user.direccion || "N/A"}</td>
+              <td>{user.direccion || 'N/A'}</td>
               <td>
-                <button className="btn btn-warning btn-sm me-2" onClick={() => handleEditUser(user)}>Edit</button>
-                <button className="btn btn-danger btn-sm" onClick={() => handleDeleteUser(user.id)}>Delete</button>
+                <button
+                  className="btn btn-warning btn-sm me-2"
+                  onClick={() => handleEditUser(user)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => handleDeleteUser(user.id)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <div className={`modal fade ${modalVisible ? "show d-block" : ""}`} tabIndex="-1">
+      <div
+        className={`modal fade ${modalVisible ? 'show d-block' : ''}`}
+        tabIndex="-1"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">{isEditing ? "Edit User" : "Add User"}</h5>
-              <button type="button" className="btn-close" onClick={closeModal}></button>
+              <h5 className="modal-title">
+                {isEditing ? 'Edit User' : 'Add User'}
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={closeModal}
+              ></button>
             </div>
             <div className="modal-body">
               <form>
                 <label>Name</label>
-                <input type="text" name="nombre" className="form-control" value={formData.nombre} onChange={handleChange} required />
+                <input
+                  type="text"
+                  name="nombre"
+                  className="form-control"
+                  value={formData.nombre}
+                  onChange={handleChange}
+                  required
+                />
 
                 <label>Email</label>
-                <input type="email" name="correo" className="form-control" value={formData.correo} onChange={handleChange} required />
+                <input
+                  type="email"
+                  name="correo"
+                  className="form-control"
+                  value={formData.correo}
+                  onChange={handleChange}
+                  required
+                />
 
                 {!isEditing && (
                   <>
                     <label>Password</label>
-                    <input type="password" name="password" className="form-control" value={formData.password} onChange={handleChange} required />
+                    <input
+                      type="password"
+                      name="password"
+                      className="form-control"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                    />
                   </>
                 )}
 
                 <label>Address</label>
-                <input type="text" name="direccion" className="form-control" value={formData.direccion} onChange={handleChange} />
+                <input
+                  type="text"
+                  name="direccion"
+                  className="form-control"
+                  value={formData.direccion}
+                  onChange={handleChange}
+                />
 
                 <label>Image</label>
-                <input type="file" className="form-control" onChange={handleFileChange} />
+                <input
+                  type="file"
+                  className="form-control"
+                  onChange={handleFileChange}
+                />
               </form>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-secondary" onClick={closeModal}>Cancel</button>
-              <button className="btn btn-primary" onClick={handleSubmit}>{isEditing ? "Update" : "Add"}</button>
+              <button className="btn btn-secondary" onClick={closeModal}>
+                Cancel
+              </button>
+              <button className="btn btn-primary" onClick={handleSubmit}>
+                {isEditing ? 'Update' : 'Add'}
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UserTable;
+export default UserTable

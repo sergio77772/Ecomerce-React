@@ -1,26 +1,28 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default function SubcategoriesList() {
-  const { idcategoria } = useParams();
-  const navigate = useNavigate();
-  const [subcategories, setSubcategories] = useState([]);
+  const { idcategoria } = useParams()
+  const navigate = useNavigate()
+  const [subcategories, setSubcategories] = useState([])
 
-  const API_SUBCATEGORIES = process.env.REACT_APP_API + `subcategorias.php?endpoint=subcategoria&idcategoria=${idcategoria}`;
+  const API_SUBCATEGORIES =
+    process.env.REACT_APP_API +
+    `subcategorias.php?endpoint=subcategoria&idcategoria=${idcategoria}`
 
   useEffect(() => {
     fetch(API_SUBCATEGORIES)
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data.subcategoria)) {
-          setSubcategories(data.subcategoria);
+          setSubcategories(data.subcategoria)
         } else {
-          console.error("Unexpected response structure:", data);
+          console.error('Unexpected response structure:', data)
         }
       })
-      .catch((error) => console.error("Error fetching subcategories:", error));
-  }, [idcategoria]);
+      .catch((error) => console.error('Error fetching subcategories:', error))
+  }, [idcategoria])
 
   return (
     <div className="container py-5">
@@ -35,7 +37,7 @@ export default function SubcategoriesList() {
                     src={process.env.REACT_APP_BASE_URL + subcategory.imagen}
                     className="card-img-top"
                     alt={subcategory.nombre}
-                    style={{ objectFit: "cover", height: "150px" }}
+                    style={{ objectFit: 'cover', height: '150px' }}
                   />
                 )}
                 <div className="card-body text-center">
@@ -52,5 +54,5 @@ export default function SubcategoriesList() {
         Volver
       </button>
     </div>
-  );
+  )
 }

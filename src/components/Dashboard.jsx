@@ -1,5 +1,5 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const DashboardCard = ({ title, value, bgColor }) => {
   return (
@@ -8,24 +8,38 @@ const DashboardCard = ({ title, value, bgColor }) => {
         <div className="card-body text-center">
           <h5 className="card-title text-uppercase small">{title}</h5>
           <h2 className="fw-bold">{value}</h2>
-          <a href="/admin/dashboard" className="text-white-50 small">Ver más...</a>
+          <a href="/admin/dashboard" className="text-white-50 small">
+            Ver más...
+          </a>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const Dashboard = () => {
   return (
     <div className="container my-4">
       <h1 className="mb-4">Inicio</h1>
       <div className="row g-4">
-        <DashboardCard title="Total de Pedidos" value="88" bgColor="bg-primary" />
+        <DashboardCard
+          title="Total de Pedidos"
+          value="88"
+          bgColor="bg-primary"
+        />
         <DashboardCard title="Total de Ventas" value="1M" bgColor="bg-info" />
-        <DashboardCard title="Total de Clientes" value="2K" bgColor="bg-success" />
-        <DashboardCard title="Personas Online" value="0" bgColor="bg-secondary" />
+        <DashboardCard
+          title="Total de Clientes"
+          value="2K"
+          bgColor="bg-success"
+        />
+        <DashboardCard
+          title="Personas Online"
+          value="0"
+          bgColor="bg-secondary"
+        />
       </div>
-      
+
       <div className="row mt-4">
         <div className="col-md-4">
           <div className="card">
@@ -65,7 +79,9 @@ const Dashboard = () => {
                     <td>$11,400.00</td>
                     <td>Casa de Fernando baca</td>
                     <td></td>
-                    <td><button className="btn btn-primary btn-sm">🔍</button></td>
+                    <td>
+                      <button className="btn btn-primary btn-sm">🔍</button>
+                    </td>
                   </tr>
                   <tr>
                     <td>1556</td>
@@ -75,7 +91,9 @@ const Dashboard = () => {
                     <td>$11,450.00</td>
                     <td>Casa de Fernando baca</td>
                     <td></td>
-                    <td><button className="btn btn-primary btn-sm">🔍</button></td>
+                    <td>
+                      <button className="btn btn-primary btn-sm">🔍</button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -84,11 +102,11 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const AdminDashboard = () => {
-  return <Dashboard />;
-};
+  return <Dashboard />
+}
 
-export default AdminDashboard;
+export default AdminDashboard

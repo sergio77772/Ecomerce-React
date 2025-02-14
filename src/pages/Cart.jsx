@@ -1,15 +1,13 @@
-import React from "react";
-import { Footer, Navbar } from "../components";
-import { useSelector, useDispatch } from "react-redux";
-import { addCart, delCart } from "../redux/action";
-import { Link } from "react-router-dom";
-
+import React from 'react'
+import { Footer, Navbar } from '../components'
+import { useSelector, useDispatch } from 'react-redux'
+import { addCart, delCart } from '../redux/action'
+import { Link } from 'react-router-dom'
 
 const Cart = () => {
-  
-  const state = useSelector((state) => state.handleCart);
-  const dispatch = useDispatch();
- 
+  const state = useSelector((state) => state.handleCart)
+  const dispatch = useDispatch()
+
   const EmptyCart = () => {
     return (
       <div className="container">
@@ -22,28 +20,26 @@ const Cart = () => {
           </div>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   const addItem = (product) => {
-    dispatch(addCart(product));
-  };
+    dispatch(addCart(product))
+  }
   const removeItem = (product) => {
-    dispatch(delCart(product));
-  };
+    dispatch(delCart(product))
+  }
 
   const ShowCart = () => {
-    
-    let subtotal = 0;
-    let shipping = 30.0;
-    let totalItems = 0;
+    let subtotal = 0
+    let shipping = 30.0
+    let totalItems = 0
 
     state.forEach((item) => {
-    subtotal += item.price * item.qty;
-    totalItems += item.qty;
-    });
+      subtotal += item.price * item.qty
+      totalItems += item.qty
+    })
 
-   
     return (
       <>
         <section className="h-100 gradient-custom">
@@ -60,7 +56,6 @@ const Cart = () => {
                       return (
                         <div key={item.idproducto}>
                           <div className="row d-flex align-items-center">
-
                             <div className="col-lg-3 col-md-12">
                               <div
                                 className="bg-image rounded"
@@ -72,11 +67,10 @@ const Cart = () => {
                                   alt={item.descripcion}
                                   width={100}
                                   height={75}
-                                
                                 />
                               </div>
                             </div>
-                          {/* NOMBRE DEL PRODUCTO */}
+                            {/* NOMBRE DEL PRODUCTO */}
                             <div className="col-lg-5 col-md-6">
                               <p>
                                 <strong>{item.descripcion}</strong>
@@ -84,16 +78,16 @@ const Cart = () => {
                               {/* <p>Color: blue</p>
                               <p>Size: M</p> */}
                             </div>
-                          {/* BOTONES PARA AUMENTAR O DISMINUIR CANTIDAD */}
+                            {/* BOTONES PARA AUMENTAR O DISMINUIR CANTIDAD */}
                             <div className="col-lg-4 col-md-6">
                               <div
                                 className="d-flex mb-4"
-                                style={{ maxWidth: "300px" }}
+                                style={{ maxWidth: '300px' }}
                               >
                                 <button
                                   className="btn px-3"
                                   onClick={() => {
-                                    removeItem(item);
+                                    removeItem(item)
                                   }}
                                 >
                                   <i className="fas fa-minus"></i>
@@ -104,7 +98,7 @@ const Cart = () => {
                                 <button
                                   className="btn px-3"
                                   onClick={() => {
-                                    addItem(item);
+                                    addItem(item)
                                   }}
                                 >
                                   <i className="fas fa-plus"></i>
@@ -113,7 +107,7 @@ const Cart = () => {
 
                               <p className="text-start text-md-center">
                                 <strong>
-                                  <span className="text-muted">{item.qty}</span>{" "}
+                                  <span className="text-muted">{item.qty}</span>{' '}
                                   x ${item.precioventa}
                                 </strong>
                               </p>
@@ -122,7 +116,7 @@ const Cart = () => {
 
                           <hr className="my-4" />
                         </div>
-                      );
+                      )
                     })}
                   </div>
                 </div>
@@ -135,10 +129,11 @@ const Cart = () => {
                   <div className="card-body">
                     <ul className="list-group list-group-flush">
                       <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                        Productos ({totalItems})<span>${Math.round(subtotal)}</span>
+                        Productos ({totalItems})
+                        <span>${Math.round(subtotal)}</span>
                       </li>
                       <li className="list-group-item d-flex justify-content-between align-items-center px-0">
-                      Envío
+                        Envío
                         <span>${shipping}</span>
                       </li>
                       <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
@@ -164,9 +159,8 @@ const Cart = () => {
           </div>
         </section>
       </>
-    );
-  };
-
+    )
+  }
 
   return (
     <>
@@ -178,7 +172,7 @@ const Cart = () => {
       </div>
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart

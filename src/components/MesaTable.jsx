@@ -1,152 +1,149 @@
-import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useEffect, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const MesaTable = () => {
-  const [mesa, setmesa] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [mesa, setmesa] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [selectedCategory, setSelectedCategory] = useState({
-    nombre: "",
-    titulo: "",
-    estados: "",
-    dias: "",
-    estado: "",
-    solucion: "",
-    imagen: "",
-  
-  });
-  const [modalVisible, setModalVisible] = useState(false);
-  const [search, setSearch] = useState("");
-  const [imageFile, setImageFile] = useState(null);
-  const [isEditing, setIsEditing] = useState(false); // Nueva bandera para distinguir entre alta y edición
+    nombre: '',
+    titulo: '',
+    estados: '',
+    dias: '',
+    estado: '',
+    solucion: '',
+    imagen: '',
+  })
+  const [modalVisible, setModalVisible] = useState(false)
+  const [search, setSearch] = useState('')
+  const [imageFile, setImageFile] = useState(null)
+  const [isEditing, setIsEditing] = useState(false) // Nueva bandera para distinguir entre alta y edición
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const limit = 10; // Límite de elementos por página
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const limit = 10 // Límite de elementos por página
 
-  const API = process.env.REACT_APP_API + "mesa.php?endpoint=mesa";
-  const APIB = process.env.REACT_APP_API + "bitacora.php?endpoint=bitacora";
+  const API = process.env.REACT_APP_API + 'mesa.php?endpoint=mesa'
+  const APIB = process.env.REACT_APP_API + 'bitacora.php?endpoint=bitacora'
 
   useEffect(() => {
-    loadmesa();
-  }, [search, currentPage]);
+    loadmesa()
+  }, [search, currentPage])
 
   const loadmesa = async () => {
-    setLoading(true);
-    setError(null);
+    setLoading(true)
+    setError(null)
     try {
-      const response = await fetch(`${API}&search=${search}&page=${currentPage}&limit=${limit}`);
+      const response = await fetch(
+        `${API}&search=${search}&page=${currentPage}&limit=${limit}`
+      )
       if (!response.ok) {
-        throw new Error("Error al cargar las mesa.");
+        throw new Error('Error al cargar las mesa.')
       }
-      const data = await response.json();
-      setmesa(data.mesa || []);
-      console.log("mesa", data);
-      setTotalPages(data.totalPages || 1);
+      const data = await response.json()
+      setmesa(data.mesa || [])
+      console.log('mesa', data)
+      setTotalPages(data.totalPages || 1)
     } catch (err) {
-      setError(err.message);
+      setError(err.message)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleEdit = (category) => {
     setSelectedCategory({
-      nombre: category.nombre || "",
-      titulo: category.titulo || "",
-      estados: category.estados || "",
-      dias: category.dias || "",
-      estado: category.estado || "",
-      solucion: category.solucion || "",
-      imagen: category.imagen || "",
-     
-    
+      nombre: category.nombre || '',
+      titulo: category.titulo || '',
+      estados: category.estados || '',
+      dias: category.dias || '',
+      estado: category.estado || '',
+      solucion: category.solucion || '',
+      imagen: category.imagen || '',
+
       idmesa: category.idmesa,
-    });
-    setImageFile(null);
-    setIsEditing(true); // Activar modo edición
-    setModalVisible(true);
-  };
+    })
+    setImageFile(null)
+    setIsEditing(true) // Activar modo edición
+    setModalVisible(true)
+  }
 
   const handleSave = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       if (imageFile) {
-        const formData = new FormData();
-        formData.append("image", imageFile);
+        const formData = new FormData()
+        formData.append('image', imageFile)
 
-        const uploadResponse = await fetch(`${process.env.REACT_APP_API}mesa.php?endpoint=upload`, {
-          method: "POST",
-          body: formData,
-        });
+        const uploadResponse = await fetch(
+          `${process.env.REACT_APP_API}mesa.php?endpoint=upload`,
+          {
+            method: 'POST',
+            body: formData,
+          }
+        )
 
         if (!uploadResponse.ok) {
-          throw new Error("Error al subir la imagen.");
+          throw new Error('Error al subir la imagen.')
         }
 
-        const uploadResult = await uploadResponse.json();
-        selectedCategory.imagen = uploadResult.filePath;
+        const uploadResult = await uploadResponse.json()
+        selectedCategory.imagen = uploadResult.filePath
       }
 
-      const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
+      const method = isEditing ? 'PUT' : 'POST' // Diferenciar entre edición y creación
       const endpoint = isEditing
         ? `${API}&id=${selectedCategory.idmesa}`
-        : `${API}`;
+        : `${API}`
 
       const response = await fetch(endpoint, {
         method,
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(selectedCategory),
-      });
+      })
 
       if (!response.ok) {
         throw new Error(
-          isEditing ? "Error al actualizar la mesa." : "Error al crear la mesa."
-        );
+          isEditing ? 'Error al actualizar la mesa.' : 'Error al crear la mesa.'
+        )
       }
 
-// Aquí agregamos la llamada al API de bitácora
-const usuario = localStorage.getItem('usuario')|| 'sin usuario';
-const bitacoraResponse = await fetch(APIB, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    fechahora: new Date().toISOString(),
-    modulo: "MESA DE AYUDA",
-    mensaje:`  ${selectedCategory.estado}         
+      // Aquí agregamos la llamada al API de bitácora
+      const usuario = localStorage.getItem('usuario') || 'sin usuario'
+      const bitacoraResponse = await fetch(APIB, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fechahora: new Date().toISOString(),
+          modulo: 'MESA DE AYUDA',
+          mensaje: `  ${selectedCategory.estado}         
             -  ${selectedCategory.titulo}
             -  ${selectedCategory.nombre} 
             -  ${selectedCategory.estados}
             -  ${selectedCategory.dias}
-            -  ${selectedCategory.solucion}`
-             ,
-    usuario:usuario,
-    imagen:"",
-  }),
-});
-console.log("bitacora",bitacoraResponse);
-if (!bitacoraResponse.ok) {
-  throw new Error("Error al registrar en la bitácora.");
-}
-
-
-
+            -  ${selectedCategory.solucion}`,
+          usuario: usuario,
+          imagen: '',
+        }),
+      })
+      console.log('bitacora', bitacoraResponse)
+      if (!bitacoraResponse.ok) {
+        throw new Error('Error al registrar en la bitácora.')
+      }
 
       alert(
-        isEditing
-          ? "mesa actualizada exitosamente"
-          : "mesa creada exitosamente"
-      );
-      setModalVisible(false);
-      loadmesa();
+        isEditing ? 'mesa actualizada exitosamente' : 'mesa creada exitosamente'
+      )
+      setModalVisible(false)
+      loadmesa()
     } catch (err) {
-      alert(err.message);
+      alert(err.message)
     }
-  };
+  }
 
   /*const handleDelete = async (id) => {
     if (!window.confirm("¿Estás seguro de eliminar esta mesa? ")) return;
@@ -167,32 +164,31 @@ if (!bitacoraResponse.ok) {
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
-      setCurrentPage(newPage);
+      setCurrentPage(newPage)
     }
-  };
+  }
 
   const handleCreate = () => {
     setSelectedCategory({
-      nombre: "",
-      titulo: "",
-      estados: "",
-      dias: "",
-      estado: "",
-      imagen: "",
-      solucion: "",
-     
-    });
-    setImageFile(null);
-    setIsEditing(false); // Activar modo alta
-    setModalVisible(true);
-  };
+      nombre: '',
+      titulo: '',
+      estados: '',
+      dias: '',
+      estado: '',
+      imagen: '',
+      solucion: '',
+    })
+    setImageFile(null)
+    setIsEditing(false) // Activar modo alta
+    setModalVisible(true)
+  }
 
   if (loading) {
-    return <div className="text-center">Cargando mesa...</div>;
+    return <div className="text-center">Cargando mesa...</div>
   }
 
   if (error) {
-    return <div className="alert alert-danger text-center">{error}</div>;
+    return <div className="alert alert-danger text-center">{error}</div>
   }
 
   return (
@@ -225,7 +221,7 @@ if (!bitacoraResponse.ok) {
             <th>Estado</th>
             <th>Dias</th>
             <th>Imagen</th>
-          
+
             <th>Acciones</th>
           </tr>
         </thead>
@@ -238,26 +234,24 @@ if (!bitacoraResponse.ok) {
               <td>{category.titulo}</td>
               <td>{category.estados}</td>
               <td>{category.dias}</td>
-             
-           
-             
+
               <td>
                 {category.imagen && (
                   <img
                     src={process.env.REACT_APP_BASE_URL + category.imagen}
                     alt={category.nombre}
-                    style={{ width: "50px" }}
+                    style={{ width: '50px' }}
                   />
                 )}
-             </td>
-             <td>
+              </td>
+              <td>
                 <button
                   className="btn btn-warning btn-sm me-2"
                   onClick={() => handleEdit(category)}
                 >
                   Editar
                 </button>
-             {/*   <button
+                {/*   <button
                   className="btn btn-danger btn-sm"
                   onClick={() => handleDelete(category.idmesa)}
                 >
@@ -292,16 +286,16 @@ if (!bitacoraResponse.ok) {
 
       {/* Modal */}
       <div
-        className={`modal fade ${modalVisible ? "show d-block" : ""}`}
+        className={`modal fade ${modalVisible ? 'show d-block' : ''}`}
         tabIndex="-1"
-        style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
         aria-hidden={!modalVisible}
       >
-       <div className="modal-dialog modal-lg">
+        <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
-                {isEditing ? "Editar mesa" : "Añadir mesa"}
+                {isEditing ? 'Editar mesa' : 'Añadir mesa'}
               </h5>
               <button
                 type="button"
@@ -310,14 +304,20 @@ if (!bitacoraResponse.ok) {
               ></button>
             </div>
             <form onSubmit={handleSave}>
-           
-            <div className="modal-body">
-            <div className="row">
-                  
+              <div className="modal-body">
+                <div className="row">
                   <div className="col-md-4">
-                  <label><strong>Módulo</strong></label>
-                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
-                  <select
+                    <label>
+                      <strong>Módulo</strong>
+                    </label>
+                    <div
+                      className="mb-3"
+                      style={{
+                        border: '2px solid black',
+                        borderRadius: '10px',
+                      }}
+                    >
+                      <select
                         className="form-control"
                         id="estado"
                         value={selectedCategory.estado}
@@ -333,89 +333,126 @@ if (!bitacoraResponse.ok) {
                         <option value="Novedad">Novedad</option>
                         <option value="Contacto">Contacto</option>
                         <option value="Admin/Productos">Admin/Productos</option>
-                        <option value="Admin/Categorías">Admin/Categorías</option>
-                        <option value="Admin/SubCategoría">Admin/SubCategoria</option>
+                        <option value="Admin/Categorías">
+                          Admin/Categorías
+                        </option>
+                        <option value="Admin/SubCategoría">
+                          Admin/SubCategoria
+                        </option>
                         <option value="Admin/Proveedor">Admin/Proveedor</option>
                         <option value="Admin/Usuarios">Admin/Usuarios</option>
                         <option value="Admin/Ordenes">Admin/Ordenes</option>
                         <option value="Admin/Reportes">Admin/Reportes</option>
-                        <option value="Admin/Configuración">Admin/Configuración</option>
+                        <option value="Admin/Configuración">
+                          Admin/Configuración
+                        </option>
                         <option value="Admin/Bitácora">Admin/Bitácora</option>
                         <option value="Admin/Mi Comercio">Mi Comercio</option>
-
                       </select>
-
+                    </div>
                   </div>
-                  </div>  
                   <div className="col-md-8">
-                  <label><strong>Título</strong></label>
-                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
-                  <input
-                  className="form-control"
-                  value={selectedCategory.titulo}
-                  onChange={(e) =>
-                    setSelectedCategory({ ...selectedCategory, titulo: e.target.value })
-                  }
-         
-                />
-
-                  </div>
-                  </div>  
-
-           </div>  
-           <div className="row">
-                  
-                  <div className="col-md-12">
-                  <label><strong>Problema</strong></label>
-                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
-                  <textarea
-                  className="form-control"
-                  value={selectedCategory.nombre}
-                  onChange={(e) =>
-                    setSelectedCategory({ ...selectedCategory, nombre: e.target.value })
-                  }
-                  rows="4" // Puedes ajustar el número de filas según necesites
-                />
-
-                  </div>
-                  </div>  
-                 
-
-           </div>  
-           <div className="row">
-                  
-                  <div className="col-md-12">
-                  <label><strong>Ingrese una Imagen para detectar mas rápido el Problema</strong></label>
-                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
-                  {selectedCategory.imagen && (
-                    <div className="mb-2">
-                      <img
-                        src={process.env.REACT_APP_BASE_URL + selectedCategory.imagen}
-                        alt="Vista previa"
-                        style={{ width: "100px", height: "auto", marginBottom: "10px" }}
+                    <label>
+                      <strong>Título</strong>
+                    </label>
+                    <div
+                      className="mb-3"
+                      style={{
+                        border: '2px solid black',
+                        borderRadius: '10px',
+                      }}
+                    >
+                      <input
+                        className="form-control"
+                        value={selectedCategory.titulo}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            titulo: e.target.value,
+                          })
+                        }
                       />
                     </div>
-                  )}
-                  <input
-                    type="file"
-                    className="form-control"
-                    onChange={(e) => setImageFile(e.target.files[0])}
-                  />
-
                   </div>
-                  </div>  
-                 
+                </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <label>
+                      <strong>Problema</strong>
+                    </label>
+                    <div
+                      className="mb-3"
+                      style={{
+                        border: '2px solid black',
+                        borderRadius: '10px',
+                      }}
+                    >
+                      <textarea
+                        className="form-control"
+                        value={selectedCategory.nombre}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            nombre: e.target.value,
+                          })
+                        }
+                        rows="4" // Puedes ajustar el número de filas según necesites
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <label>
+                      <strong>
+                        Ingrese una Imagen para detectar mas rápido el Problema
+                      </strong>
+                    </label>
+                    <div
+                      className="mb-3"
+                      style={{
+                        border: '2px solid black',
+                        borderRadius: '10px',
+                      }}
+                    >
+                      {selectedCategory.imagen && (
+                        <div className="mb-2">
+                          <img
+                            src={
+                              process.env.REACT_APP_BASE_URL +
+                              selectedCategory.imagen
+                            }
+                            alt="Vista previa"
+                            style={{
+                              width: '100px',
+                              height: 'auto',
+                              marginBottom: '10px',
+                            }}
+                          />
+                        </div>
+                      )}
+                      <input
+                        type="file"
+                        className="form-control"
+                        onChange={(e) => setImageFile(e.target.files[0])}
+                      />
+                    </div>
+                  </div>
+                </div>
 
-           </div>  
-
-
-
-           <div className="row">
-                  
+                <div className="row">
                   <div className="col-md-4">
-                  <label><strong>Estado(Desarrollador)</strong></label>
-                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
-                  <select
+                    <label>
+                      <strong>Estado(Desarrollador)</strong>
+                    </label>
+                    <div
+                      className="mb-3"
+                      style={{
+                        border: '2px solid black',
+                        borderRadius: '10px',
+                      }}
+                    >
+                      <select
                         className="form-control"
                         id="estados"
                         value={selectedCategory.estados}
@@ -432,15 +469,21 @@ if (!bitacoraResponse.ok) {
                         <option value="Nuevo">Nuevo</option>
                         <option value="Terminado">Terminado</option>
                         <option value="Cancelado">Cancelado</option>
-
                       </select>
-
+                    </div>
                   </div>
-                  </div>  
                   <div className="col-md-4">
-                  <label><strong>Cant. Días (Desarrollador)</strong></label>
-                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
-                  <select
+                    <label>
+                      <strong>Cant. Días (Desarrollador)</strong>
+                    </label>
+                    <div
+                      className="mb-3"
+                      style={{
+                        border: '2px solid black',
+                        borderRadius: '10px',
+                      }}
+                    >
+                      <select
                         className="form-control"
                         id="dias"
                         value={selectedCategory.dias}
@@ -461,43 +504,42 @@ if (!bitacoraResponse.ok) {
                         <option value="7 días">7 días</option>
                         <option value="8 días">8 días</option>
                         <option value="9 días">9 días</option>
-                        <option value="10 días">10 días</option>    
-
-
-
-
+                        <option value="10 días">10 días</option>
                       </select>
-
+                    </div>
                   </div>
-                  </div>  
-
-           </div>  
-           <div className="row">
-                  
+                </div>
+                <div className="row">
                   <div className="col-md-12">
-                  <label><strong>Solución(Desarrollador)</strong></label>
-                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
-                  <textarea
-                  className="form-control"
-                  value={selectedCategory.solucion}
-                  onChange={(e) =>
-                    setSelectedCategory({ ...selectedCategory, solucion: e.target.value })
-                  }
-                  rows="4" // Puedes ajustar el número de filas según necesites
-                />
-
+                    <label>
+                      <strong>Solución(Desarrollador)</strong>
+                    </label>
+                    <div
+                      className="mb-3"
+                      style={{
+                        border: '2px solid black',
+                        borderRadius: '10px',
+                      }}
+                    >
+                      <textarea
+                        className="form-control"
+                        value={selectedCategory.solucion}
+                        onChange={(e) =>
+                          setSelectedCategory({
+                            ...selectedCategory,
+                            solucion: e.target.value,
+                          })
+                        }
+                        rows="4" // Puedes ajustar el número de filas según necesites
+                      />
+                    </div>
                   </div>
-                  </div>  
-                
-
-           </div>  
-         
-
+                </div>
               </div>
 
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary">
-                  {isEditing ? "Guardar Cambios" : "Crear mesa"}
+                  {isEditing ? 'Guardar Cambios' : 'Crear mesa'}
                 </button>
                 <button
                   type="button"
@@ -512,7 +554,7 @@ if (!bitacoraResponse.ok) {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MesaTable;
+export default MesaTable

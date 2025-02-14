@@ -1,10 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "../node_modules/font-awesome/css/font-awesome.min.css";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./redux/store";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import '../node_modules/font-awesome/css/font-awesome.min.css'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 
 import {
   Home,
@@ -17,24 +17,24 @@ import {
   Register,
   Checkout,
   PageNotFound,
-} from "./pages";
-import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
-import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
-import AdminProveedor  from "./pages/admin/AdminProveedor"; // Ajusta la ruta según tu estructura
-import AdminSubCategory  from "./pages/admin/AdminSubCategory";
-import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de administracion
-import AdminBitacora from "./pages/admin/AdminBitacora";
-import AdminMesa from "./pages/admin/AdminMesa";
-import ScrollToTop from "./components/ScrollToTop";
-import { Toaster } from "react-hot-toast";
-import AdminUsers from "./pages/admin/AdminUsers";
-import AdminLogsDeSistema from "./pages/admin/AdminLogsDeSistema";
-import AdminOdenes from "./pages/admin/AdminOrdenes";
-import AdminComercio from "./pages/admin/AdminComercio";
-import AdminLocalidades from "./pages/admin/AdminLocalidades"
+} from './pages'
+import AdminProducts from './pages/admin/AdminProducts' // Ajusta la ruta según tu estructura
+import AdminCategory from './pages/admin/AdminCategory' // Ajusta la ruta según tu estructura
+import AdminProveedor from './pages/admin/AdminProveedor' // Ajusta la ruta según tu estructura
+import AdminSubCategory from './pages/admin/AdminSubCategory'
+import AdminDashboard from './pages/admin/AdminDashboard' //dashboard de administracion
+import AdminBitacora from './pages/admin/AdminBitacora'
+import AdminMesa from './pages/admin/AdminMesa'
+import ScrollToTop from './components/ScrollToTop'
+import { Toaster } from 'react-hot-toast'
+import AdminUsers from './pages/admin/AdminUsers'
+import AdminLogsDeSistema from './pages/admin/AdminLogsDeSistema'
+import AdminOdenes from './pages/admin/AdminOrdenes'
+import AdminComercio from './pages/admin/AdminComercio'
+import AdminLocalidades from './pages/admin/AdminLocalidades'
 
-const token = localStorage.getItem('token');
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const token = localStorage.getItem('token')
+const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <BrowserRouter>
     <ScrollToTop>
@@ -51,24 +51,41 @@ root.render(
           <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<PageNotFound />} />
 
-          <Route path="/admin/productos" element={token ? <AdminProducts /> : <Navigate to="/login" />} />
-          <Route path="/admin/categorias"  element={token ? <AdminCategory /> : <Navigate to="/login" />} />
-          <Route path="/admin/proveedor" element={token ? <AdminProveedor /> : <Navigate to="/login" />} />
-          <Route path="/admin/subcategorias"  element={token ? <AdminSubCategory /> : <Navigate to="/login" />} />
-          <Route path="/admin/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
-          <Route path="/admin/users" element={token ? <AdminUsers /> : <Navigate to="/login" />} />
-          <Route path="/admin/bitacora" element ={<AdminBitacora/>} />
-          <Route path="/admin/mesa" element ={<AdminMesa/>} />
-          <Route path="/admin/comercio" element ={<AdminComercio/>} />
-          
-          <Route path ="/admin/Localidades" element = {<AdminLocalidades/> } />
-          <Route path="/admin/logsDeSistema" element = {<AdminLogsDeSistema/>} />
-          <Route path="/admin/ordenes" element = { <AdminOdenes/> } />
-          <Route path="/product/*" element= {<PageNotFound />} />
-        
+          <Route
+            path="/admin/productos"
+            element={token ? <AdminProducts /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/admin/categorias"
+            element={token ? <AdminCategory /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/admin/proveedor"
+            element={token ? <AdminProveedor /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/admin/subcategorias"
+            element={token ? <AdminSubCategory /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/admin/dashboard"
+            element={token ? <AdminDashboard /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/admin/users"
+            element={token ? <AdminUsers /> : <Navigate to="/login" />}
+          />
+          <Route path="/admin/bitacora" element={<AdminBitacora />} />
+          <Route path="/admin/mesa" element={<AdminMesa />} />
+          <Route path="/admin/comercio" element={<AdminComercio />} />
+
+          <Route path="/admin/Localidades" element={<AdminLocalidades />} />
+          <Route path="/admin/logsDeSistema" element={<AdminLogsDeSistema />} />
+          <Route path="/admin/ordenes" element={<AdminOdenes />} />
+          <Route path="/product/*" element={<PageNotFound />} />
         </Routes>
       </Provider>
     </ScrollToTop>
     <Toaster />
   </BrowserRouter>
-);
+)
