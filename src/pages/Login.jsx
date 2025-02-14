@@ -18,10 +18,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const resultado = await dispatch(loginUser({ correo, password })); // Llamar a la acción de Redux
-    if (resultado. success){
+    if (resultado.success){
       navigate("/");
     } else {
-      console.error(resultado. menssage)
+      console.error(resultado.menssage)
     }
   };
 
