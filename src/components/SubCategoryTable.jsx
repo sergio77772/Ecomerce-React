@@ -511,4 +511,5 @@ mensajeRespuesta(
   );
 };
 
+
 export default SubCategoryTable;
