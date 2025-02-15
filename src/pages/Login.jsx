@@ -1,29 +1,29 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../redux/action/userActions";
-import { Footer, Navbar } from "../components";
-import "bootstrap/dist/css/bootstrap.min.css";  // Estilos de Bootstrap
-import "bootstrap/dist/js/bootstrap.bundle.min.js"; // JS de Bootstrap
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginUser } from '../redux/action/userActions'
+import { Footer, Navbar } from '../components'
+import 'bootstrap/dist/css/bootstrap.min.css' // Estilos de Bootstrap
+import 'bootstrap/dist/js/bootstrap.bundle.min.js' // JS de Bootstrap
 
 const Login = () => {
-  const [correo, setCorreo] = useState("");
-  const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [correo, setCorreo] = useState('')
+  const [password, setPassword] = useState('')
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const { loading, error } = useSelector((state) => state.user); // Estado global del usuario
+  const { loading, error } = useSelector((state) => state.user) // Estado global del usuario
 
   // Manejar el envío del formulario
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const resultado = await dispatch(loginUser({ correo, password })); // Llamar a la acción de Redux
-    if (resultado.success){
-      navigate("/");
+    e.preventDefault()
+    const resultado = await dispatch(loginUser({ correo, password })) // Llamar a la acción de Redux
+    if (resultado.success) {
+      navigate('/')
     } else {
       console.error(resultado.menssage)
     }
-  };
+  }
 
   return (
     <>
@@ -65,15 +65,22 @@ const Login = () => {
               </div>
               <div className="my-3">
                 <p>
-                  ¿Nuevo aquí?{" "}
-                  <Link to="/register" className="text-decoration-underline text-info">
+                  ¿Nuevo aquí?{' '}
+                  <Link
+                    to="/register"
+                    className="text-decoration-underline text-info"
+                  >
                     Regístrate
                   </Link>
                 </p>
               </div>
               <div className="text-center">
-                <button className="my-2 mx-auto btn btn-dark" type="submit" disabled={loading}>
-                  {loading ? "Cargando..." : "Entrar"}
+                <button
+                  className="my-2 mx-auto btn btn-dark"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? 'Cargando...' : 'Entrar'}
                 </button>
               </div>
             </form>
@@ -82,7 +89,7 @@ const Login = () => {
       </div>
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

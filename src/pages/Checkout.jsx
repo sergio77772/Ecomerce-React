@@ -1,9 +1,9 @@
-import React from "react";
-import { Footer, Navbar } from "../components";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Footer, Navbar } from '../components'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 const Checkout = () => {
-  const state = useSelector((state) => state.handleCart);
+  const state = useSelector((state) => state.handleCart)
 
   const EmptyCart = () => {
     return (
@@ -17,20 +17,20 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   const ShowCheckout = () => {
-    let subtotal = 0;
-    let shipping = 30.0;
-    let totalItems = 0;
+    let subtotal = 0
+    let shipping = 30.0
+    let totalItems = 0
     state.map((item) => {
-      return (subtotal += item.price * item.qty);
-    });
+      return (subtotal += item.price * item.qty)
+    })
 
     state.map((item) => {
-      return (totalItems += item.qty);
-    });
+      return (totalItems += item.qty)
+    })
     return (
       <>
         <div className="container py-5">
@@ -43,10 +43,11 @@ const Checkout = () => {
                 <div className="card-body">
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                      Products ({totalItems})<span>${Math.round(subtotal)}</span>
+                      Products ({totalItems})
+                      <span>${Math.round(subtotal)}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center px-0">
-                    Envío
+                      Envío
                       <span>${shipping}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
@@ -97,7 +98,7 @@ const Checkout = () => {
                           required
                         />
                         <div className="invalid-feedback">
-                        Se requiere un Apellido válido.
+                          Se requiere un Apellido válido.
                         </div>
                       </div>
 
@@ -113,8 +114,8 @@ const Checkout = () => {
                           required
                         />
                         <div className="invalid-feedback">
-                        Por favor ingrese una dirección de correo electrónico válida para el envío
-                        actualizaciones.
+                          Por favor ingrese una dirección de correo electrónico
+                          válida para el envío actualizaciones.
                         </div>
                       </div>
 
@@ -130,13 +131,13 @@ const Checkout = () => {
                           required
                         />
                         <div className="invalid-feedback">
-                        Por favor ingrese su dirección de envío.
+                          Por favor ingrese su dirección de envío.
                         </div>
                       </div>
 
                       <div className="col-12">
                         <label for="address2" className="form-label">
-                          Dirección 2{" "}
+                          Dirección 2{' '}
                           <span className="text-muted">(Optional)</span>
                         </label>
                         <input
@@ -149,7 +150,7 @@ const Checkout = () => {
 
                       <div className="col-md-5 my-1">
                         <label for="country" className="form-label">
-                        País
+                          País
                         </label>
                         <br />
                         <select className="form-select" id="country" required>
@@ -160,10 +161,9 @@ const Checkout = () => {
                           <option>Uruguary</option>
                           <option>Chile</option>
                           <option>Brasil</option>
-
                         </select>
                         <div className="invalid-feedback">
-                        Seleccione un país válido.
+                          Seleccione un país válido.
                         </div>
                       </div>
 
@@ -177,10 +177,9 @@ const Checkout = () => {
                           <option>Perico</option>
                           <option>San Salvador de Jujuy</option>
                           <option>Carmen</option>
-
                         </select>
                         <div className="invalid-feedback">
-                        Proporcione un estado válido.
+                          Proporcione un estado válido.
                         </div>
                       </div>
 
@@ -196,7 +195,7 @@ const Checkout = () => {
                           required
                         />
                         <div className="invalid-feedback">
-                        Se requiere código postal.
+                          Se requiere código postal.
                         </div>
                       </div>
                     </div>
@@ -208,7 +207,7 @@ const Checkout = () => {
                     <div className="row gy-3">
                       <div className="col-md-6">
                         <label for="cc-name" className="form-label">
-                        Nombre en la tarjeta
+                          Nombre en la tarjeta
                         </label>
                         <input
                           type="text"
@@ -218,16 +217,16 @@ const Checkout = () => {
                           required
                         />
                         <small className="text-muted">
-                        Nombre completo como se muestra en la tarjeta.
+                          Nombre completo como se muestra en la tarjeta.
                         </small>
                         <div className="invalid-feedback">
-                        Se requiere el nombre en la tarjeta
+                          Se requiere el nombre en la tarjeta
                         </div>
                       </div>
 
                       <div className="col-md-6">
                         <label for="cc-number" className="form-label">
-                        Número de Tarjeta de Crédito
+                          Número de Tarjeta de Crédito
                         </label>
                         <input
                           type="text"
@@ -237,13 +236,13 @@ const Checkout = () => {
                           required
                         />
                         <div className="invalid-feedback">
-                        Se requiere número de tarjeta de crédito
+                          Se requiere número de tarjeta de crédito
                         </div>
                       </div>
 
                       <div className="col-md-3">
                         <label for="cc-expiration" className="form-label">
-                        Vencimiento
+                          Vencimiento
                         </label>
                         <input
                           type="text"
@@ -252,8 +251,8 @@ const Checkout = () => {
                           placeholder=""
                           required
                         />
-                        <div className="invalid-feedback">                          
-                           Fecha de vencimiento requerida
+                        <div className="invalid-feedback">
+                          Fecha de vencimiento requerida
                         </div>
                       </div>
 
@@ -269,7 +268,7 @@ const Checkout = () => {
                           required
                         />
                         <div className="invalid-feedback">
-                        Se requiere código de seguridad
+                          Se requiere código de seguridad
                         </div>
                       </div>
                     </div>
@@ -278,9 +277,10 @@ const Checkout = () => {
 
                     <button
                       className="w-100 btn btn-primary "
-                      type="submit" disabled
+                      type="submit"
+                      disabled
                     >
-                     Continuar pagando
+                      Continuar pagando
                     </button>
                   </form>
                 </div>
@@ -289,8 +289,8 @@ const Checkout = () => {
           </div>
         </div>
       </>
-    );
-  };
+    )
+  }
   return (
     <>
       <Navbar />
@@ -301,7 +301,7 @@ const Checkout = () => {
       </div>
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default Checkout;
+export default Checkout

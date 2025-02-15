@@ -1,8 +1,13 @@
-import React from "react";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import React from 'react'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
-const SkeletonLog = ({ items = 6, headerWidth = 560, headerHeight = 40, itemHeight = 400 }) => {
+const SkeletonLog = ({
+  items = 6,
+  headerWidth = 560,
+  headerHeight = 40,
+  itemHeight = 400,
+}) => {
   return (
     <>
       <div className="col-12 py-5 text-center">
@@ -14,8 +19,7 @@ const SkeletonLog = ({ items = 6, headerWidth = 560, headerHeight = 40, itemHeig
         </div>
       ))}
     </>
-  );
-};
+  )
+}
 
-export default SkeletonLog;
-  
+export default SkeletonLog

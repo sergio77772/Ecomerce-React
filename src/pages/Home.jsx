@@ -1,15 +1,15 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchComercio } from "../redux/action/";
-import { Navbar, Main, Product, Footer } from "../components";
-import Categories from "../components/public/categorias";
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { fetchComercio } from '../redux/action/'
+import { Navbar, Main, Product, Footer } from '../components'
+import Categories from '../components/public/categorias'
 
 function Home() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchComercio()); // Llama a la API al cargar el componente
-  }, [dispatch]);
+    dispatch(fetchComercio()) // Llama a la API al cargar el componente
+  }, [dispatch])
 
   return (
     <>
@@ -19,7 +19,7 @@ function Home() {
       <Product />
       <Footer />
     </>
-  );
+  )
 }
 
-export default Home;
+export default Home

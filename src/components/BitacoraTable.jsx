@@ -1,163 +1,170 @@
 /* eslint-disable */
 
-import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import SkeletonTable from "./skeleton/SkeletonTable";
+import React, { useEffect, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import SkeletonTable from './skeleton/SkeletonTable'
 
 const BitacoraTable = () => {
-  const [bitacora, setbitacora] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [bitacora, setbitacora] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [selectedCategory, setSelectedCategory] = useState({
-    fecha_hora: "",
-    usuario: "",
-    modulo: "",
-    mensaje: "",
-    imagen: "",
-  
-  });
-  const [modalVisible, setModalVisible] = useState(false);
-  const [search, setSearch] = useState("");
-  const [imageFile, setImageFile] = useState(null);
-  const [isEditing, setIsEditing] = useState(false); // Nueva bandera para distinguir entre alta y edición
+    fecha_hora: '',
+    usuario: '',
+    modulo: '',
+    mensaje: '',
+    imagen: '',
+  })
+  const [modalVisible, setModalVisible] = useState(false)
+  const [search, setSearch] = useState('')
+  const [imageFile, setImageFile] = useState(null)
+  const [isEditing, setIsEditing] = useState(false) // Nueva bandera para distinguir entre alta y edición
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const limit = 10; // Límite de elementos por página
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const limit = 10 // Límite de elementos por página
 
-  const API = process.env.REACT_APP_API + "bitacora.php?endpoint=bitacora";
+  const API = process.env.REACT_APP_API + 'bitacora.php?endpoint=bitacora'
 
   useEffect(() => {
-    loadbitacora();
-  }, [search, currentPage]);
+    loadbitacora()
+  }, [search, currentPage])
 
   const loadbitacora = async () => {
-    setLoading(true);
-    setError(null);
+    setLoading(true)
+    setError(null)
     try {
-      const response = await fetch(`${API}&search=${search}&page=${currentPage}&limit=${limit}`);
+      const response = await fetch(
+        `${API}&search=${search}&page=${currentPage}&limit=${limit}`
+      )
       if (!response.ok) {
-        throw new Error("Error al cargar las bitacoras.");
+        throw new Error('Error al cargar las bitacoras.')
       }
-      const data = await response.json();
-      setbitacora(data.bitacora || []);
-      setTotalPages(data.totalPages || 1);
+      const data = await response.json()
+      setbitacora(data.bitacora || [])
+      setTotalPages(data.totalPages || 1)
     } catch (err) {
-      setError(err.message);
+      setError(err.message)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleEdit = (Bitacora) => {
     setSelectedCategory({
-      nombre:Bitacora.fecha_hora || "",
-      estado:Bitacora.usuario || "",
-      imagen:Bitacora.modulo || "",
-      imagen:Bitacora.mensaje || "",
-      imagen:Bitacora.imagen || "",
+      nombre: Bitacora.fecha_hora || '',
+      estado: Bitacora.usuario || '',
+      imagen: Bitacora.modulo || '',
+      imagen: Bitacora.mensaje || '',
+      imagen: Bitacora.imagen || '',
 
-      idbitacora:Bitacora.idbitacora,
-    });
-    setImageFile(null);
-    setIsEditing(true); // Activar modo edición
-    setModalVisible(true);
-  };
+      idbitacora: Bitacora.idbitacora,
+    })
+    setImageFile(null)
+    setIsEditing(true) // Activar modo edición
+    setModalVisible(true)
+  }
 
   const handleSave = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       if (imageFile) {
-        const formData = new FormData();
-        formData.append("image", imageFile);
+        const formData = new FormData()
+        formData.append('image', imageFile)
 
-        const uploadResponse = await fetch(`${process.env.REACT_APP_API}bitacora.php?endpoint=upload`, {
-          method: "POST",
-          body: formData,
-        });
+        const uploadResponse = await fetch(
+          `${process.env.REACT_APP_API}bitacora.php?endpoint=upload`,
+          {
+            method: 'POST',
+            body: formData,
+          }
+        )
 
         if (!uploadResponse.ok) {
-          throw new Error("Error al subir la imagen.");
+          throw new Error('Error al subir la imagen.')
         }
 
-        const uploadResult = await uploadResponse.json();
-        selectedCategory.imagen = uploadResult.filePath;
+        const uploadResult = await uploadResponse.json()
+        selectedCategory.imagen = uploadResult.filePath
       }
 
-      const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
+      const method = isEditing ? 'PUT' : 'POST' // Diferenciar entre edición y creación
       const endpoint = isEditing
         ? `${API}&id=${selectedCategory.idbitacora}`
-        : `${API}`;
+        : `${API}`
 
       const response = await fetch(endpoint, {
         method,
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(selectedCategory),
-      });
+      })
 
       if (!response.ok) {
         throw new Error(
-          isEditing ? "Error al actualizar la bitacora." : "Error al crear la bitacora."
-        );
+          isEditing
+            ? 'Error al actualizar la bitacora.'
+            : 'Error al crear la bitacora.'
+        )
       }
 
       alert(
         isEditing
-          ? "bitacora actualizada exitosamente"
-          : "bitacora creada exitosamente"
-      );
-      setModalVisible(false);
-      loadbitacora();
+          ? 'bitacora actualizada exitosamente'
+          : 'bitacora creada exitosamente'
+      )
+      setModalVisible(false)
+      loadbitacora()
     } catch (err) {
-      alert(err.message);
+      alert(err.message)
     }
-  };
+  }
 
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de eliminar esta bitacora? ")) return;
+    if (!window.confirm('¿Estás seguro de eliminar esta bitacora? ')) return
     try {
       const response = await fetch(`${API}&id=${id}`, {
-        method: "DELETE",
-      });
+        method: 'DELETE',
+      })
       if (!response.ok) {
-        throw new Error("Error al eliminar la bitacora.");
+        throw new Error('Error al eliminar la bitacora.')
       }
-      alert("bitacora eliminada exitosamente");
-      loadbitacora();
+      alert('bitacora eliminada exitosamente')
+      loadbitacora()
     } catch (err) {
-      alert(err.message);
+      alert(err.message)
     }
-  };
+  }
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
-      setCurrentPage(newPage);
+      setCurrentPage(newPage)
     }
-  };
+  }
 
   const handleCreate = () => {
     setSelectedCategory({
-      fecha_hora: "",
-      usuario: "",
-      modulo: "",
-      mensaje: "",
-      imagen: "",
-     
-    });
-    setImageFile(null);
-    setIsEditing(false); // Activar modo alta
-    setModalVisible(true);
-  };
+      fecha_hora: '',
+      usuario: '',
+      modulo: '',
+      mensaje: '',
+      imagen: '',
+    })
+    setImageFile(null)
+    setIsEditing(false) // Activar modo alta
+    setModalVisible(true)
+  }
   if (loading) {
-    return <div className="text-center">
-      <SkeletonTable rows={5} columns={5} />
-    </div>;
+    return (
+      <div className="text-center">
+        <SkeletonTable rows={5} columns={5} />
+      </div>
+    )
   }
 
   if (error) {
-    return <div className="alert alert-danger text-center">{error}</div>;
+    return <div className="alert alert-danger text-center">{error}</div>
   }
 
   return (
@@ -174,7 +181,7 @@ const BitacoraTable = () => {
         />
       </div>
 
- {/*     <div className="mb-3 text-end">
+      {/*     <div className="mb-3 text-end">
         <button className="btn btn-success" onClick={handleCreate}>
           Añadir bitacora
         </button>
@@ -188,7 +195,7 @@ const BitacoraTable = () => {
             <th>usuario</th>
             <th>modulo</th>
             <th>mensaje</th>
-{/*}
+            {/*}
       
           
             <th>Acciones</th>
@@ -199,20 +206,17 @@ const BitacoraTable = () => {
           {bitacora.map((Category) => (
             <tr key={Category.idbitacora}>
               <td>{Category.idbitacora}</td>
-              <td>{Category.fechahora}</td>             
+              <td>{Category.fechahora}</td>
               <td>{Category.usuario}</td>
               <td>{Category.modulo}</td>
               <td>{Category.mensaje}</td>
-          
-
-
 
               <td>
                 {Category.imagen && (
                   <img
-                    src={process.env.REACT_APP_BASE_URL +Category.imagen}
+                    src={process.env.REACT_APP_BASE_URL + Category.imagen}
                     alt={Category.nombre}
-                    style={{ width: "50px" }}
+                    style={{ width: '50px' }}
                   />
                 )}
               </td>
@@ -260,16 +264,16 @@ const BitacoraTable = () => {
 
       {/* Modal */}
       <div
-        className={`modal fade ${modalVisible ? "show d-block" : ""}`}
+        className={`modal fade ${modalVisible ? 'show d-block' : ''}`}
         tabIndex="-1"
-        style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
         aria-hidden={!modalVisible}
       >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
-                {isEditing ? "Editar bitacora" : "Añadir bitacora"}
+                {isEditing ? 'Editar bitacora' : 'Añadir bitacora'}
               </h5>
               <button
                 type="button"
@@ -286,11 +290,13 @@ const BitacoraTable = () => {
                     className="form-control"
                     value={selectedCategory.nombre}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, nombre: e.target.value })
+                      setSelectedCategory({
+                        ...selectedCategory,
+                        nombre: e.target.value,
+                      })
                     }
                   />
                 </div>
-               
 
                 <div className="mb-3">
                   <label>Estado</label>
@@ -299,7 +305,10 @@ const BitacoraTable = () => {
                     className="form-control"
                     value={selectedCategory.estado}
                     onChange={(e) =>
-                      setSelectedCategory({ ...selectedCategory, estado: e.target.value })
+                      setSelectedCategory({
+                        ...selectedCategory,
+                        estado: e.target.value,
+                      })
                     }
                   />
                 </div>
@@ -308,9 +317,16 @@ const BitacoraTable = () => {
                   {selectedCategory.imagen && (
                     <div className="mb-2">
                       <img
-                        src={process.env.REACT_APP_BASE_URL + selectedCategory.imagen}
+                        src={
+                          process.env.REACT_APP_BASE_URL +
+                          selectedCategory.imagen
+                        }
                         alt="Vista previa"
-                        style={{ width: "100px", height: "auto", marginBottom: "10px" }}
+                        style={{
+                          width: '100px',
+                          height: 'auto',
+                          marginBottom: '10px',
+                        }}
                       />
                     </div>
                   )}
@@ -320,11 +336,10 @@ const BitacoraTable = () => {
                     onChange={(e) => setImageFile(e.target.files[0])}
                   />
                 </div>
-             
               </div>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary">
-                  {isEditing ? "Guardar Cambios" : "Crear bitacora"}
+                  {isEditing ? 'Guardar Cambios' : 'Crear bitacora'}
                 </button>
                 <button
                   type="button"
@@ -339,7 +354,7 @@ const BitacoraTable = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BitacoraTable;
+export default BitacoraTable

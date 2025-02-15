@@ -29,7 +29,8 @@
     "start": "dotenv -e .env.developer -- react-scripts start",
     "build": "ESLINT_NO_DEV_ERRORS=true react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [
@@ -56,6 +57,9 @@
     ]
   },
   "devDependencies": {
-    "dotenv-cli": "^8.0.0"
+    "dotenv-cli": "^8.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "3.5.1"
   }
 }

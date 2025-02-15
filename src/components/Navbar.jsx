@@ -1,20 +1,20 @@
-import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../redux/action/userActions"; // Importamos la acción de logout
+import React from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { logoutUser } from '../redux/action/userActions' // Importamos la acción de logout
 
 const Navbar = () => {
-  const state = useSelector((state) => state.handleCart);
-  const token = localStorage.getItem("token");
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const comercio = useSelector((state) => state.comercio.comercio);
-  const usuario = useSelector((state) => state.user.user);
-  const baseURL = process.env.REACT_APP_BASE_URL;
+  const state = useSelector((state) => state.handleCart)
+  const token = localStorage.getItem('token')
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const comercio = useSelector((state) => state.comercio.comercio)
+  const usuario = useSelector((state) => state.user.user)
+  const baseURL = process.env.REACT_APP_BASE_URL
   const handleLogout = () => {
-    dispatch(logoutUser()); // Eliminamos usuario del estado global y localStorage
-    navigate("/");
-  };
+    dispatch(logoutUser()) // Eliminamos usuario del estado global y localStorage
+    navigate('/')
+  }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
@@ -38,20 +38,30 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav m-auto my-2 text-center">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/">Inicio</NavLink>
+              <NavLink className="nav-link" to="/">
+                Inicio
+              </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/product">Novedades</NavLink>
+              <NavLink className="nav-link" to="/product">
+                Novedades
+              </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/about">Nosotros</NavLink>
+              <NavLink className="nav-link" to="/about">
+                Nosotros
+              </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/contact">Contacto</NavLink>
+              <NavLink className="nav-link" to="/contact">
+                Contacto
+              </NavLink>
             </li>
-            {usuario?.idrol===1 && (
+            {usuario?.idrol === 1 && (
               <li className="nav-item">
-                <NavLink className="nav-link" to="/admin/dashboard">Administración</NavLink>
+                <NavLink className="nav-link" to="/admin/dashboard">
+                  Administración
+                </NavLink>
               </li>
             )}
           </ul>
@@ -75,19 +85,19 @@ const Navbar = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  
-                 <img
-                   src={`${baseURL}${usuario.foto}`}
-                   alt="Usuario"
-                   className="rounded-circle me-2"
-                   style={{ width: 35, height: 35, objectFit: "cover" }}
-      
-                />
-            
+                  <img
+                    src={`${baseURL}${usuario.foto}`}
+                    alt="Usuario"
+                    className="rounded-circle me-2"
+                    style={{ width: 35, height: 35, objectFit: 'cover' }}
+                  />
 
-                  {usuario?.nombre || "Usuario"}
+                  {usuario?.nombre || 'Usuario'}
                 </button>
-                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <ul
+                  className="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="userDropdown"
+                >
                   <li>
                     <NavLink className="dropdown-item" to="/account">
                       <i className="fa fa-user"></i> Mis Datos
@@ -103,9 +113,14 @@ const Navbar = () => {
                       <i className="fa fa-cog"></i> Configuración
                     </NavLink>
                   </li>
-                  <li><hr className="dropdown-divider" /></li>
                   <li>
-                    <button className="dropdown-item text-danger" onClick={handleLogout}>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item text-danger"
+                      onClick={handleLogout}
+                    >
                       <i className="fa fa-sign-out-alt"></i> Cerrar Sesión
                     </button>
                   </li>
@@ -114,13 +129,14 @@ const Navbar = () => {
             )}
 
             <NavLink to="/cart" className="btn btn-outline-dark m-2">
-              <i className="fa fa-cart-shopping mr-1"></i> Carro ({state.length})
+              <i className="fa fa-cart-shopping mr-1"></i> Carro ({state.length}
+              )
             </NavLink>
           </div>
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
