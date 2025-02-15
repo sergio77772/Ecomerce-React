@@ -1,5 +1,5 @@
 import React from "react";
-import {  Footer,ClienteTable } from "../../components";
+import {  Footer } from "../../components";
 import Sidebar from "../../components/backoffices/Menu";
 import Header from "../../components/backoffices/Header";
 
@@ -14,7 +14,7 @@ const AdminCliente = () => {
              <Sidebar />
            </div>
            <div className="col-md-10 p-4">
-             <ClienteTable />  {/*componente */}
+             
            </div>
          </div>
        </div>
