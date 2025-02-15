@@ -21,7 +21,6 @@ import {
 import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
 import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
 import AdminProveedor  from "./pages/admin/AdminProveedor"; 
-import AdminCliente  from "./pages/admin/AdminCliente"; // Ajusta la ruta según tu estructura
 import AdminSubCategory  from "./pages/admin/AdminSubCategory";
 import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de administracion
 import AdminBitacora from "./pages/admin/AdminBitacora";
