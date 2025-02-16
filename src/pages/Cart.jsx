@@ -36,7 +36,7 @@ const Cart = () => {
     let totalItems = 0
 
     state.forEach((item) => {
-      subtotal += item.price * item.qty
+      subtotal += item.precioventa * item.qty
       totalItems += item.qty
     })
 

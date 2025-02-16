@@ -18,6 +18,7 @@ import {
   Checkout,
   PageNotFound,
   Account,
+  Orders,
 } from "./pages";
 import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
 import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
@@ -52,6 +53,8 @@ root.render(
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/orders" element={<Orders />} />
+
           <Route path="*" element={<PageNotFound />} />
           <Route
             path="/admin/productos"
