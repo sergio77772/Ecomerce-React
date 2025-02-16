@@ -28,17 +28,10 @@ const Sidebar = () => {
         },
       ],
     },
-<<<<<<< HEAD
-    { title: "Diseño", icon: "bi-palette", link: "/admin/diseno" },
-    { title: "Ventas", icon: "bi-cart", link: "/admin/venta" },
-    { title: "Clientes", icon: "bi-people", link: "/admin/cliente" },
-    { title: "Marketing", icon: "bi-megaphone", link: "/admin/marketing" },
-=======
     { title: 'Diseño', icon: 'bi-palette', link: '/admin/diseno' },
     { title: 'Ventas', icon: 'bi-cart', link: '/admin/ventas' },
     { title: 'Clientes', icon: 'bi-people', link: '/admin/clientes' },
     { title: 'Marketing', icon: 'bi-megaphone', link: '/admin/marketing' },
->>>>>>> 70bccae76617e79cb1965fa4c9e42cdfa5ba9b98
     {
       title: 'Sistema',
       icon: 'bi-gear',

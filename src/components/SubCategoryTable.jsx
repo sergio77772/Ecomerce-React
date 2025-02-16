@@ -80,18 +80,11 @@ const SubCategoryTable = () => {
 
   const handleEdit = (Category) => {
     setSelectedCategory({
-<<<<<<< HEAD
-      nombre: Category.nombre || "",
-      idcategoria: Category.idcategoria || "",
-      estado: Category.estado || "",
-      imagen: Category.imagen || "",    
-=======
       nombre: Category.nombre || '',
       idcategoria: Category.idcategoria || '',
       estado: Category.estado || '',
       imagen: Category.imagen || '',
 
->>>>>>> 70bccae76617e79cb1965fa4c9e42cdfa5ba9b98
       idsubcategoria: Category.idsubcategoria,
     })
     setImageFile(null)
@@ -208,19 +201,6 @@ const SubCategoryTable = () => {
 
   const handleCreate = () => {
     setSelectedCategory({
-<<<<<<< HEAD
-      nombre: "",
-      idcategoria: "",
-      estado: "",
-      imagen: "",
-    
-     
-    });
-    setImageFile(null);
-    setIsEditing(false); // Activar modo alta
-    setModalVisible(true);
-  };
-=======
       nombre: '',
       idcategoria: '',
       estado: '',
@@ -230,7 +210,6 @@ const SubCategoryTable = () => {
     setIsEditing(false) // Activar modo alta
     setModalVisible(true)
   }
->>>>>>> 70bccae76617e79cb1965fa4c9e42cdfa5ba9b98
 
   const getCategoryNameById = (id) => {
     const category = categories.find((cat) => cat.idcategoria === id)

@@ -23,11 +23,8 @@ import {
 import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
 import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
 import AdminProveedor  from "./pages/admin/AdminProveedor"; 
-<<<<<<< HEAD
 import AdminCliente  from "./pages/admin/AdminCliente"; 
 import AdminVenta  from "./pages/admin/AdminVenta"; 
-=======
->>>>>>> 70bccae76617e79cb1965fa4c9e42cdfa5ba9b98
 import AdminSubCategory  from "./pages/admin/AdminSubCategory";
 import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de administracion
 import AdminBitacora from "./pages/admin/AdminBitacora";
@@ -89,28 +86,10 @@ root.render(
           <Route path="/admin/mesa" element={<AdminMesa />} />
           <Route path="/admin/comercio" element={<AdminComercio />} />
 
-<<<<<<< HEAD
-          <Route path="/admin/productos" element={token ? <AdminProducts /> : <Navigate to="/login" />} />
-          <Route path="/admin/categorias"  element={token ? <AdminCategory /> : <Navigate to="/login" />} />
-          <Route path="/admin/proveedor" element={token ? <AdminProveedor /> : <Navigate to="/login" />} />
-          <Route path="/admin/subcategorias"  element={token ? <AdminSubCategory /> : <Navigate to="/login" />} />
-          <Route path="/admin/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
-          <Route path="/admin/users" element={token ? <AdminUsers /> : <Navigate to="/login" />} />
-          <Route path="/admin/bitacora" element ={<AdminBitacora/>} />
-          <Route path="/admin/mesa" element ={<AdminMesa/>} />
-          <Route path="/admin/comercio" element ={<AdminComercio/>} />
-          <Route path="/admin/venta" element ={<AdminVenta/>} />    
-          <Route path="/admin/cliente" element ={<AdminCliente/>} />
-          <Route path="/admin/logsDeSistema" element = {<AdminLogsDeSistema/>} />
-          <Route path="/admin/ordenes" element = { <AdminOdenes/> } />
-          <Route path="/product/*" element= {<PageNotFound />} />
-        
-=======
-          <Route path="/admin/Localidades" element={<AdminLocalidades />} />
-          <Route path="/admin/logsDeSistema" element={<AdminLogsDeSistema />} />
+     {/*     <Route path="/admin/Localidades" element={<AdminLocalidades />} />
+          <Route path="/admin/logsDeSistema" element={<AdminLogsDeSistema />} /> */}
           <Route path="/admin/ordenes" element={<AdminOdenes />} />
           <Route path="/product/*" element={<PageNotFound />} />
->>>>>>> 70bccae76617e79cb1965fa4c9e42cdfa5ba9b98
         </Routes>
       </Provider>
     </ScrollToTop>
