@@ -14,8 +14,7 @@ export const getOrders = (id_user) => async (dispatch) => {
     const data = await response.json()
 
     if (data.success) {
-     
-
+     console.log(data)
       dispatch({ type: 'SET_ORDERS', payload: data })
       return { success: true }
     } else {

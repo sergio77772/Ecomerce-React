@@ -1,32 +1,20 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Navbar, Footer } from '../components';
+import { getOrders } from '../redux/action/ordersActions'; // Acción para obtener órdenes
 
 function Orders() {
-  const usuario = useSelector((state) => state.user.user); // Obtener usuario de Redux
-  const [orders, setOrders] = useState([]);
+  const dispatch = useDispatch();
+  const usuario = useSelector((state) => state.user.user);
+  const orders = useSelector((state) => state.Orders) || []; // Aseguramos que orders no sea undefined
+  
+ console.log(orders)
 
   useEffect(() => {
     if (usuario) {
-      fetchOrders(usuario.id);
+      dispatch(getOrders(usuario.id));
     }
-  }, [usuario]);
-
-  const fetchOrders = async (userId) => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API}ordenes.php?action=ordenes_usuario&user_id=${userId}`
-      );
-      const data = await response.json();
-      if (response.ok) {
-        setOrders(data);
-      } else {
-        console.error('Error al obtener órdenes:', data.error);
-      }
-    } catch (error) {
-      console.error('Error al conectar con el servidor:', error);
-    }
-  };
+  }, [usuario, dispatch]);
 
   return (
     <>
@@ -42,6 +30,7 @@ function Orders() {
               <thead className="table-dark">
                 <tr>
                   <th>ID</th>
+                  <th>Nombre</th>
                   <th>Estado</th>
                   <th>Fecha</th>
                   <th>Acciones</th>
@@ -51,8 +40,9 @@ function Orders() {
                 {orders.map((order) => (
                   <tr key={order.id}>
                     <td>{order.id}</td>
-                    <td>{order.estado}</td>
-                    <td>{new Date(order.created_at).toLocaleDateString()}</td>
+                    <td>{order.usuario || 'Desconocido'}</td>
+                    <td>{order.estado || 'Sin estado'}</td>
+                    <td>{order.created_at ? new Date(order.created_at).toLocaleDateString() : 'Fecha no disponible'}</td>
                     <td>
                       <button className="btn btn-primary btn-sm">
                         Ver Detalles
