@@ -6,9 +6,9 @@ import { getOrders } from '../redux/action/ordersActions'; // Acción para obten
 function Orders() {
   const dispatch = useDispatch();
   const usuario = useSelector((state) => state.user.user);
-  const orders = useSelector((state) => state.Orders) || []; // Aseguramos que orders no sea undefined
-  
- console.log(orders)
+  const orders = useSelector((state) => state.orders.orders) || []; // 🔹 Accedemos correctamente a orders
+
+  console.log("Órdenes obtenidas:", orders);
 
   useEffect(() => {
     if (usuario) {
