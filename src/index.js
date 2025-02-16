@@ -17,21 +17,23 @@ import {
   Register,
   Checkout,
   PageNotFound,
-} from './pages'
-import AdminProducts from './pages/admin/AdminProducts' // Ajusta la ruta según tu estructura
-import AdminCategory from './pages/admin/AdminCategory' // Ajusta la ruta según tu estructura
-import AdminProveedor from './pages/admin/AdminProveedor' // Ajusta la ruta según tu estructura
-import AdminSubCategory from './pages/admin/AdminSubCategory'
-import AdminDashboard from './pages/admin/AdminDashboard' //dashboard de administracion
-import AdminBitacora from './pages/admin/AdminBitacora'
-import AdminMesa from './pages/admin/AdminMesa'
-import ScrollToTop from './components/ScrollToTop'
-import { Toaster } from 'react-hot-toast'
-import AdminUsers from './pages/admin/AdminUsers'
-import AdminLogsDeSistema from './pages/admin/AdminLogsDeSistema'
-import AdminOdenes from './pages/admin/AdminOrdenes'
-import AdminComercio from './pages/admin/AdminComercio'
-import AdminLocalidades from './pages/admin/AdminLocalidades'
+  Account,
+  Orders,
+} from "./pages";
+import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
+import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
+import AdminProveedor  from "./pages/admin/AdminProveedor"; 
+import AdminSubCategory  from "./pages/admin/AdminSubCategory";
+import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de administracion
+import AdminBitacora from "./pages/admin/AdminBitacora";
+import AdminMesa from "./pages/admin/AdminMesa";
+import ScrollToTop from "./components/ScrollToTop";
+import { Toaster } from "react-hot-toast";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminLogsDeSistema from "./pages/admin/AdminLogsDeSistema";
+import AdminOdenes from "./pages/admin/AdminOrdenes";
+import AdminComercio from "./pages/admin/AdminComercio";
+import AdminLocalidades from "./pages/admin/AdminLocalidades"
 
 const token = localStorage.getItem('token')
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -41,6 +43,8 @@ root.render(
       <Provider store={store}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/account" element={<Account />} />
+
           <Route path="/product" element={<Products />} />
           <Route path="/product/:id" element={<Product />} />
           <Route path="/about" element={<AboutPage />} />
@@ -49,8 +53,9 @@ root.render(
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="*" element={<PageNotFound />} />
+          <Route path="/orders" element={<Orders />} />
 
+          <Route path="*" element={<PageNotFound />} />
           <Route
             path="/admin/productos"
             element={token ? <AdminProducts /> : <Navigate to="/login" />}

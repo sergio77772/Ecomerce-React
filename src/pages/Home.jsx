@@ -8,7 +8,7 @@ function Home() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchComercio()) // Llama a la API al cargar el componente
+    dispatch(fetchComercio()) 
   }, [dispatch])
 
   return (

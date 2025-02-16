@@ -145,22 +145,7 @@ const MesaTable = () => {
     }
   }
 
-  /*const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de eliminar esta mesa? ")) return;
-    try {
-      const response = await fetch(`${API}&id=${id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) {
-        throw new Error("Error al eliminar la mesa.");
-      }
-      alert("mesa eliminada exitosamente");
-      loadmesa();
-    } catch (err) {
-      alert(err.message);
-    }
-  };
-  */
+
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
