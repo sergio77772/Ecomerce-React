@@ -57,7 +57,7 @@ const Navbar = () => {
                 Contacto
               </NavLink>
             </li>
-            {usuario?.idrol === 1 && (
+            {usuario?.idRol === 1 && (
               <li className="nav-item">
                 <NavLink className="nav-link" to="/admin/dashboard">
                   Administración

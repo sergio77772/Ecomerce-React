@@ -8,8 +8,6 @@ function Orders() {
   const usuario = useSelector((state) => state.user.user);
   const orders = useSelector((state) => state.orders.orders) || []; // 🔹 Accedemos correctamente a orders
 
-  console.log("Órdenes obtenidas:", orders);
-
   useEffect(() => {
     if (usuario) {
       dispatch(getOrders(usuario.id));
