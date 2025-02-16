@@ -1,42 +1,42 @@
-import React, { useEffect, useState } from "react";
-import Skeleton from "react-loading-skeleton";
-import { Link, useParams } from "react-router-dom";
-import Marquee from "react-fast-marquee";
-import { useDispatch } from "react-redux";
-import { addCart } from "../redux/action";
+import React, { useEffect, useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
+import { Link, useParams } from 'react-router-dom'
+import Marquee from 'react-fast-marquee'
+import { useDispatch } from 'react-redux'
+import { addCart } from '../redux/action'
 
-import { Footer, Navbar } from "../components";
+import { Footer, Navbar } from '../components'
 
 const Product = () => {
-  const { id } = useParams();
-  const [product, setProduct] = useState([]);
-  const [similarProducts, setSimilarProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [loading2, setLoading2] = useState(false);
+  const { id } = useParams()
+  const [product, setProduct] = useState([])
+  const [similarProducts, setSimilarProducts] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [loading2, setLoading2] = useState(false)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const addProduct = (product) => {
-    dispatch(addCart(product));
-  };
+    dispatch(addCart(product))
+  }
 
   useEffect(() => {
     const getProduct = async () => {
-      setLoading(true);
-      setLoading2(true);
-      const response = await fetch(`https://fakestoreapi.com/products/${id}`);
-      const data = await response.json();
-      setProduct(data);
-      setLoading(false);
+      setLoading(true)
+      setLoading2(true)
+      const response = await fetch(`https://fakestoreapi.com/products/${id}`)
+      const data = await response.json()
+      setProduct(data)
+      setLoading(false)
       const response2 = await fetch(
         `https://fakestoreapi.com/products/category/${data.category}`
-      );
-      const data2 = await response2.json();
-      setSimilarProducts(data2);
-      setLoading2(false);
-    };
-    getProduct();
-  }, [id]);
+      )
+      const data2 = await response2.json()
+      setSimilarProducts(data2)
+      setLoading2(false)
+    }
+    getProduct()
+  }, [id])
 
   const Loading = () => {
     return (
@@ -58,8 +58,8 @@ const Product = () => {
           </div>
         </div>
       </>
-    );
-  };
+    )
+  }
 
   const ShowProduct = () => {
     return (
@@ -79,7 +79,7 @@ const Product = () => {
               <h4 className="text-uppercase text-muted">{product.category}</h4>
               <h1 className="display-5">{product.title}</h1>
               <p className="lead">
-                {product.rating && product.rating.rate}{" "}
+                {product.rating && product.rating.rate}{' '}
                 <i className="fa fa-star"></i>
               </p>
               <h3 className="display-6  my-4">${product.price}</h3>
@@ -88,17 +88,17 @@ const Product = () => {
                 className="btn btn-outline-dark"
                 onClick={() => addProduct(product)}
               >
-               añadir al carrito
+                añadir al carrito
               </button>
               <Link to="/cart" className="btn btn-dark mx-3">
-              Ir al carrito
+                Ir al carrito
               </Link>
             </div>
           </div>
         </div>
       </>
-    );
-  };
+    )
+  }
 
   const Loading2 = () => {
     return (
@@ -120,8 +120,8 @@ const Product = () => {
           </div>
         </div>
       </>
-    );
-  };
+    )
+  }
 
   const ShowSimilarProduct = () => {
     return (
@@ -148,10 +148,10 @@ const Product = () => {
                   </ul> */}
                   <div className="card-body">
                     <Link
-                      to={"/product/" + item.id}
+                      to={'/product/' + item.id}
                       className="btn btn-dark m-1"
                     >
-                     Comprar ahora
+                      Comprar ahora
                     </Link>
                     <button
                       className="btn btn-dark m-1"
@@ -161,13 +161,13 @@ const Product = () => {
                     </button>
                   </div>
                 </div>
-              );
+              )
             })}
           </div>
         </div>
       </>
-    );
-  };
+    )
+  }
   return (
     <>
       <Navbar />
@@ -175,12 +175,8 @@ const Product = () => {
         <div className="row">{loading ? <Loading /> : <ShowProduct />}</div>
         <div className="row my-5 py-5">
           <div className="d-none d-md-block">
-          <h2 className="">También te puede gustar</h2>
-            <Marquee
-              pauseOnHover={true}
-              pauseOnClick={true}
-              speed={50}
-            >
+            <h2 className="">También te puede gustar</h2>
+            <Marquee pauseOnHover={true} pauseOnClick={true} speed={50}>
               {loading2 ? <Loading2 /> : <ShowSimilarProduct />}
             </Marquee>
           </div>
@@ -188,7 +184,7 @@ const Product = () => {
       </div>
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default Product;
+export default Product

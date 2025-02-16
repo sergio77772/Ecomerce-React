@@ -1,14 +1,14 @@
 const initialState = {
-  comercio: [],
+  Orders: [],
 }
 
-const comercioReducer = (state = initialState, action) => {
+const OrdersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_COMERCIO':
+    case 'SET_ORDERS':
       return { ...state, comercio: action.payload }
     default:
       return state
   }
 }
 
-export default comercioReducer
+export default OrdersReducer

@@ -1,5 +1,3 @@
-const AdminOrdenes = () => {
+const AdminOrdenes = () => {}
 
-}
-
-export default AdminOrdenes;
+export default AdminOrdenes

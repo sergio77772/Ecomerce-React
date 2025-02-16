@@ -1,71 +1,88 @@
-import React, { useState } from "react";
-import { Footer, Navbar } from "../components";
-import { mensajeRespuesta } from "../utils/services";
+import React, { useState } from 'react'
+import { Footer, Navbar } from '../components'
+import { mensajeRespuesta } from '../utils/services'
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+    name: '',
+    email: '',
+    message: '',
+  })
 
-  const [errors, setErrors] = useState({});
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({})
+  const [successMessage, setSuccessMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
   const validateForm = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = "El nombre es obligatorio.";
+    const newErrors = {}
+    if (!formData.name.trim()) newErrors.name = 'El nombre es obligatorio.'
     if (!formData.email.trim()) {
-      newErrors.email = "El correo electrónico es obligatorio.";
+      newErrors.email = 'El correo electrónico es obligatorio.'
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "El correo electrónico no es válido.";
+      newErrors.email = 'El correo electrónico no es válido.'
     }
-    if (!formData.message.trim()) newErrors.message = "El mensaje es obligatorio.";
-    return newErrors;
-  };
+    if (!formData.message.trim())
+      newErrors.message = 'El mensaje es obligatorio.'
+    return newErrors
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationErrors = validateForm();
+    e.preventDefault()
+    const validationErrors = validateForm()
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
+      setErrors(validationErrors)
+      return
     }
 
-    setErrors({});
-    setIsSubmitting(true);
+    setErrors({})
+    setIsSubmitting(true)
 
     try {
-      const response = await fetch(process.env.REACT_APP_API + "RecepcionEmail.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        process.env.REACT_APP_API + 'RecepcionEmail.php',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      )
 
       if (response.ok) {
-        setSuccessMessage("Mensaje enviado con éxito. ¡Gracias por contactarnos!");
-        mensajeRespuesta("Mensaje enviado con éxito. ¡Gracias por contactarnos!", "success")
-        setFormData({ name: "", email: "", message: "" });
+        setSuccessMessage(
+          'Mensaje enviado con éxito. ¡Gracias por contactarnos!'
+        )
+        mensajeRespuesta(
+          'Mensaje enviado con éxito. ¡Gracias por contactarnos!',
+          'success'
+        )
+        setFormData({ name: '', email: '', message: '' })
       } else {
-        setErrors({ form: "Hubo un error al enviar el mensaje. Inténtalo nuevamente." });
-        mensajeRespuesta("Hubo un error al enviar el mensaje. Inténtalo nuevamente.", "error")
+        setErrors({
+          form: 'Hubo un error al enviar el mensaje. Inténtalo nuevamente.',
+        })
+        mensajeRespuesta(
+          'Hubo un error al enviar el mensaje. Inténtalo nuevamente.',
+          'error'
+        )
       }
     } catch (error) {
-      setErrors({ form: "Error de conexión. Por favor, inténtalo más tarde." });
-      mensajeRespuesta("Error de conexión. Por favor, inténtalo más tarde.", "error")
+      setErrors({ form: 'Error de conexión. Por favor, inténtalo más tarde.' })
+      mensajeRespuesta(
+        'Error de conexión. Por favor, inténtalo más tarde.',
+        'error'
+      )
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
-  
+  }
+
   return (
     <>
       <Navbar />
@@ -111,7 +128,9 @@ const ContactPage = () => {
                   onChange={handleChange}
                   placeholder="Ingresa tu nombre"
                 />
-                {errors.name && <small className="text-danger">{errors.name}</small>}
+                {errors.name && (
+                  <small className="text-danger">{errors.name}</small>
+                )}
               </div>
               <div className="form-group my-3">
                 <label htmlFor="emailInput">Correo electrónico</label>
@@ -124,7 +143,9 @@ const ContactPage = () => {
                   onChange={handleChange}
                   placeholder="nombre@ejemplo.com"
                 />
-                {errors.email && <small className="text-danger">{errors.email}</small>}
+                {errors.email && (
+                  <small className="text-danger">{errors.email}</small>
+                )}
               </div>
               <div className="form-group my-3">
                 <label htmlFor="messageInput">Mensaje</label>
@@ -137,7 +158,9 @@ const ContactPage = () => {
                   onChange={handleChange}
                   placeholder="Escribe tu mensaje"
                 ></textarea>
-                {errors.message && <small className="text-danger">{errors.message}</small>}
+                {errors.message && (
+                  <small className="text-danger">{errors.message}</small>
+                )}
               </div>
               <div className="text-center">
                 <button
@@ -145,7 +168,7 @@ const ContactPage = () => {
                   type="submit"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Enviando..." : "Enviar"}
+                  {isSubmitting ? 'Enviando...' : 'Enviar'}
                 </button>
               </div>
               {errors.form && (
@@ -164,7 +187,7 @@ const ContactPage = () => {
       </div>
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default ContactPage;
+export default ContactPage

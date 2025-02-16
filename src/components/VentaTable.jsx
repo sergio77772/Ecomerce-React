@@ -137,7 +137,7 @@ const bitacoraResponse =  await fetch(APIB, {
   body: JSON.stringify({
        fechahora: new Date().toISOString(),
        usuario:usuario,
-       modulo: "ventaES",
+       modulo: "venta",
        mensaje:`preciocosto:  ${selectedVen.preciocosto}         
        -   precioventa: ${selectedVen.precioventa}
        -   unidadmedida:  ${selectedVen.unidadmedida} 

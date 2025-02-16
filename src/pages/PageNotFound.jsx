@@ -1,6 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Navbar } from "../components";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Navbar } from '../components'
 
 const PageNotFound = () => {
   return (
@@ -19,7 +19,7 @@ const PageNotFound = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default PageNotFound;
+export default PageNotFound
