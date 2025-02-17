@@ -4,15 +4,14 @@ import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import SkeletonTable from './skeleton/SkeletonTable'
 import { mensajeRespuesta, confirmAction } from '../utils/services'
+import { useSelector} from 'react-redux'
 
 const ProductTable = () => {
   const [producto, setproducto] = useState([])
   const [loading, setLoading] = useState(true)
   const [debouncedSearch, setDebouncedSearch] = useState('') // Estado para el debounce
-
   const [error, setError] = useState(null)
-  const usuario = localStorage.getItem('usuario') || 'no hay detalle'
-
+  const usuario = useSelector((state) => state.user.user)
   const [selectedCategory, setSelectedCategory] = useState({
     idcategoria: '',
     idsubcategoria: '',
@@ -472,13 +471,13 @@ const ProductTable = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-
+      {usuario?.idRol === 1 && (
       <div className="mb-3 text-end">
         <button className="btn btn-success" onClick={handleCreate}>
           Añadir Producto
         </button>
       </div>
-
+      )}
       <table className="table table-striped  table-hover">
         <thead className="thead-dark">
           <tr>
@@ -489,7 +488,7 @@ const ProductTable = () => {
             <th>Imagen</th>
             <th>Precio Venta</th>
             <th>Estado</th>
-            <th className="col-3">Acciones</th>
+            {usuario?.idRol === 1 && <th className="col-3">Acciones</th>}
           </tr>
         </thead>
         <tbody>
@@ -555,26 +554,30 @@ const ProductTable = () => {
               </td>
 
               <td>
-                <button
-                  className="btn btn-warning btn-sm me-2"
-                  onClick={() => handleEdit(category)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="btn btn-danger btn-sm me-2"
-                  onClick={() => handleDelete(category.idproducto)}
-                >
-                  Eliminar
-                </button>
+           {usuario?.idRol === 1 && (
+             <>
+              <button
+             className="btn btn-warning btn-sm me-2"
+             onClick={() => handleEdit(category)}
+              >
+               Editar
+             </button>
+             <button
+              className="btn btn-danger btn-sm me-2"
+              onClick={() => handleDelete(category.idproducto)}
+              >
+               Eliminar
+             </button>
+             <button
+              className="btn btn-info btn-sm"
+              onClick={() => handleDuplicar(category.idproducto)}
+              >
+               Duplicar
+             </button>
+             </>
+              )}
+            </td>
 
-                <button
-                  className="btn btn-info btn-sm"
-                  onClick={() => handleDuplicar(category.idproducto)}
-                >
-                  Duplicar
-                </button>
-              </td>
             </tr>
           ))}
         </tbody>

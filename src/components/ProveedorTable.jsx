@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import SkeletonTable from './skeleton/SkeletonTable'
 import { mensajeRespuesta, confirmAction } from '../utils/services'
+import { useSelector } from 'react-redux'
 
 const ProveedorTable = () => {
   const [proveedor, setproveedor] = useState([])
   const [loading, setLoading] = useState(true)
   const [debouncedSearch, setDebouncedSearch] = useState('') // Estado para el debounce
   const [error, setError] = useState(null)
+  const usuario = useSelector ((state) => state.user.user)
   const [selectedprovee, setSelectedprovee] = useState({
     nombre: '',
     cuit: '',
@@ -260,13 +262,13 @@ const ProveedorTable = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-
+      {usuario?.idRol === 1 && (
       <div className="mb-3 text-end">
         <button className="btn btn-success" onClick={handleCreate}>
           Añadir Proveedor
         </button>
       </div>
-
+      )}
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
@@ -280,7 +282,7 @@ const ProveedorTable = () => {
             <th>Estado</th>
             <th>Imagen</th>
 
-            <th>Acciones</th>
+            {usuario?.idRol === 1 &&<th>Acciones</th>}
           </tr>
         </thead>
         <tbody>
@@ -304,6 +306,8 @@ const ProveedorTable = () => {
                 )}
               </td>
               <td>
+              {usuario?.idRol === 1 && (
+                <>
                 <button
                   className="btn btn-warning btn-sm me-2"
                   onClick={() => handleEdit(provee)}
@@ -316,6 +320,8 @@ const ProveedorTable = () => {
                 >
                   Eliminar
                 </button>
+                </>
+              )}
               </td>
             </tr>
           ))}

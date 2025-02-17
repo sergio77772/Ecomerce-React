@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import SkeletonTable from './skeleton/SkeletonTable'
 import { mensajeRespuesta, confirmAction } from '../utils/services'
+import { useSelector } from 'react-redux'
 
 const SubCategoryTable = () => {
   const [subcategoria, setsubcategoria] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const usuario = useSelector((state) => state.user.user)
   const [selectedCategory, setSelectedCategory] = useState({
     nombre: '',
     idcategoria: '',
@@ -262,13 +264,13 @@ const SubCategoryTable = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-
+       {usuario?.idRol === 1 && (
       <div className="mb-3 text-end">
         <button className="btn btn-success" onClick={handleCreate}>
           Añadir SubCategoria
         </button>
       </div>
-
+       )}
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
@@ -277,8 +279,7 @@ const SubCategoryTable = () => {
             <th>Categoria</th>
             <th>Estado</th>
             <th>Imagen</th>
-
-            <th>Acciones</th>
+            {usuario?.idRol === 1 && <th>Acciones</th>}
           </tr>
         </thead>
         <tbody>
@@ -333,6 +334,8 @@ const SubCategoryTable = () => {
                 )}
               </td>
               <td>
+              {usuario?.idRol === 1 && (
+                <>
                 <button
                   className="btn btn-warning btn-sm me-2"
                   onClick={() => handleEdit(Category)}
@@ -345,6 +348,8 @@ const SubCategoryTable = () => {
                 >
                   Eliminar
                 </button>
+                </>
+              )}
               </td>
             </tr>
           ))}
