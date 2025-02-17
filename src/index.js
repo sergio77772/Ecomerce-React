@@ -27,7 +27,8 @@ import AdminProveedor  from "./pages/admin/AdminProveedor";
 import AdminCliente  from "./pages/admin/AdminCliente"; 
 import AdminVenta  from "./pages/admin/AdminVenta"; 
 import AdminSubCategory  from "./pages/admin/AdminSubCategory";
-import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de administracion
+import  AdminDashboard from "./pages/admin/AdminDashboard" ;
+import  AdminReportes from "./pages/admin/AdminReportes" ;//dashboard de administracion
 import AdminBitacora from "./pages/admin/AdminBitacora";
 import AdminMesa from "./pages/admin/AdminMesa";
 import ScrollToTop from "./components/ScrollToTop";
@@ -62,6 +63,7 @@ root.render(
           <Route path="/admin/proveedores" element={token ? <AdminProveedor /> : <Navigate to="/login" />} />
           <Route path="/admin/subcategorias"  element={token ? <AdminSubCategory /> : <Navigate to="/login" />} />
           <Route path="/admin/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
+          <Route path="/admin/reportes" element={token ? <AdminReportes /> : <Navigate to="/login" />} />
           <Route path="/admin/users" element={token ? <AdminUsers /> : <Navigate to="/login" />} />
           <Route path="/admin/bitacora" element ={<AdminBitacora/>} />
           <Route path="/admin/mesa" element ={<AdminMesa/>} />
