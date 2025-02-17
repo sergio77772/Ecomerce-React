@@ -28,10 +28,30 @@ const Sidebar = () => {
         },
       ],
     },
-    { title: 'Diseño', icon: 'bi-palette', link: '/admin/diseno' },
-    { title: 'Ventas', icon: 'bi-cart', link: '/admin/ventas' },
+    {
+      title: 'Diseño',
+      icon: 'bi-palette',
+      submenus: [
+        { title: 'Colores', icon: 'bi bi-brush', link: '/admin/template' },
+      ]
+    },
+
+    { title: 'Ventas', icon: 'bi-cart',
+
+      submenus: [
+        { title: 'Pedidos', icon: 'bi bi-clipboard-check', link: '/admin/pedidos' },
+      ]
+
+     },
+
+
     { title: 'Clientes', icon: 'bi-people', link: '/admin/clientes' },
-    { title: 'Marketing', icon: 'bi-megaphone', link: '/admin/marketing' },
+    { title: 'Marketing', icon: 'bi-megaphone',
+      submenus: [
+        { title: 'Envio de campañas', icon: 'bi bi-envelope-arrow-up-fill', link: '/admin/campania' },
+      ]
+
+     },
     {
       title: 'Sistema',
       icon: 'bi-gear',
