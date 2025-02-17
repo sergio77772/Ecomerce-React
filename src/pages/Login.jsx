@@ -19,6 +19,7 @@ const Login = () => {
     e.preventDefault()
     const resultado = await dispatch(loginUser({ correo, password })) // Llamar a la acción de Redux
     if (resultado.success) {
+      
       navigate('/')
     } else {
       console.error(resultado.menssage)

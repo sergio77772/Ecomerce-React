@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Footer, Navbar } from '../components';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { saveCartToAPI  } from '../redux/action'
+import { Link, useNavigate } from 'react-router-dom';
+import { saveCartToAPI } from '../redux/action';
 
 const Checkout = () => {
   const state = useSelector((state) => state.handleCart);
   const usuario = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
   const [email, setEmail] = useState('');
   const [direccion, setDireccion] = useState('');
   const [pais, setPais] = useState('');
   const [estado, setEstado] = useState('');
   const [codigoPostal, setCodigoPostal] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (usuario) {
       setNombre(usuario.nombre || '');
-      setApellido(usuario.apellido || '');
       setEmail(usuario.correo || '');
       setDireccion(usuario.direccion || '');
     }
@@ -28,23 +28,24 @@ const Checkout = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const orderData = {
       userId: usuario.id,
-   /*    nombre,
-      apellido,
-      email,
-      direccion,
-      pais,
-      estado,
-      codigoPostal, */
       productos: state.map((item) => ({
         product_id: item.idproducto,
         cantidad: item.qty
       }))
     };
 
-      dispatch(saveCartToAPI(orderData.productos,orderData.userId));
+    try {
+      await dispatch(saveCartToAPI(orderData.productos, orderData.userId));
+      setLoading(false);
+      navigate('/mis-pedidos'); // Redirigir a la página de pedidos
+    } catch (error) {
+      console.error('Error al guardar el pedido:', error);
+      setLoading(false);
+    }
   };
 
   const EmptyCart = () => (
@@ -102,11 +103,6 @@ const Checkout = () => {
                       <input type="text" className="form-control" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
                     </div>
 
-                    <div className="col-sm-6 my-1">
-                      <label className="form-label">Apellido</label>
-                      <input type="text" className="form-control" value={apellido} onChange={(e) => setApellido(e.target.value)} required />
-                    </div>
-
                     <div className="col-12 my-1">
                       <label className="form-label">Email</label>
                       <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
@@ -142,13 +138,28 @@ const Checkout = () => {
 
                     <div className="col-md-3 my-1">
                       <label className="form-label">Código Postal</label>
-                      <input type="text" className="form-control" value={codigoPostal} onChange={(e) => setCodigoPostal(e.target.value)} required />
+                      <input type="number" className="form-control" value={codigoPostal} onChange={(e) => setCodigoPostal(e.target.value)} required />
                     </div>
                   </div>
 
                   <hr className="my-4" />
-                  <button className="w-100 btn btn-primary" type="submit">
-                    Continuar pagando
+
+                  {/* Botón con spinner de carga */}
+                  <button className="w-100 btn btn-primary d-flex align-items-center justify-content-center" type="submit" disabled={loading}>
+                    {loading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        Guardando pedido...
+                      </>
+                    ) : (
+                      <>
+                        <i className="fa fa-phone me-2"></i> Quiero que me contacten
+                      </>
+                    )}
+                  </button>
+
+                  <button className="w-100 btn btn-secondary d-flex align-items-center justify-content-center mt-3" disabled>
+                    <i className="fa fa-credit-card me-2"></i> Pagar con MercadoPago
                   </button>
                 </form>
               </div>
