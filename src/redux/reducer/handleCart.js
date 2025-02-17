@@ -34,8 +34,8 @@ const handleCart = (state = getInitialCart(), action) => {
       return updatedCart
 
     case 'CLEARCART':
-     
-      return state
+      localStorage.removeItem('cart') // Limpia localStorage
+      return [] // Retorna un array vacío para limpiar el carrito
 
     default:
       return state

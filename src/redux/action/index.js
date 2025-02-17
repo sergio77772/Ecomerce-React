@@ -34,6 +34,7 @@ export const saveCartToAPI = (cart, userId) => async (dispatch) => {
 
     console.log('Carrito guardado exitosamente', data);
     
+    
     // Vaciar el carrito después de una compra exitosa
     dispatch(clearCart());
     

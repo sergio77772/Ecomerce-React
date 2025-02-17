@@ -19,6 +19,7 @@ import {
   PageNotFound,
   Account,
   Orders,
+  OrderDetails
 } from "./pages";
 import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
 import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
@@ -54,6 +55,7 @@ root.render(
           <Route path="/register" element={<Register />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/order/:id" element={<OrderDetails />} />
 
           <Route path="*" element={<PageNotFound />} />
           <Route

@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { logoutUser } from '../redux/action/userActions' // Importamos la acción de logout
+import { logoutUser } from '../redux/action/userActions' // Acción para cerrar sesión
 
 const Navbar = () => {
   const state = useSelector((state) => state.handleCart)
@@ -10,7 +10,10 @@ const Navbar = () => {
   const dispatch = useDispatch()
   const comercio = useSelector((state) => state.comercio.comercio)
   const usuario = useSelector((state) => state.user.user)
+  const orders = useSelector((state) => state.orders.orders) || []
+
   const baseURL = process.env.REACT_APP_BASE_URL
+
   const handleLogout = () => {
     dispatch(logoutUser()) // Eliminamos usuario del estado global y localStorage
     navigate('/')
@@ -95,7 +98,7 @@ const Navbar = () => {
                   {usuario?.nombre || 'Usuario'}
                 </button>
                 <ul
-                  className="dropdown-menu dropdown-menu-end"
+                  className="dropdown-menu dropdown-menu-end p-3 custom-dropdown"
                   aria-labelledby="userDropdown"
                 >
                   <li>
@@ -104,8 +107,14 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink className="dropdown-item" to="/orders">
+                    <NavLink
+                      className="dropdown-item d-flex justify-content-between align-items-center"
+                      to="/orders"
+                    >
                       <i className="fa fa-shopping-bag"></i> Mis Pedidos
+                      {orders.length > 0 && (
+                        <span className="badge bg-danger ms-2">{orders.length}</span>
+                      )}
                     </NavLink>
                   </li>
                   <li>
@@ -129,8 +138,7 @@ const Navbar = () => {
             )}
 
             <NavLink to="/cart" className="btn btn-outline-dark m-2">
-              <i className="fa fa-cart-shopping mr-1"></i> Carro ({state.length}
-              )
+              <i className="fa fa-cart-shopping mr-1"></i> Carro ({state.length})
             </NavLink>
           </div>
         </div>

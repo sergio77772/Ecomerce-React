@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navbar, Footer } from '../components';
-import { getOrders } from '../redux/action/ordersActions'; // Acción para obtener órdenes
+import { getOrders } from '../redux/action/ordersActions';
+import { useNavigate } from 'react-router-dom';
 
 function Orders() {
   const dispatch = useDispatch();
-  const usuario = useSelector((state) => state.user.user);
-  const orders = useSelector((state) => state.Orders) || []; // Aseguramos que orders no sea undefined
+  const navigate = useNavigate();
   
- console.log(orders)
+  const usuario = useSelector((state) => state.user.user);
+  const orders = useSelector((state) => state.orders.orders) || [];
+  const loading = useSelector((state) => state.orders.loading); // Agregamos el estado de carga
 
   useEffect(() => {
     if (usuario) {
@@ -16,13 +18,19 @@ function Orders() {
     }
   }, [usuario, dispatch]);
 
+  const handleViewDetails = (orderId) => {
+    navigate(`/order/${orderId}`);
+  };
+
   return (
     <>
       <Navbar />
       <div className="container my-5">
         <h2 className="text-center mb-4">Mis Órdenes</h2>
 
-        {orders.length === 0 ? (
+        {loading ? (
+          <p className="text-center">🔄 Cargando órdenes...</p>
+        ) : orders.length === 0 ? (
           <p className="text-center">No tienes órdenes registradas.</p>
         ) : (
           <div className="table-responsive">
@@ -44,7 +52,7 @@ function Orders() {
                     <td>{order.estado || 'Sin estado'}</td>
                     <td>{order.created_at ? new Date(order.created_at).toLocaleDateString() : 'Fecha no disponible'}</td>
                     <td>
-                      <button className="btn btn-primary btn-sm">
+                      <button className="btn btn-primary btn-sm" onClick={() => handleViewDetails(order.id)}>
                         Ver Detalles
                       </button>
                     </td>
