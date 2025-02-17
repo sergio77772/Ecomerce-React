@@ -24,7 +24,8 @@ import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta segú
 import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
 import AdminProveedor  from "./pages/admin/AdminProveedor"; 
 import AdminSubCategory  from "./pages/admin/AdminSubCategory";
-import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de administracion
+import  AdminDashboard from "./pages/admin/AdminDashboard" ;
+import  AdminReportes from "./pages/admin/AdminReportes" ;//dashboard de administracion
 import AdminBitacora from "./pages/admin/AdminBitacora";
 import AdminMesa from "./pages/admin/AdminMesa";
 import ScrollToTop from "./components/ScrollToTop";
@@ -55,6 +56,7 @@ root.render(
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/orders" element={<Orders />} />
 
+<<<<<<< HEAD
           <Route path="*" element={<PageNotFound />} />
           <Route
             path="/admin/productos"
@@ -87,6 +89,23 @@ root.render(
           <Route path="/admin/logsDeSistema" element={<AdminLogsDeSistema />} />
           <Route path="/admin/ordenes" element={<AdminOdenes />} />
           <Route path="/product/*" element={<PageNotFound />} />
+=======
+          <Route path="/admin/productos" element={token ? <AdminProducts /> : <Navigate to="/login" />} />
+          <Route path="/admin/categorias"  element={token ? <AdminCategory /> : <Navigate to="/login" />} />
+          <Route path="/admin/proveedores" element={token ? <AdminProveedor /> : <Navigate to="/login" />} />
+          <Route path="/admin/subcategorias"  element={token ? <AdminSubCategory /> : <Navigate to="/login" />} />
+          <Route path="/admin/dashboard" element={token ? <AdminDashboard /> : <Navigate to="/login" />} />
+          <Route path="/admin/reportes" element={token ? <AdminReportes /> : <Navigate to="/login" />} />
+          <Route path="/admin/users" element={token ? <AdminUsers /> : <Navigate to="/login" />} />
+          <Route path="/admin/bitacora" element ={<AdminBitacora/>} />
+          <Route path="/admin/mesa" element ={<AdminMesa/>} />
+          <Route path="/admin/comercio" element ={<AdminComercio/>} />
+          <Route path="/admin/venta" element ={<AdminVenta/>} />    
+          <Route path="/admin/cliente" element ={<AdminCliente/>} />
+          <Route path="/admin/logsDeSistema" element = {<AdminLogsDeSistema/>} />
+          <Route path="/admin/ordenes" element = { <AdminOdenes/> } />
+          <Route path="/product/*" element= {<PageNotFound />} />
+>>>>>>> Fernando
         </Routes>
       </Provider>
     </ScrollToTop>

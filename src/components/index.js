@@ -9,6 +9,7 @@ export { default as ClienteTable } from './ClienteTable';
 export { default as VentaTable } from './VentaTable';
 export { default as SubCategoryTable } from './SubCategoryTable';
 export { default as  Dashboard } from './Dashboard';
+export { default as  Reportes } from './Reportes';
 export { default as  UserTable } from './UserTable';
 export { default as  BitacoraTable } from './BitacoraTable';
 export { default as  LogsDeSistemaTable } from './LogsDeSistemaTable';
