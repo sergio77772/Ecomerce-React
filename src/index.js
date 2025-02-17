@@ -34,8 +34,9 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminLogsDeSistema from "./pages/admin/AdminLogsDeSistema";
 import AdminOdenes from "./pages/admin/AdminOrdenes";
 import AdminComercio from "./pages/admin/AdminComercio";
-import AdminLocalidades from "./pages/admin/AdminLocalidades"
-
+import AdminVenta from "./pages/admin/AdminVenta";
+import AdminCliente from "./pages/admin/AdminCliente";
+import AdminLocalidades from "./pages/admin/AdminLocalidades";
 const token = localStorage.getItem('token')
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -56,40 +57,6 @@ root.render(
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/orders" element={<Orders />} />
 
-<<<<<<< HEAD
-          <Route path="*" element={<PageNotFound />} />
-          <Route
-            path="/admin/productos"
-            element={token ? <AdminProducts /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/admin/categorias"
-            element={token ? <AdminCategory /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/admin/proveedor"
-            element={token ? <AdminProveedor /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/admin/subcategorias"
-            element={token ? <AdminSubCategory /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/admin/dashboard"
-            element={token ? <AdminDashboard /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/admin/users"
-            element={token ? <AdminUsers /> : <Navigate to="/login" />}
-          />
-          <Route path="/admin/bitacora" element={<AdminBitacora />} />
-          <Route path="/admin/mesa" element={<AdminMesa />} />
-          <Route path="/admin/comercio" element={<AdminComercio />} />
-       <Route path="/admin/Localidades" element={<AdminLocalidades />} />
-          <Route path="/admin/logsDeSistema" element={<AdminLogsDeSistema />} />
-          <Route path="/admin/ordenes" element={<AdminOdenes />} />
-          <Route path="/product/*" element={<PageNotFound />} />
-=======
           <Route path="/admin/productos" element={token ? <AdminProducts /> : <Navigate to="/login" />} />
           <Route path="/admin/categorias"  element={token ? <AdminCategory /> : <Navigate to="/login" />} />
           <Route path="/admin/proveedores" element={token ? <AdminProveedor /> : <Navigate to="/login" />} />
@@ -105,7 +72,6 @@ root.render(
           <Route path="/admin/logsDeSistema" element = {<AdminLogsDeSistema/>} />
           <Route path="/admin/ordenes" element = { <AdminOdenes/> } />
           <Route path="/product/*" element= {<PageNotFound />} />
->>>>>>> Fernando
         </Routes>
       </Provider>
     </ScrollToTop>
