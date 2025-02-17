@@ -19,7 +19,8 @@ import {
   PageNotFound,
   Account,
   Orders,
-  OrderDetails
+  OrderDetails,
+  Subcategories
 } from "./pages";
 import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
 import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
@@ -48,6 +49,8 @@ root.render(
 
           <Route path="/product" element={<Products />} />
           <Route path="/product/:id" element={<Product />} />
+          <Route path="/subcategorias/:idcategoria" element={<Subcategories />} />
+
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/cart" element={<Cart />} />
@@ -67,7 +70,7 @@ root.render(
             element={token ? <AdminCategory /> : <Navigate to="/login" />}
           />
           <Route
-            path="/admin/proveedor"
+            path="/admin/proveedores"
             element={token ? <AdminProveedor /> : <Navigate to="/login" />}
           />
           <Route
@@ -85,8 +88,7 @@ root.render(
           <Route path="/admin/bitacora" element={<AdminBitacora />} />
           <Route path="/admin/mesa" element={<AdminMesa />} />
           <Route path="/admin/comercio" element={<AdminComercio />} />
-
-          <Route path="/admin/Localidades" element={<AdminLocalidades />} />
+       <Route path="/admin/Localidades" element={<AdminLocalidades />} />
           <Route path="/admin/logsDeSistema" element={<AdminLogsDeSistema />} />
           <Route path="/admin/ordenes" element={<AdminOdenes />} />
           <Route path="/product/*" element={<PageNotFound />} />
