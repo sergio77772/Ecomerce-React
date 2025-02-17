@@ -496,8 +496,7 @@ const ProductTable = () => {
             <tr key={category.idproducto}>
               <td>{getCategoryNameById(category.idcategoria)}</td>
               <td>{getSubCategoryNameById(category.idsubcategoria)}</td>
-              {/* <td>{category.idcategoria}</td>
-                <td>{category.idsubcategoria}</td> */}
+           
               <td>{category.codigoArticulo}</td>
               <td>{category.descripcion}</td>
               <td>
@@ -552,9 +551,9 @@ const ProductTable = () => {
                   </div>
                 )}
               </td>
-
+              {usuario?.idRol === 1 && (
               <td>
-           {usuario?.idRol === 1 && (
+           
              <>
               <button
              className="btn btn-warning btn-sm me-2"
@@ -575,9 +574,9 @@ const ProductTable = () => {
                Duplicar
              </button>
              </>
-              )}
+            
             </td>
-
+          )}
             </tr>
           ))}
         </tbody>
