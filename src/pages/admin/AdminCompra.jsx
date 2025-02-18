@@ -1,9 +1,9 @@
 import React from "react";
-import {  Footer,ClienteTable } from "../../components";
+import {  Footer, CompraTable } from "../../components";
 import Sidebar from "../../components/backoffices/Menu";
 import Header from "../../components/backoffices/Header";
 
-const AdminCliente = () => {
+const AdminCompra = () => {
   return (
     <>
    <Header/>
@@ -14,7 +14,7 @@ const AdminCliente = () => {
              <Sidebar />
            </div>
            <div className="col-md-10 p-4">
-             <ClienteTable />  {/*componente */}
+             <CompraTable />  {/*componente */}
            </div>
          </div>
        </div>
@@ -26,4 +26,4 @@ const AdminCliente = () => {
   );
 };
 
-export default AdminCliente;
+export default AdminCompra;

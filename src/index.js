@@ -36,6 +36,9 @@ import AdminLogsDeSistema from "./pages/admin/AdminLogsDeSistema";
 import AdminOdenes from "./pages/admin/AdminOrdenes";
 import AdminComercio from "./pages/admin/AdminComercio";
 import AdminLocalidades from "./pages/admin/AdminLocalidades"
+import AdminCliente from "./pages/admin/AdminCliente";
+import AdminVenta from "./pages/admin/AdminVenta"
+import AdminCompra from "./pages/admin/AdminCompra"
 
 const token = localStorage.getItem('token')
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -85,6 +88,9 @@ root.render(
             path="/admin/users"
             element={token ? <AdminUsers /> : <Navigate to="/login" />}
           />
+         <Route path="/admin/compra" element={<AdminCompra />} />
+         <Route path="/admin/cliente" element={<AdminCliente />} />
+         <Route path="/admin/venta" element={<AdminVenta />} />
           <Route path="/admin/bitacora" element={<AdminBitacora />} />
           <Route path="/admin/mesa" element={<AdminMesa />} />
           <Route path="/admin/comercio" element={<AdminComercio />} />

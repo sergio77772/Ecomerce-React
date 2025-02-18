@@ -36,22 +36,22 @@ const Sidebar = () => {
       ]
     },
 
-    { title: 'Ventas', icon: 'bi-cart',
-
-      submenus: [
-        { title: 'Pedidos', icon: 'bi bi-clipboard-check', link: '/admin/pedidos' },
-      ]
-
-     },
 
 
-    { title: 'Clientes', icon: 'bi-people', link: '/admin/clientes' },
+
+    { title: 'Clientes', icon: 'bi-people', link: '/admin/cliente' },
     { title: 'Marketing', icon: 'bi-megaphone',
       submenus: [
         { title: 'Envio de campañas', icon: 'bi bi-envelope-arrow-up-fill', link: '/admin/campania' },
       ]
 
      },
+     { title: 'Ventas', icon: 'bi-cart', link: '/admin/venta' },
+     { title: 'Compras', icon: 'bi-bag', link: '/admin/compra' },
+
+    
+  
+   
     {
       title: 'Sistema',
       icon: 'bi-gear',
