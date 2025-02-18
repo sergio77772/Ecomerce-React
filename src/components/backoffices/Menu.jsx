@@ -29,8 +29,9 @@ const Sidebar = () => {
       ],
     },
     { title: 'Diseño', icon: 'bi-palette', link: '/admin/diseno' },
-    { title: 'Ventas', icon: 'bi-cart', link: '/admin/ventas' },
-    { title: 'Clientes', icon: 'bi-people', link: '/admin/clientes' },
+    { title: 'Ventas', icon: 'bi-cart', link: '/admin/venta' },
+    { title: 'Compras', icon: 'bi-bag', link: '/admin/compra' },
+    { title: 'Clientes', icon: 'bi-people', link: '/admin/cliente' },
     { title: 'Marketing', icon: 'bi-megaphone', link: '/admin/marketing' },
     {
       title: 'Sistema',
