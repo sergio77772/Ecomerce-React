@@ -237,6 +237,33 @@ const ProveedorTable = () => {
     setModalVisible(true)
   }
 
+  const handleToggleEstado = async (provee) => {
+    try {
+      const nuevoEstado = provee.estado === 'Activo' ? 'Inactivo' : 'Activo';
+      setproveedor((prevProveedores) =>
+        prevProveedores.map((item) =>
+          item.idproveedor === provee.idproveedor ? { ...item, estado: nuevoEstado } : item
+        )
+      );
+  
+      const response = await fetch(`${API}&id=${provee.idproveedor}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...provee, estado: nuevoEstado }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Error al actualizar el estado del proveedor.');
+      }
+  
+      mensajeRespuesta('Estado del proveedor actualizado correctamente', 'success');
+    } catch (err) {
+      mensajeRespuesta(err.message, 'error');
+    }
+  };
+
   if (loading) {
     return (
       <div className="text-center">
@@ -269,6 +296,7 @@ const ProveedorTable = () => {
         </button>
       </div>
       )}
+
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
@@ -281,7 +309,6 @@ const ProveedorTable = () => {
 
             <th>Estado</th>
             <th>Imagen</th>
-
             {usuario?.idRol === 1 &&<th>Acciones</th>}
           </tr>
         </thead>
@@ -295,7 +322,42 @@ const ProveedorTable = () => {
               <td>{provee.telefono}</td>
               <td>{provee.telefono1}</td>
 
-              <td>{provee.estado}</td>
+              <td>
+              <div
+                className="d-inline-block"
+                onClick={() => handleToggleEstado(provee)}
+                style={{
+                  width: '50px',
+                  height: '25px',
+                  borderRadius: '25px',
+                  backgroundColor:
+                    provee.estado === 'Activo' ? '#4CAF50' : '#ccc',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent:
+                    provee.estado === 'Activo' ? 'flex-end' : 'flex-start',
+                  padding: '3px',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  position: 'relative',
+                  userSelect: 'none',
+                }}
+              >
+                <div
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    backgroundColor: '#fff',
+                    borderRadius: '50%',
+                    boxShadow: '0 0 2px rgba(0, 0, 0, 0.2)',
+                    transition: 'all 0.3s ease',
+                    position: 'absolute',
+                    left: provee.estado === 'Activo' ? '25px' : '3px',
+                  }}
+                ></div>
+              </div>
+            </td>
+
               <td>
                 {provee.imagen && (
                   <img

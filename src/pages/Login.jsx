@@ -5,6 +5,7 @@ import { loginUser } from '../redux/action/userActions'
 import { Footer, Navbar } from '../components'
 import 'bootstrap/dist/css/bootstrap.min.css' // Estilos de Bootstrap
 import 'bootstrap/dist/js/bootstrap.bundle.min.js' // JS de Bootstrap
+import { mensajeRespuesta } from '../utils/services'
 
 const Login = () => {
   const [correo, setCorreo] = useState('')
@@ -22,7 +23,8 @@ const Login = () => {
       
       navigate('/')
     } else {
-      console.error(resultado.menssage)
+      mensajeRespuesta('Los datos ingresados son incorrectos', 'error')
+      console.error(resultado.message)
     }
   }
 

@@ -3,6 +3,7 @@ import { Footer, Navbar } from '../components';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { saveCartToAPI } from '../redux/action';
+import { mensajeRespuesta } from '../utils/services';
 
 const Checkout = () => {
   const state = useSelector((state) => state.handleCart);
@@ -41,7 +42,10 @@ const Checkout = () => {
     try {
       await dispatch(saveCartToAPI(orderData.productos, orderData.userId));
       setLoading(false);
-      navigate('/mis-pedidos'); // Redirigir a la página de pedidos
+      mensajeRespuesta('Su pedido fue realizado con éxito', 'success', '🛒');
+      setTimeout(() => {
+      navigate('/Orders'); 
+      }, 1000);
     } catch (error) {
       console.error('Error al guardar el pedido:', error);
       setLoading(false);
@@ -138,7 +142,7 @@ const Checkout = () => {
 
                     <div className="col-md-3 my-1">
                       <label className="form-label">Código Postal</label>
-                      <input type="number" className="form-control" value={codigoPostal} onChange={(e) => setCodigoPostal(e.target.value)} required />
+                      <input type="text" className="form-control" value={codigoPostal} onChange={(e) => setCodigoPostal(e.target.value)} required />
                     </div>
                   </div>
 
