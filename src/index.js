@@ -38,6 +38,7 @@ import AdminCliente from "./pages/admin/AdminCliente";
 import AdminVenta from "./pages/admin/AdminVenta"
 import AdminCompra from "./pages/admin/AdminCompra"
 
+
 const token = localStorage.getItem('token')
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -86,10 +87,11 @@ root.render(
          <Route path="/admin/compra" element={<AdminCompra />} />
          <Route path="/admin/cliente" element={<AdminCliente />} />
          <Route path="/admin/venta" element={<AdminVenta />} />
+        
           <Route path="/admin/bitacora" element={<AdminBitacora />} />
           <Route path="/admin/mesa" element={<AdminMesa />} />
           <Route path="/admin/comercio" element={<AdminComercio />} />
-       <Route path="/admin/Localidades" element={<AdminLocalidades />} />
+          <Route path="/admin/Localidades" element={<AdminLocalidades />} />
           <Route path="/admin/logsDeSistema" element={<AdminLogsDeSistema />} />
           <Route path="/admin/ordenes" element={<AdminOdenes />} />
           <Route path="/product/*" element={<PageNotFound />} />
