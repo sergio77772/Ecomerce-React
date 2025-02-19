@@ -24,7 +24,7 @@ const Sidebar = () => {
         {
           title: 'Proveedores',
           icon: 'bi-person-circle',
-          link: '/admin/proveedores',
+          link: '/admin/proveedor',
         },
       ],
     },

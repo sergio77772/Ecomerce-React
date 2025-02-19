@@ -27,7 +27,7 @@ const CompraTable = () => {
   });
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
-  const [imageFile, setImageFile] = useState(null);
+
   const [isEditing, setIsEditing] = useState(false); // Nueva bandera para distinguir entre alta y edición
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -89,7 +89,7 @@ console.log("compra",Compra)
       idproveedor: Clie.idproveedor || "",      
       idcompra:       Clie.idcompra,
     });
-    setImageFile(null);
+ 
     setIsEditing(true); // Activar modo edición
     setModalVisible(true);
   };
@@ -97,7 +97,7 @@ console.log("compra",Compra)
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-    
+     
 
       const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
       const endpoint = isEditing
@@ -210,7 +210,7 @@ const handleDelete = async (id) => {
    
      
     });
-    setImageFile(null);
+ 
     setIsEditing(false); // Activar modo alta
     setModalVisible(true);
   };
