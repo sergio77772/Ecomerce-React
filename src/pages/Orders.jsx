@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Navbar, Footer } from '../components';
 import { getOrders } from '../redux/action/ordersActions';
 import { useNavigate } from 'react-router-dom';
+import SkeletonTable from '../components/skeleton/SkeletonTable'
 
 function Orders() {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ function Orders() {
         <h2 className="text-center mb-4">Mis Órdenes</h2>
 
         {loading ? (
-          <p className="text-center">🔄 Cargando órdenes...</p>
+          <SkeletonTable rows={9} columns={5} />
         ) : orders.length === 0 ? (
           <p className="text-center">No tienes órdenes registradas.</p>
         ) : (

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Footer, Navbar } from '../components'
 import { Link } from 'react-router-dom'
+import { mensajeRespuesta } from '../utils/services'
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -44,10 +45,10 @@ const Register = () => {
 
       const data = await response.json()
       if (response.ok) {
-        setMessage('Registro exitoso. Redirigiendo...')
+        mensajeRespuesta('Registro exitoso', 'success') 
         setTimeout(() => (window.location.href = '/login'), 2000)
       } else {
-        setMessage(data.error || 'Error en el registro')
+        mensajeRespuesta(data.error || 'Error en el registro')
       }
     } catch (error) {
       setMessage('Error en la solicitud')

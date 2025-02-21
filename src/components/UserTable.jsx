@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import SkeletonTable from './skeleton/SkeletonTable'
 import { mensajeRespuesta, confirmAction } from '../utils/services'
+import { useSelector } from 'react-redux'
 
 const UserTable = () => {
   const [, setUsers] = useState([])
@@ -14,11 +15,11 @@ const UserTable = () => {
     direccion: '',
     imagen: null,
   })
+  const usuario = useSelector ((state) => state.user.user)
   const [isEditing, setIsEditing] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
-
   const API_URL = process.env.REACT_APP_API + 'users.php'
   const URL = process.env.REACT_APP_BASE_URL
 
@@ -172,13 +173,16 @@ const UserTable = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
+        {usuario?.idRol === 1 && (
         <button
           className="btn btn-primary"
           onClick={() => setModalVisible(true)}
         >
           Add User
         </button>
+        )}
       </div>
+  
       <table className="table table-striped table-bordered">
         <thead className="table-dark">
           <tr>
@@ -186,7 +190,7 @@ const UserTable = () => {
             <th>Name</th>
             <th>Email</th>
             <th>Address</th>
-            <th>Actions</th>
+            {usuario?.idRol === 1 &&<th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -207,6 +211,8 @@ const UserTable = () => {
               <td>{user.correo}</td>
               <td>{user.direccion || 'N/A'}</td>
               <td>
+              {usuario?.idRol === 1 && (
+                <>
                 <button
                   className="btn btn-warning btn-sm me-2"
                   onClick={() => handleEditUser(user)}
@@ -219,6 +225,8 @@ const UserTable = () => {
                 >
                   Delete
                 </button>
+                </> 
+              )}
               </td>
             </tr>
           ))}

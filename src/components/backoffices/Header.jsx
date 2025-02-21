@@ -18,6 +18,12 @@ const Header = () => {
     navigate('/') // Redirige a la página de ayuda
   }
 
+  const handleInicio = () => {
+    navigate('/') 
+  }
+
+
+
   return (
     <nav className="navbar navbar-light bg-light px-3">
       <div className="d-flex align-items-center">
@@ -70,6 +76,12 @@ const Header = () => {
             </button>
           </li>
 
+          <li>
+            <button className="dropdown-item" onClick={handleInicio}>
+              <i className="fa fa-home"></i> Inicio
+            </button>
+          </li>
+          
           <li>
             <button
               className="dropdown-item text-danger"
