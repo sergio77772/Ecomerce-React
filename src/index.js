@@ -35,7 +35,8 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminLogsDeSistema from "./pages/admin/AdminLogsDeSistema";
 import AdminOdenes from "./pages/admin/AdminOrdenes";
 import AdminComercio from "./pages/admin/AdminComercio";
-import AdminLocalidades from "./pages/admin/AdminLocalidades"
+import AdminLocalidades from "./pages/admin/AdminLocalidades";
+import AdminRoles from './pages/admin/AdminRoles'
 
 const token = localStorage.getItem('token')
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -90,6 +91,7 @@ root.render(
           <Route path="/admin/comercio" element={<AdminComercio />} />
        <Route path="/admin/Localidades" element={<AdminLocalidades />} />
           <Route path="/admin/logsDeSistema" element={<AdminLogsDeSistema />} />
+          <Route path= "/admin/Roles" element = {<AdminRoles/>} />
           <Route path="/admin/ordenes" element={<AdminOdenes />} />
           <Route path="/product/*" element={<PageNotFound />} />
         </Routes>

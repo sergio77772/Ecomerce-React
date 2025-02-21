@@ -15,7 +15,6 @@ export { default as  LogsDeSistemaTable } from './LogsDeSistemaTable';
 export { default as  OrdenesTable } from './OrdenesTable';
 export { default as  MesaTable } from './MesaTable';
 export { default as  ComercioTables } from './ComercioTables';
-export { default as LocalidadesTables } from './LocalidadesTables'        
-
-
+export { default as LocalidadesTables } from './LocalidadesTables';        
+export { default as  RolesTable } from './RolesTable'
 

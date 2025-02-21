@@ -79,6 +79,11 @@ const Sidebar = () => {
           icon: 'bi-geo-alt-fill',
           link: '/admin/localidades',
         },
+        {
+          title: 'Roles',
+          icon: 'bi-people',
+          link: '/admin/roles',
+        },
       ],
     },
     { title: 'Reportes', icon: 'bi-graph-up', link: '/admin/reportes' },
