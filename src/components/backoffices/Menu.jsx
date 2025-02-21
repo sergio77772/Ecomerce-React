@@ -89,7 +89,7 @@ const Sidebar = () => {
 
     { title: 'Configuración', icon: 'bi-graph-up', roles: [1] ,
       submenus: [
-        { title: 'Usuarios', icon: 'bi-person', roles: [1], link: '/admin/users' },
+      
         { title: 'Mi Comercio', icon: 'bi-house-gear', roles: [1], link: '/admin/comercio' },
         {
           title: 'Diseño', icon: 'bi-palette', roles: [1],
