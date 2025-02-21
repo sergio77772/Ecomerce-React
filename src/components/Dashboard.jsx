@@ -90,10 +90,10 @@ const Dashboard = () => {
     <div className="container my-4">
       <h1 className="mb-4">Inicio</h1>
       <div className="row g-4">
-        <DashboardCard title="Total de Pedidos" value={totalPedidos} bgColor="bg-primary" link="Venta" />
-        <DashboardCard title="Total de Ventas" value={totalVentas} bgColor="bg-info" link="Venta" />
-        <DashboardCard title="Total de Clientes" value={totalCliente} bgColor="bg-success" link="Cliente"/>
-        <DashboardCard title="Personas Online" value={personasOnline} bgColor="bg-secondary" link="Users"/>
+        <DashboardCard title="Total de Pedidos" value={totalPedidos} bgColor="bg-primary" link="" />
+        <DashboardCard title="Total de Ventas" value={totalVentas} bgColor="bg-info" link="" />
+        <DashboardCard title="Total de Clientes" value={totalCliente} bgColor="bg-success" link=""/>
+        <DashboardCard title="Personas Online" value={personasOnline} bgColor="bg-secondary" link=""/>
       </div>
 
       <div className="row mt-4">

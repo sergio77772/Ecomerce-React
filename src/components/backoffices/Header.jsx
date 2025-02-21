@@ -10,12 +10,12 @@ const Header = () => {
   const usuario = useSelector((state) => state.user.user)
 
   const handleLogout = () => {
-    dispatch(logoutUser()) // Eliminamos usuario del estado global y localStorage
+    dispatch(logoutUser()) 
     navigate('/')
   }
 
   const handleHelp = () => {
-    navigate('/admin/mesa') // Redirige a la página de ayuda
+    navigate('/') // Redirige a la página de ayuda
   }
 
   const handleInicio = () => {
