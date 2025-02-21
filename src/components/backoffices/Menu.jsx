@@ -82,8 +82,8 @@ const Sidebar = () => {
         {
           title: 'Roles',
           icon: 'bi-people',
-          link: '/admin/roles',
-        },
+          link: '/admin/roles', 
+        }
       ],
     },
     { title: 'Reportes', icon: 'bi-graph-up', link: '/admin/reportes' },
