@@ -35,16 +35,14 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminLogsDeSistema from "./pages/admin/AdminLogsDeSistema";
 import AdminOdenes from "./pages/admin/AdminOrdenes";
 import AdminComercio from "./pages/admin/AdminComercio";
-<<<<<<< HEAD
-import AdminLocalidades from "./pages/admin/AdminLocalidades";
-import AdminRoles from './pages/admin/AdminRoles'
-=======
+
 import AdminLocalidades from "./pages/admin/AdminLocalidades"
 import AdminCliente from "./pages/admin/AdminCliente";
 import AdminVenta from "./pages/admin/AdminVenta"
 import AdminCompra from "./pages/admin/AdminCompra"
+import AdminRoles from './pages/admin/AdminRoles'
 
->>>>>>> c5666acc149fd10825660c22514075000e0bdfc3
+
 
 const token = localStorage.getItem('token')
 const root = ReactDOM.createRoot(document.getElementById('root'))
