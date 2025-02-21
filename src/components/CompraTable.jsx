@@ -3,37 +3,42 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import  SkeletonTable from "./skeleton/SkeletonTable"
 import { mensajeRespuesta, confirmAction } from "../utils/services";
 
-const VentaTable = () => {
-  const [venta, setventa] = useState([]);
+const CompraTable = () => {
+  const [Compra, setCompra] = useState([]);
   const [loading, setLoading] = useState(true);
    const [debouncedSearch, setDebouncedSearch] = useState(""); // Estado para el debounce
   const [error, setError] = useState(null);
-  const [selectedVen, setselectedVen] = useState({
+  const [selectedClie, setSelectedClie] = useState({
+    letra: "",
+  nroFacturaRemito: "",
+   fecha: "",
+    recargo: "",
+    fechahoraregistro: "",  
+    descuento: "",
+   formapago: "",
+    subtotal: "",
+    iva: "",
+    neto: "",
+    total: "",
+    idproveedor: "",
+    
+  
 
-    preciocosto: "",
-    precioventa: "",
-    unidadmedida: "",
-    cantidad: "",
-    importe: "",
-    descripcion: "",
-    codigoArticulo: "",
-    idfactura: "",
-    imagen :"",
   });
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
-  const [imageFile, setImageFile] = useState(null);
+
   const [isEditing, setIsEditing] = useState(false); // Nueva bandera para distinguir entre alta y edición
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10; // Límite de elementos por página
 
-  const API = process.env.REACT_APP_API + "venta.php?endpoint=venta";
+  const API = process.env.REACT_APP_API + "compra.php?endpoint=compra";
   const APIB = process.env.REACT_APP_API + "bitacora.php?endpoint=bitacora";
 
   useEffect(() => {
-    loadventa();
+    loadCompra();
   }, [debouncedSearch, currentPage]);
 
 
@@ -50,40 +55,41 @@ useEffect(() => {
 
 
 
-  const loadventa = async () => {
+  const loadCompra = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await fetch(`${API}&search=${search}&page=${currentPage}&limit=${limit}`);
       if (!response.ok) {
-        throw new Error("Error al cargar las venta.");
+        throw new Error("Error al cargar las Compra.");
       }
       const data = await response.json();
-      setventa(data.venta || []);
+      setCompra(data.Compra || []);
       setTotalPages(data.totalPages || 1);
-      console.log("venta",venta);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
-
-  const handleEdit = (Ven) => {
-    setselectedVen({
-      preciocosto: Ven.preciocosto || "",
-      precioventa: Ven.precioventa || "",
-      unidadmedida: Ven.unidadmedida|| "",  
-      cantidad: Ven.cantidad || "",
-      importe: Ven.importe || "",
-      descripcion: Ven.descripcion || "",
-      codigoArticulo: Ven.codigoArticulo || "",
-      idfactura: Ven.idfactura || "",
-      imagen: Ven.imagen || "",
-    
-      idventa: Ven.idventa,
+console.log("compra",Compra)
+  const handleEdit = (Clie) => {
+    setSelectedClie({
+      letra:              Clie.letra || "",
+      nroFacturaRemito:   Clie.nroFacturaRemito || "",
+      fecha:               Clie.fecha || "",  
+      recargo:            Clie.recargo || "",
+      fechahoraregistro:    Clie.fechahoraregistro || "",  
+      descuento:          Clie.descuento || "",
+      formapago:            Clie.formapago || "",
+      subtotal:            Clie.subtotal || "",
+      iva:                Clie.iva || "",
+      neto:              Clie.neto || "",
+      total:          Clie.total || "",
+      idproveedor: Clie.idproveedor || "",      
+      idcompra:       Clie.idcompra,
     });
-    setImageFile(null);
+ 
     setIsEditing(true); // Activar modo edición
     setModalVisible(true);
   };
@@ -91,26 +97,11 @@ useEffect(() => {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      if (imageFile) {
-        const formData = new FormData();
-        formData.append("image", imageFile);
-
-        const uploadResponse = await fetch(`${process.env.REACT_APP_API}venta.php?endpoint=upload`, {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!uploadResponse.ok) {
-          throw new Error("Error al subir la imagen.");
-        }
-
-        const uploadResult = await uploadResponse.json();
-        selectedVen.imagen = uploadResult.filePath;
-      }
+     
 
       const method = isEditing ? "PUT" : "POST"; // Diferenciar entre edición y creación
       const endpoint = isEditing
-        ? `${API}&id=${selectedVen.idventa}`
+        ? `${API}&id=${selectedClie.idcompra}`
         : `${API}`;
 
       const response = await fetch(endpoint, {
@@ -118,12 +109,12 @@ useEffect(() => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(selectedVen),
+        body: JSON.stringify(selectedClie),
       });
 
       if (!response.ok) {
         throw new Error(
-          isEditing ? "Error al actualizar la venta." : "Error al crear la venta."
+          isEditing ? "Error al actualizar la Compra." : "Error al crear la Compra."
         );
       }
       
@@ -137,19 +128,22 @@ const bitacoraResponse =  await fetch(APIB, {
   body: JSON.stringify({
        fechahora: new Date().toISOString(),
        usuario:usuario,
-       modulo: "venta",
-       mensaje:`preciocosto:  ${selectedVen.preciocosto}         
-       -   precioventa: ${selectedVen.precioventa}
-       -   unidadmedida:  ${selectedVen.unidadmedida} 
-       -   cantidad: ${selectedVen.cantidad}
-       -  importe ${selectedVen.importe}
-       -  descripcion: ${selectedVen.descripcion}
-       -  codigoArticulo: ${selectedVen.codigoArticulo}
-       -  idfactura: ${selectedVen.idfactura} 
-     
-       -  Metodo: : ${method}
-        idventa  ${selectedVen.idventa}
-     ` ,                      
+       modulo: "Compra",
+       mensaje:`letra:  ${selectedClie.letra}         
+            - nrofacturaremito: ${selectedClie.nrofacturaremito}
+            - fecha:  ${selectedClie.nombreapellido} 
+            -  recargo: ${selectedClie.recargo}
+            -  fechahoraregistro: ${selectedClie.fechahoraregistro}
+            -  descuento ${selectedClie.descuento}
+            - formapago: ${selectedClie.formapago}
+            -  subtotal: ${selectedClie.subtotal}
+            -  iva: ${selectedClie.iva} 
+            -  neto: ${selectedClie.neto}
+            -  total: ${selectedClie.total}
+            -  idproveedor: ${selectedClie.idproveedor}
+           
+        
+          ` ,                      
        // Diferenciar entre edición y creación
        imagen: "",
   }),
@@ -159,11 +153,11 @@ if (!bitacoraResponse.ok) {
   throw new Error("Error al registrar en la bitácora.");
 }
 mensajeRespuesta(
-  isEditing ? "venta actualizado exitosamente" : "venta creado exitosamente",
+  isEditing ? "Compra actualizado exitosamente" : "Compra creado exitosamente",
   "success"
 );
 setModalVisible(false);
-loadventa();
+loadCompra();
 } catch (err) {
 mensajeRespuesta(err.message, "error");
 }
@@ -181,10 +175,10 @@ const handleDelete = async (id) => {
     try {
       const response = await fetch(`${API}&id=${id}`, { method: "DELETE" });
       if (!response.ok) {
-        throw new Error("Error al eliminar el venta.");
+        throw new Error("Error al eliminar el Compra.");
       }
-      mensajeRespuesta("venta eliminado exitosamente", "success");
-      loadventa();
+      mensajeRespuesta("Compra eliminado exitosamente", "success");
+      loadCompra();
     } catch (err) {
       mensajeRespuesta(err.message, "error");
     }
@@ -199,18 +193,24 @@ const handleDelete = async (id) => {
   };
 
   const handleCreate = () => {
-    setselectedVen({
-      preciocosto: "",
-      precioventa: "",
-      unidadmedida: "",
-      cantidad: "",
-      importe: "",
-      descripcion: "",
-      codigoArticulo: "",
-      idfactura: "",
-      imagen :"",
+    setSelectedClie({
+     letra: "",
+     nroFacturaRemito: "",
+     fecha: "",
+     recargo: "",
+     fechahoraregistro: "",  
+     descuento: "",
+     formapago: "",
+     subtotal: "",
+     iva: "",
+     neto: "",
+     total: "",
+     idproveedor: "",
+      
+   
+     
     });
-    setImageFile(null);
+ 
     setIsEditing(false); // Activar modo alta
     setModalVisible(true);
   };
@@ -227,13 +227,13 @@ const handleDelete = async (id) => {
 
   return (
     <div className="container mt-4">
-      <h1 className="mb-4">Gestión de Venta</h1>
+      <h1 className="mb-4">Gestión de Compra</h1>
 
       <div className="mb-3">
         <input
           type="text"
           className="form-control"
-          placeholder="Buscar venta..."
+          placeholder="Buscar Compra..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -241,51 +241,46 @@ const handleDelete = async (id) => {
 
       <div className="mb-3 text-end">
         <button className="btn btn-success" onClick={handleCreate}>
-          Añadir venta
+          Añadir Compra
         </button>
       </div>
 
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
-        <tr>
-            <th>Cod Articulo</th>
-            <th>Descripcion</th>
-            <th>Precio Costo</th>
-            <th>Precio Venta</th>
-            <th>cantidad</th>
-            <th>Importe</th>
-            <th>Imagen</th>
+          <tr>
+            <th>ID</th>
+            <th>letra</th>
+            <th>Nro Factura o Remito</th>          
+            <th>Fecha</th>
+            <th>Forma Pago</th>              
+            <th>Total</th>
+            
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {venta.map((Ven) => (
-            <tr key={Ven.idventa}>
-              <td>{Ven.codigoArticulo}</td>
-              <td>{Ven.descripcion}</td>
-              <td>{Ven.preciocosto}</td>
-              <td>{Ven.precioventa}</td>
-              <td>{Ven.cantidad}</td>
-              <td>{Ven.importe}</td>
-              <td>
-                {Ven.imagen && (
-                  <img
-                    src={process.env.REACT_APP_BASE_URL + Ven.imagen}
-                    alt={Ven.descripcion}
-                    style={{ width: "50px" }}
-                  />
-                )}
-              </td>
+          {Compra.map((Clie) => (
+            <tr key={Clie.idcompra}>
+              <td>{Clie.idcompra}</td>
+              <td>{Clie.letra}</td>
+              <td>{Clie.nroFacturaRemito}</td>
+              <td>{Clie.fecha}</td>
+              <td>{Clie.formapago}</td>
+              <td>{Clie.total}</td>
+            
+            
+            
+             
               <td>
                 <button
                   className="btn btn-warning btn-sm me-2"
-                  onClick={() => handleEdit(Ven)}
+                  onClick={() => handleEdit(Clie)}
                 >
                   Editar
                 </button>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(Ven.idventa)}
+                  onClick={() => handleDelete(Clie.idcompra)}
                 >
                   Eliminar
                 </button>
@@ -355,7 +350,7 @@ const handleDelete = async (id) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
-                {isEditing ? "Editar venta" : "Añadir venta"}
+                {isEditing ? "Editar Compra" : "Añadir Compra"}
               </h5>
               <button
                 type="button"
@@ -368,164 +363,198 @@ const handleDelete = async (id) => {
               <div className="modal-body">
 
               <div className="row">
-                  
-                  <div className="col-md-8">
-                  <label><strong>Descripción</strong></label>
+                  <div className="col-md-4">
+                  <label><strong>ID Proveedor</strong></label>
                   <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
-                
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedVen.descripcion}
+                    value={selectedClie.idproveedor}
                     onChange={(e) =>
-                      setselectedVen({ ...selectedVen, descripcion: e.target.value })
+                      setSelectedClie({ ...selectedClie, idproveedor: e.target.value })
                     }
                   />
-                
+                  </div>
+                  </div>
+
+                  
+                 
+                  
+               
+                  </div>  
+
+
+              <div className="row">
+                  
+                 
+                  <div className="col-md-4">
+                  <label><strong>Letra</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={selectedClie.letra}
+                    onChange={(e) =>
+                      setSelectedClie({ ...selectedClie, letra: e.target.value })
+                    }
+                  />
                   </div>
                   </div>
                   <div className="col-md-4">
-                  <label><strong>Unidad de Medida</strong></label>
+                  <label><strong>Nro de Factura o Remito</strong></label>
                   <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedVen.unidadmedida}
+                    value={selectedClie.nroFacturaRemito}
                     onChange={(e) =>
-                      setselectedVen({ ...selectedVen, unidadmedida: e.target.value })
+                      setSelectedClie({ ...selectedClie,nroFacturaRemito: e.target.value })
                     }
                   />
-                  </div>
-                  </div>
-                
 
+                  </div>
+                  </div>
+
+                  <div className="col-md-4">
+                  <label><strong>Fecha</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={selectedClie.fecha}
+                    onChange={(e) =>
+                      setSelectedClie({ ...selectedClie,fecha: e.target.value })
+                    }
+                  />
+
+                  </div>
+                  </div>
                    </div>  
 
                    <div className="row">
-                   <div className="col-md-4">
-                  <label><strong>Cantidad</strong></label>
+              
+
+
+
+                 
+                  <div className="col-md-4">
+                  <label><strong>Neto</strong></label>
                   <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedVen.cantidad}
+                    value={selectedClie.neto}
                     onChange={(e) =>
-                      setselectedVen({ ...selectedVen, cantidad: e.target.value })
+                      setSelectedClie({ ...selectedClie, neto: e.target.value })
                     }
                   />
 
+
                   </div>
                   </div>
-
-
 
                   <div className="col-md-4">
-                  <label><strong>Importe</strong></label>
+                  <label><strong>Iva</strong></label>
                   <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedVen.importe}
+                    value={selectedClie.iva}
                     onChange={(e) =>
-                      setselectedVen({ ...selectedVen, importe: e.target.value })
+                      setSelectedClie({ ...selectedClie, iva: e.target.value })
                     }
                   />
-
-
                   </div>
                   </div>
                 
-               
+                  <div className="col-md-4">
+                  <label><strong>Subtotal</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={selectedClie.subtotal}
+                    onChange={(e) =>
+                      setSelectedClie({ ...selectedClie, subtotal: e.target.value })
+                    }
+                  />
+                  </div>
+                  </div>
+                 
 
                    </div>  
-                 
-                  <div className="row">
-                  <div className="col-md-4">
-                  <label><strong>Precio Costo </strong></label>
-                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedVen.preciocosto}
-                    onChange={(e) =>
-                      setselectedVen({ ...selectedVen, preciocosto: e.target.value })
-                    }
-                  />
-                  </div>
-                  </div>
+                  
 
-                  <div className="col-md-4">
-                  <label><strong>Precio Venta</strong></label>
+                   <div className="row">
+                
+                   <div className="col-md-4">
+                  <label><strong>Descuento</strong></label>
                   <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedVen.precioventa}
+                    value={selectedClie.descuento}
                     onChange={(e) =>
-                      setselectedVen({ ...selectedVen, precioventa: e.target.value })
+                      setSelectedClie({ ...selectedClie, descuento: e.target.value })
                     }
                   />
                   </div>
                   </div>
                  
-                  </div>
-                  <div className="row">
                   <div className="col-md-4">
-                  <label><strong>Codigo Articulo</strong></label>
+                  <label><strong>Recargo</strong></label>
                   <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedVen.codigoArticulo}
+                    value={selectedClie.recargo}
                     onChange={(e) =>
-                      setselectedVen({ ...selectedVen, codigoArticulo: e.target.value })
+                      setSelectedClie({ ...selectedClie, recargo: e.target.value })
+                    }
+                  />
+
+
+                  </div>
+                  </div>
+
+                  <div className="col-md-4">
+                  <label><strong>Total</strong></label>
+                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={selectedClie.total}
+                    onChange={(e) =>
+                      setSelectedClie({ ...selectedClie, total: e.target.value })
                     }
                   />
                   </div>
                   </div>
 
-                  <div className="col-md-4">
-                  <label><strong>ID Factura</strong></label>
+                  </div>
+
+                
+                   <div className="row">
+                  
+
+                   <div className="col-md-4">
+                  <label><strong>Forma de Pago</strong></label>
                   <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
                   <input
                     type="text"
                     className="form-control"
-                    value={selectedVen.idfactura}
+                    value={selectedClie.formapago}
                     onChange={(e) =>
-                      setselectedVen({ ...selectedVen, idfactura: e.target.value })
+                      setSelectedClie({ ...selectedClie,formapago: e.target.value })
                     }
                   />
                   </div>
                   </div>
-                 
-                  </div>
-
-
-
-
-
-                  <div className="col-md-4">
-                  <label><strong>Imagen</strong></label>
-                  <div className="mb-3" style={{ border: "2px solid black", borderRadius: "10px" }}>               
-               
-              
-                  {selectedVen.imagen && (
-                    <div className="mb-2">
-                      <img
-                        src={process.env.REACT_APP_BASE_URL + selectedVen.imagen}
-                        alt="Vista previa"
-                        style={{ width: "100px", height: "auto", marginBottom: "10px" }}
-                      />
-                    </div>
-                  )}
-                  <input
-                    type="file"
-                    className="form-control"
-                    onChange={(e) => setImageFile(e.target.files[0])}
-                  />
                
                   </div>
-                  </div>
+                 
+                  
+                 
                  
 
                
@@ -539,7 +568,7 @@ const handleDelete = async (id) => {
               </div>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary">
-                  {isEditing ? "Guardar Cambios" : "Crear venta"}
+                  {isEditing ? "Guardar Cambios" : "Crear Compra"}
                 </button>
                 <button
                   type="button"
@@ -557,4 +586,4 @@ const handleDelete = async (id) => {
   );
 };
 
-export default VentaTable;
+export default CompraTable;
