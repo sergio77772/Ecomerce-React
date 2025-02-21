@@ -91,6 +91,7 @@ const Sidebar = () => {
       
         { title: 'Mi Comercio', icon: 'bi-house-gear', roles: [1], link: '/admin/comercio' },
         {
+
           title: 'Diseño', icon: 'bi-palette', roles: [1],
           submenus: [
             { title: 'Colores', icon: 'bi bi-brush', link: '/admin/template' },
