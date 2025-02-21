@@ -10,7 +10,7 @@ const Header = () => {
   const usuario = useSelector((state) => state.user.user)
 
   const handleLogout = () => {
-    dispatch(logoutUser()) // Eliminamos usuario del estado global y localStorage
+    dispatch(logoutUser()) 
     navigate('/')
   }
 
