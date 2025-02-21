@@ -15,7 +15,7 @@ const Header = () => {
   }
 
   const handleHelp = () => {
-    navigate('/admin/mesa') // Redirige a la página de ayuda
+    navigate('/') // Redirige a la página de ayuda
   }
 
   return (
