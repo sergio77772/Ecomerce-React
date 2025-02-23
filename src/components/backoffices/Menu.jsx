@@ -17,6 +17,7 @@ const Sidebar = () => {
 
   const fetchRoles = async () => {
     try {
+      const token = localStorage.getItem('token')
       const response = await fetch(API_URL, {
         method: 'GET',
         headers: {
@@ -84,7 +85,7 @@ const Sidebar = () => {
 
      },
   
-    { title: 'Reportes', icon: 'bi-graph-up', roles: [1], link: '/' },
+    { title: 'Reportes', icon: 'bi-graph-up', roles: [1], link: '/admin/reporte' },
 
     { title: 'Configuración', icon: 'bi-graph-up', roles: [1] ,
       submenus: [
