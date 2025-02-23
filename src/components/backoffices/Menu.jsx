@@ -6,7 +6,7 @@ const Sidebar = () => {
   const usuario = useSelector((state) => state.user.user) || {}
   const rol = Number(usuario.idRol) || 0
 
-  const [roles, setRoles] = useState({})
+  const [, setRoles] = useState({})
   const [openDropdown, setOpenDropdown] = useState(null)
 
   const API_URL = process.env.REACT_APP_API + 'roles.php'
@@ -17,7 +17,7 @@ const Sidebar = () => {
 
   const fetchRoles = async () => {
     try {
-      const token = localStorage.getItem('token')
+   
       const response = await fetch(API_URL, {
         method: 'GET',
         headers: {
@@ -85,7 +85,7 @@ const Sidebar = () => {
 
      },
   
-    { title: 'Reportes', icon: 'bi-graph-up', roles: [1], link: '/' },
+    { title: 'Reportes', icon: 'bi-graph-up', roles: [1], link: '/admin/reporte' },
 
     { title: 'Configuración', icon: 'bi-graph-up', roles: [1] ,
       submenus: [
