@@ -1,88 +1,90 @@
-import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { mensajeRespuesta } from "../utils/services";
+import React, { useEffect, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { mensajeRespuesta } from '../utils/services'
 
-const API_URL = "https://distribuidoraassefperico.com.ar/apis-stg/roles.php";
+const API_URL = 'https://distribuidoraassefperico.com.ar/apis-stg/roles.php'
 
 const RolesTable = () => {
-  const [roles, setRoles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedRole, setSelectedRole] = useState({ id: "", nombre: "" });
-  const [modalVisible, setModalVisible] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const limit = 10;
+  const [roles, setRoles] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [selectedRole, setSelectedRole] = useState({ id: '', nombre: '' })
+  const [modalVisible, setModalVisible] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const limit = 10
 
   useEffect(() => {
-    fetchRoles();
-  }, [currentPage]);
+    fetchRoles()
+  }, [currentPage])
 
   const fetchRoles = async () => {
     try {
-      const response = await fetch(`${API_URL}?page=${currentPage}&limit=${limit}`);
-      if (!response.ok) throw new Error("Error al cargar roles");
+      const response = await fetch(
+        `${API_URL}?page=${currentPage}&limit=${limit}`
+      )
+      if (!response.ok) throw new Error('Error al cargar roles')
 
-      const data = await response.json();
-      console.log("Datos recibidos:", data); 
-      setRoles(data.data || []);
-      console.log("Roles en el estado:", roles);
-      setTotalPages(data.pages || 1);
+      const data = await response.json()
+      console.log('Datos recibidos:', data)
+      setRoles(data.data || [])
+      console.log('Roles en el estado:', roles)
+      setTotalPages(data.pages || 1)
     } catch (err) {
-      setError(err.message);
+      setError(err.message)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleAdd = () => {
-    setSelectedRole({ id: "", nombre: "" });
-    setModalVisible(true);
-  };
+    setSelectedRole({ id: '', nombre: '' })
+    setModalVisible(true)
+  }
 
   const handleEdit = (role) => {
-    setSelectedRole(role);
-    setModalVisible(true);
-  };
+    setSelectedRole(role)
+    setModalVisible(true)
+  }
 
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Seguro que quieres eliminar este rol?")) return;
+    if (!window.confirm('¿Seguro que quieres eliminar este rol?')) return
     try {
-      const response = await fetch(`${API_URL}?id=${id}`, { method: "DELETE" });
-      if (!response.ok) throw new Error("Error al eliminar");
-      mensajeRespuesta("Rol eliminado exitosamente", "success");
-      fetchRoles();
+      const response = await fetch(`${API_URL}?id=${id}`, { method: 'DELETE' })
+      if (!response.ok) throw new Error('Error al eliminar')
+      mensajeRespuesta('Rol eliminado exitosamente', 'success')
+      fetchRoles()
     } catch (err) {
-      alert(err.message);
+      alert(err.message)
     }
-  };
+  }
 
   const handleSave = async (e) => {
-    e.preventDefault();
-    const method = selectedRole.id ? "PUT" : "POST";
-    const url = selectedRole.id ? `${API_URL}?id=${selectedRole.id}` : API_URL;
+    e.preventDefault()
+    const method = selectedRole.id ? 'PUT' : 'POST'
+    const url = selectedRole.id ? `${API_URL}?id=${selectedRole.id}` : API_URL
 
     try {
       const response = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(selectedRole),
-      });
+      })
 
-      if (!response.ok) throw new Error("Error al guardar los datos");
+      if (!response.ok) throw new Error('Error al guardar los datos')
 
-      setModalVisible(false);
-      fetchRoles();
+      setModalVisible(false)
+      fetchRoles()
     } catch (err) {
-      alert(err.message);
+      alert(err.message)
     }
-  };
+  }
 
   const handlePageChange = (page) => {
     if (page > 0 && page <= totalPages) {
-      setCurrentPage(page);
+      setCurrentPage(page)
     }
-  };
+  }
 
   return (
     <div className="container mt-4">
@@ -112,10 +114,16 @@ const RolesTable = () => {
                   <td>{role.idRol}</td>
                   <td>{role.descripcion}</td>
                   <td>
-                    <button className="btn btn-warning btn-sm me-2" onClick={() => handleEdit(role)}>
+                    <button
+                      className="btn btn-warning btn-sm me-2"
+                      onClick={() => handleEdit(role)}
+                    >
                       Editar
                     </button>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(role.id)}>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(role.id)}
+                    >
                       Eliminar
                     </button>
                   </td>
@@ -140,8 +148,8 @@ const RolesTable = () => {
               Anterior
             </button>
             {[...Array(5)].map((_, index) => {
-              let page = currentPage - 2 + index;
-              if (page < 1 || page > totalPages) return null;
+              let page = currentPage - 2 + index
+              if (page < 1 || page > totalPages) return null
               return (
                 <button
                   key={page}
@@ -150,7 +158,7 @@ const RolesTable = () => {
                 >
                   {page}
                 </button>
-              );
+              )
             })}
             <button
               className="btn btn-secondary ms-2"
@@ -175,17 +183,41 @@ const RolesTable = () => {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">{selectedRole.id ? "Editar Rol" : "Agregar Rol"}</h5>
-                <button className="btn-close" onClick={() => setModalVisible(false)}></button>
+                <h5 className="modal-title">
+                  {selectedRole.id ? 'Editar Rol' : 'Agregar Rol'}
+                </h5>
+                <button
+                  className="btn-close"
+                  onClick={() => setModalVisible(false)}
+                ></button>
               </div>
               <div className="modal-body">
                 <form onSubmit={handleSave}>
                   <div className="mb-3">
                     <label className="form-label">Nombre</label>
-                    <input type="text" className="form-control" value={selectedRole.nombre} onChange={(e) => setSelectedRole({ ...selectedRole, nombre: e.target.value })} required />
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={selectedRole.nombre}
+                      onChange={(e) =>
+                        setSelectedRole({
+                          ...selectedRole,
+                          nombre: e.target.value,
+                        })
+                      }
+                      required
+                    />
                   </div>
-                  <button type="submit" className="btn btn-primary">{selectedRole.id ? "Actualizar" : "Guardar"}</button>
-                  <button type="button" className="btn btn-secondary ms-2" onClick={() => setModalVisible(false)}>Cancelar</button>
+                  <button type="submit" className="btn btn-primary">
+                    {selectedRole.id ? 'Actualizar' : 'Guardar'}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary ms-2"
+                    onClick={() => setModalVisible(false)}
+                  >
+                    Cancelar
+                  </button>
                 </form>
               </div>
             </div>
@@ -193,7 +225,7 @@ const RolesTable = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default RolesTable;
+export default RolesTable

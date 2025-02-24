@@ -1,20 +1,20 @@
 import React from 'react'
-import { Footer, ClienteTable } from '../../components'
+import { Reporte, Footer } from '../../components'
 import Sidebar from '../../components/backoffices/Menu'
 import Header from '../../components/backoffices/Header'
 
-const AdminCliente = () => {
+const AdminReporte = () => {
   return (
     <>
       <Header />
       <div className="container-fluid">
         <div className="row">
-          {/* Sidebar toma 2 columnas, el resto se lo lleva el Dashboard */}
+          {/* Sidebar toma 2 columnas, el resto se lo lleva el Reporte */}
           <div className="col-md-2 p-0">
             <Sidebar />
           </div>
           <div className="col-md-10 p-4">
-            <ClienteTable /> {/*componente */}
+            <Reporte /> {/*componente */}
           </div>
         </div>
       </div>
@@ -23,4 +23,4 @@ const AdminCliente = () => {
   )
 }
 
-export default AdminCliente
+export default AdminReporte

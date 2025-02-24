@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import SkeletonTable from './skeleton/SkeletonTable'
 import { mensajeRespuesta, confirmAction } from '../utils/services'
-import { useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const CategoryTable = () => {
   const [categories, setCategories] = useState([])
@@ -246,11 +246,11 @@ const CategoryTable = () => {
         />
       </div>
       {usuario?.idRol === 1 && (
-      <div className="mb-3 text-end">
-        <button className="btn btn-success" onClick={handleCreate}>
-          Añadir categoria
-        </button>
-      </div>
+        <div className="mb-3 text-end">
+          <button className="btn btn-success" onClick={handleCreate}>
+            Añadir categoria
+          </button>
+        </div>
       )}
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
@@ -315,19 +315,19 @@ const CategoryTable = () => {
                 {Category.acciones}
                 {usuario?.idRol === 1 && (
                   <>
-                <button
-                  className="btn btn-warning btn-sm me-2"
-                  onClick={() => handleEdit(Category)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(Category.idcategoria)}
-                >
-                  Eliminar
-                </button>
-                </>
+                    <button
+                      className="btn btn-warning btn-sm me-2"
+                      onClick={() => handleEdit(Category)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(Category.idcategoria)}
+                    >
+                      Eliminar
+                    </button>
+                  </>
                 )}
               </td>
             </tr>

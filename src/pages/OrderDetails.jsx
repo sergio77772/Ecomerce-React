@@ -1,33 +1,44 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getOrderById } from '../redux/action/ordersActions';
-import { Navbar, Footer } from '../components';
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams, useNavigate } from 'react-router-dom'
+import { getOrderById } from '../redux/action/ordersActions'
+import { Navbar, Footer } from '../components'
 
 function OrderDetails() {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const orderDetails = useSelector((state) => state.orders.orderDetails);
+  const { id } = useParams()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const orderDetails = useSelector((state) => state.orders.orderDetails)
 
   useEffect(() => {
-    dispatch(getOrderById(id));
-  }, [id, dispatch]);
+    dispatch(getOrderById(id))
+  }, [id, dispatch])
 
-  if (!orderDetails) return <p className="text-center mt-5">Cargando...</p>;
+  if (!orderDetails) return <p className="text-center mt-5">Cargando...</p>
 
   // Validar que productos sea un array antes de mapear
-  const productos = Array.isArray(orderDetails.productos) ? orderDetails.productos : [];
+  const productos = Array.isArray(orderDetails.productos)
+    ? orderDetails.productos
+    : []
 
   return (
     <>
       <Navbar />
       <div className="container my-5">
-        <h2 className="text-center mb-4">Detalles de la Orden #{orderDetails.id}</h2>
+        <h2 className="text-center mb-4">
+          Detalles de la Orden #{orderDetails.id}
+        </h2>
         <div className="card p-4 shadow">
-          <p><strong>Usuario:</strong> {orderDetails.user_id}</p>
-          <p><strong>Estado:</strong> {orderDetails.estado}</p>
-          <p><strong>Fecha:</strong> {new Date(orderDetails.created_at).toLocaleDateString()}</p>
+          <p>
+            <strong>Usuario:</strong> {orderDetails.user_id}
+          </p>
+          <p>
+            <strong>Estado:</strong> {orderDetails.estado}
+          </p>
+          <p>
+            <strong>Fecha:</strong>{' '}
+            {new Date(orderDetails.created_at).toLocaleDateString()}
+          </p>
 
           <h4 className="mt-4">Productos:</h4>
           <div className="table-responsive">
@@ -45,8 +56,8 @@ function OrderDetails() {
                 <tbody>
                   {productos.map((producto) => {
                     // Asegurar que precioventa sea un número válido
-                    const precioUnitario = parseFloat(producto.precioventa) || 0;
-                    const total = producto.cantidad * precioUnitario;
+                    const precioUnitario = parseFloat(producto.precioventa) || 0
+                    const total = producto.cantidad * precioUnitario
 
                     return (
                       <tr key={producto.product_id}>
@@ -56,7 +67,7 @@ function OrderDetails() {
                         <td>${precioUnitario.toFixed(2)}</td>
                         <td>${total.toFixed(2)}</td>
                       </tr>
-                    );
+                    )
                   })}
                 </tbody>
               </table>
@@ -65,14 +76,17 @@ function OrderDetails() {
             )}
           </div>
 
-          <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>
+          <button
+            className="btn btn-secondary mt-3"
+            onClick={() => navigate(-1)}
+          >
             ⬅ Volver Atrás
           </button>
         </div>
       </div>
       <Footer />
     </>
-  );
+  )
 }
 
-export default OrderDetails;
+export default OrderDetails

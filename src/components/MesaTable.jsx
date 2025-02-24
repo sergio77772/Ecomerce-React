@@ -145,8 +145,6 @@ const MesaTable = () => {
     }
   }
 
-
-
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
       setCurrentPage(newPage)

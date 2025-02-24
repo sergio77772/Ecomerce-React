@@ -45,7 +45,7 @@ const Register = () => {
 
       const data = await response.json()
       if (response.ok) {
-        mensajeRespuesta('Registro exitoso', 'success') 
+        mensajeRespuesta('Registro exitoso', 'success')
         setTimeout(() => (window.location.href = '/login'), 2000)
       } else {
         mensajeRespuesta(data.error || 'Error en el registro')
