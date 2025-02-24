@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom';
+
 import { addCart } from '../redux/action'
 import Skeletonlog from './Skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -12,6 +14,10 @@ const Products = () => {
   const [search, setSearch] = useState('') // Estado para la búsqueda
   const [page, setPage] = useState(1) // Página actual
   const [totalPages, setTotalPages] = useState(1) // Total de páginas para la paginación
+  const { idcategoria } = useParams();
+  const { idsubcategoria } = useParams();
+
+  
 
   const dispatch = useDispatch()
 
@@ -28,9 +34,16 @@ const Products = () => {
     const fetchProducts = async () => {
       setLoading(true)
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API}productos.php?endpoint=producto&search=${search}&page=${page}&limit=20` // Cambiar el límite a 40
-        )
+        let url = `${process.env.REACT_APP_API}productos.php?endpoint=producto&search=${search}&page=${page}&limit=20`;
+        if (idcategoria) {
+          url += `&idcategoria=${idcategoria}`;
+        }
+
+        if (idsubcategoria) {
+          url += `&idsubcategoria=${idsubcategoria}`;
+        }
+        const response = await fetch(url);
+
         const data = await response.json()
 
         console.log('Respuesta de la API:', data) // Verificar estructura en consola
