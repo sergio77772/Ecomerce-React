@@ -85,7 +85,6 @@ const Sidebar = () => {
       ],
     },
 
-  
     {
       title: 'Ventas',
       icon: 'bi-cart',

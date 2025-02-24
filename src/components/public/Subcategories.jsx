@@ -1,58 +1,77 @@
-import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function SubcategoriesList() {
-  const { idcategoria } = useParams()
-  const navigate = useNavigate()
-  const [subcategories, setSubcategories] = useState([])
+  const { idcategoria } = useParams();
+  const navigate = useNavigate();
+  const [subcategories, setSubcategories] = useState([]);
 
   const API_SUBCATEGORIES =
     process.env.REACT_APP_API +
-    `subcategorias.php?endpoint=subcategoria&idcategoria=${idcategoria}`
+    `subcategorias.php?endpoint=subcategoria&idcategoria=${idcategoria}`;
 
   useEffect(() => {
     fetch(API_SUBCATEGORIES)
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data.subcategoria)) {
-          setSubcategories(data.subcategoria)
+          setSubcategories(data.subcategoria);
         } else {
-          console.error('Unexpected response structure:', data)
+          console.error('Unexpected response structure:', data);
         }
       })
-      .catch((error) => console.error('Error fetching subcategories:', error))
-  }, [idcategoria])
+      .catch((error) => console.error('Error fetching subcategories:', error));
+  }, [idcategoria]);
 
   return (
-    <div className="container py-5">
-      <h2 className="text-center">Subcategorías</h2>
-      <div className="row g-4">
-        {subcategories.length > 0 ? (
-          subcategories.map((subcategory) => (
-            <div key={subcategory.idsubcategoria} className="col-md-6 col-lg-4">
-              <div className="card border-0 rounded-4 shadow-lg">
-                {subcategory.imagen && (
-                  <img
-                    src={process.env.REACT_APP_BASE_URL + subcategory.imagen}
-                    className="card-img-top"
-                    alt={subcategory.nombre}
-                    style={{ objectFit: 'cover', height: '150px' }}
-                  />
-                )}
-                <div className="card-body text-center">
-                  <h5 className="card-title">{subcategory.nombre}</h5>
+    <div className="container-fluid py-5" style={{ backgroundColor: '#4a5568' }}>
+      <div className="container">
+        <div className="row g-4">
+          {subcategories.length > 0 ? (
+            subcategories.map((subcategory) => (
+              <div key={subcategory.idsubcategoria} className="col-md-6 col-lg-4">
+                <div
+                  className="card border-0 rounded-4 overflow-hidden shadow-lg"
+                  style={{
+                    position: 'relative',
+                    height: '180px',
+                    transition: 'transform 0.3s ease-in-out',
+                    cursor: 'pointer',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+                >
+                  {subcategory.imagen && (
+                    <img
+                      src={process.env.REACT_APP_BASE_URL + subcategory.imagen}
+                      className="card-img"
+                      alt={subcategory.nombre}
+                      style={{
+                        filter: 'grayscale(80%)',
+                        objectFit: 'cover',
+                        height: '100%',
+                        width: '100%',
+                      }}
+                    />
+                  )}
+                  <div
+                    className="card-img-overlay d-flex align-items-center justify-content-center"
+                    style={{ background: 'rgba(255, 255, 255, 0.5)' }}
+                  >
+                    <h5 className="fw-bold text-dark text-center">{subcategory.nombre}</h5>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-center">Cargando subcategorías...</p>
-        )}
+            ))
+          ) : (
+            <p className="text-center text-light">Cargando subcategorías...</p>
+          )}
+        </div>
       </div>
       <button className="btn btn-primary my-3" onClick={() => navigate(-1)}>
         Volver
       </button>
     </div>
-  )
+  );
 }
