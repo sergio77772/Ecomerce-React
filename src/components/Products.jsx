@@ -15,6 +15,8 @@ const Products = () => {
   const [page, setPage] = useState(1) // Página actual
   const [totalPages, setTotalPages] = useState(1) // Total de páginas para la paginación
   const { idcategoria } = useParams();
+  const { idsubcategoria } = useParams();
+
   
 
   const dispatch = useDispatch()
@@ -35,6 +37,10 @@ const Products = () => {
         let url = `${process.env.REACT_APP_API}productos.php?endpoint=producto&search=${search}&page=${page}&limit=20`;
         if (idcategoria) {
           url += `&idcategoria=${idcategoria}`;
+        }
+
+        if (idsubcategoria) {
+          url += `&idsubcategoria=${idsubcategoria}`;
         }
         const response = await fetch(url);
 

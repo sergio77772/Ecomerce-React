@@ -21,6 +21,7 @@ import {
   Orders,
   OrderDetails,
   Subcategories,
+  Subcategorie
 } from './pages'
 import AdminProducts from './pages/admin/AdminProducts' // Ajusta la ruta según tu estructura
 import AdminCategory from './pages/admin/AdminCategory' // Ajusta la ruta según tu estructura
@@ -58,6 +59,9 @@ root.render(
             path="/subcategorias/:idcategoria"
             element={<Subcategories />}
           />
+        <Route path="/subcategoria/:idsubcategoria"
+         element={<Subcategorie />} />
+
 
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />

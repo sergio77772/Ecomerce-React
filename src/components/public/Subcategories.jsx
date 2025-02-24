@@ -30,7 +30,11 @@ export default function SubcategoriesList() {
         <div className="row g-4">
           {subcategories.length > 0 ? (
             subcategories.map((subcategory) => (
-              <div key={subcategory.idsubcategoria} className="col-md-6 col-lg-4">
+              <div
+                key={subcategory.idsubcategoria}
+                className="col-md-6 col-lg-4"
+                onClick={() => navigate(`/subcategoria/${subcategory.idsubcategoria}`)} // 🚀 Redirigir al hacer clic
+              >
                 <div
                   className="card border-0 rounded-4 overflow-hidden shadow-lg"
                   style={{
