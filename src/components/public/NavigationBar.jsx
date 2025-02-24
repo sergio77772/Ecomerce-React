@@ -10,7 +10,7 @@ export default function BreadcrumbNavigation({ category, subcategory }) {
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
             <a
-              href="#"
+             
               onClick={(e) => {
                 e.preventDefault();
                 navigate('/');
