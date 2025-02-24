@@ -1,36 +1,41 @@
-import React from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { logoutUser } from '../redux/action/userActions' // Acción para cerrar sesión
+import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../redux/action/userActions";
 
 const Navbar = () => {
-  const state = useSelector((state) => state.handleCart)
-  const token = localStorage.getItem('token')
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const comercio = useSelector((state) => state.comercio.comercio)
-  const usuario = useSelector((state) => state.user.user)
-  const orders = useSelector((state) => state.orders.orders) || []
+  const state = useSelector((state) => state.handleCart);
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const usuario = useSelector((state) => state.user.user);
+  const orders = useSelector((state) => state.orders.orders) || [];
 
-  const baseURL = process.env.REACT_APP_BASE_URL
+  const baseURL = process.env.REACT_APP_BASE_URL;
 
   const handleLogout = () => {
-    dispatch(logoutUser()) // Eliminamos usuario del estado global y localStorage
-    navigate('/')
-  }
+    dispatch(logoutUser());
+    navigate("/");
+  };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-3 sticky-top">
       <div className="container">
-        <NavLink className="navbar-brand fw-bold fs-4 px-2" to="/">
-          {comercio.Nombre}
+        {/* 🔹 Logo */}
+        <NavLink className="navbar-brand px-2" to="/">
+          <img
+            src="https://dcdn.mitiendanube.com/stores/463/388/themes/common/logo-1793349326-1632410271-f4dafc7dac68ee0fc9a856ef38b439851632410271-480-0.webp"
+            alt="Logo"
+            style={{ height: 50 }}
+          />
         </NavLink>
 
+        {/* 🔹 Botón para móviles */}
         <button
           className="navbar-toggler mx-2"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
@@ -38,51 +43,53 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
+        {/* 🔹 Menú */}
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav m-auto my-2 text-center">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/">
+              <NavLink className="nav-link text-white" to="/">
                 Inicio
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/product">
+              <NavLink className="nav-link text-white" to="/product">
                 Novedades
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/about">
+              <NavLink className="nav-link text-white" to="/about">
                 Nosotros
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/contact">
+              <NavLink className="nav-link text-white" to="/contact">
                 Contacto
               </NavLink>
             </li>
             {(usuario?.idRol === 1 || usuario?.idRol === 2) && (
               <li className="nav-item">
-                <NavLink className="nav-link" to="/admin/dashboard">
+                <NavLink className="nav-link text-white" to="/admin/dashboard">
                   Administración
                 </NavLink>
               </li>
             )}
           </ul>
 
+          {/* 🔹 Botones de Usuario */}
           <div className="buttons text-center d-flex align-items-center">
             {!token ? (
               <>
-                <NavLink to="/login" className="btn btn-outline-dark m-2">
+                <NavLink to="/login" className="btn btn-outline-light m-2">
                   <i className="fa fa-sign-in-alt mr-1"></i> Ingreso
                 </NavLink>
-                <NavLink to="/register" className="btn btn-outline-dark m-2">
+                <NavLink to="/register" className="btn btn-outline-light m-2">
                   <i className="fa fa-user-plus mr-1"></i> Registrate
                 </NavLink>
               </>
             ) : (
               <div className="dropdown">
                 <button
-                  className="btn btn-outline-dark dropdown-toggle d-flex align-items-center"
+                  className="btn btn-outline-light dropdown-toggle d-flex align-items-center"
                   type="button"
                   id="userDropdown"
                   data-bs-toggle="dropdown"
@@ -92,10 +99,9 @@ const Navbar = () => {
                     src={`${baseURL}${usuario.foto}`}
                     alt="Usuario"
                     className="rounded-circle me-2"
-                    style={{ width: 35, height: 35, objectFit: 'cover' }}
+                    style={{ width: 35, height: 35, objectFit: "cover" }}
                   />
-
-                  {usuario?.nombre || 'Usuario'}
+                  {usuario?.nombre || "Usuario"}
                 </button>
                 <ul
                   className="dropdown-menu dropdown-menu-end p-3 custom-dropdown"
@@ -139,15 +145,15 @@ const Navbar = () => {
               </div>
             )}
 
-            <NavLink to="/cart" className="btn btn-outline-dark m-2">
-              <i className="fa fa-cart-shopping mr-1"></i> Carro ({state.length}
-              )
+            {/* 🔹 Carrito */}
+            <NavLink to="/cart" className="btn btn-outline-light m-2">
+              <i className="fa fa-shopping-cart mr-1"></i> Carro ({state.length})
             </NavLink>
           </div>
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
