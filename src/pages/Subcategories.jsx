@@ -5,7 +5,6 @@ import BreadcrumbNavigation from '../components/public/NavigationBar'; // Import
 
 const Subcategories = () => {
   const category = "Línea Vidrio"; 
-  const subcategory = "Bisagras para Vidrio"; 
   return (
     <>
       <Navbar />
