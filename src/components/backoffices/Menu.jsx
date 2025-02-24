@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useSelector } from 'react-redux'
 
@@ -6,34 +6,7 @@ const Sidebar = () => {
   const usuario = useSelector((state) => state.user.user) || {}
   const rol = Number(usuario.idRol) || 0
 
-  const [setRoles] = useState({})
   const [openDropdown, setOpenDropdown] = useState(null)
-
-  const API_URL = process.env.REACT_APP_API + 'roles.php'
-
-  useEffect(() => {
-    fetchRoles()
-  }, [])
-
-  const fetchRoles = async () => {
-    try {
-      const response = await fetch(API_URL, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      const data = await response.json()
-      const rolesData = data.data || []
-      const rolesMap = rolesData.reduce((acc, role) => {
-        acc[role.id] = role.descripcion
-        return acc
-      }, {})
-      setRoles(rolesMap)
-    } catch (error) {
-      console.error('Error fetching roles:', error)
-    }
-  }
 
   const toggleDropdown = (menu) => {
     setOpenDropdown(openDropdown === menu ? null : menu)
@@ -163,6 +136,12 @@ const Sidebar = () => {
           roles: [1],
           link: '/admin/logsdesistema',
         },
+        {
+          title: 'Roles',
+          icon: 'bi-person-badge',
+          roles: [1],
+          link: '/admin/Roles',
+        }
       ],
     },
   ]

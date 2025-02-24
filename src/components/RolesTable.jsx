@@ -8,7 +8,7 @@ const RolesTable = () => {
   const [roles, setRoles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [selectedRole, setSelectedRole] = useState({ id: '', nombre: '' })
+  const [selectedRole, setSelectedRole] = useState({ idRol: '', descripcion: '' })
   const [modalVisible, setModalVisible] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
@@ -26,9 +26,7 @@ const RolesTable = () => {
       if (!response.ok) throw new Error('Error al cargar roles')
 
       const data = await response.json()
-      console.log('Datos recibidos:', data)
       setRoles(data.data || [])
-      console.log('Roles en el estado:', roles)
       setTotalPages(data.pages || 1)
     } catch (err) {
       setError(err.message)
@@ -38,7 +36,7 @@ const RolesTable = () => {
   }
 
   const handleAdd = () => {
-    setSelectedRole({ id: '', nombre: '' })
+    setSelectedRole({ idRol: '', descripcion: '' })
     setModalVisible(true)
   }
 
@@ -47,38 +45,69 @@ const RolesTable = () => {
     setModalVisible(true)
   }
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('¿Seguro que quieres eliminar este rol?')) return
+  const handleDelete = async (idRol) => {
+    if (!window.confirm('¿Seguro que quieres eliminar este rol?')) return;
+  
     try {
-      const response = await fetch(`${API_URL}?id=${id}`, { method: 'DELETE' })
-      if (!response.ok) throw new Error('Error al eliminar')
-      mensajeRespuesta('Rol eliminado exitosamente', 'success')
-      fetchRoles()
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+      const urlencoded = new URLSearchParams();
+      urlencoded.append("idRol", idRol);
+      const requestOptions = {
+        method: "DELETE",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow"
+      };
+      const response = await fetch(`${API_URL}`, requestOptions);
+  
+      if (!response.ok) throw new Error('Error al eliminar');
+
+      const result = await response.text(); 
+  
+      console.log('Respuesta de la API al eliminar:', result);
+      mensajeRespuesta('Rol eliminado exitosamente', 'success');
+      fetchRoles();
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
   }
+  
 
   const handleSave = async (e) => {
-    e.preventDefault()
-    const method = selectedRole.id ? 'PUT' : 'POST'
-    const url = selectedRole.id ? `${API_URL}?id=${selectedRole.id}` : API_URL
-
+    e.preventDefault();
+  
+    const method = selectedRole.idRol ? 'PUT' : 'POST';
+    const url = API_URL;
+  
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+  
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("idRol", selectedRole.idRol);
+    urlencoded.append("descripcion", selectedRole.descripcion);
+  
+    const requestOptions = {
+      method,
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
+  
     try {
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(selectedRole),
-      })
-
-      if (!response.ok) throw new Error('Error al guardar los datos')
-
-      setModalVisible(false)
-      fetchRoles()
+      const response = await fetch(url, requestOptions);
+  
+      if (!response.ok) throw new Error('Error al guardar los datos');
+  
+      mensajeRespuesta('Rol guardado exitosamente', 'success');
+      setModalVisible(false);
+      
+      fetchRoles();
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
-  }
+  };
+  
 
   const handlePageChange = (page) => {
     if (page > 0 && page <= totalPages) {
@@ -122,7 +151,7 @@ const RolesTable = () => {
                     </button>
                     <button
                       className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(role.id)}
+                      onClick={() => handleDelete(role.idRol)}
                     >
                       Eliminar
                     </button>
@@ -198,18 +227,18 @@ const RolesTable = () => {
                     <input
                       type="text"
                       className="form-control"
-                      value={selectedRole.nombre}
+                      value={selectedRole.descripcion}
                       onChange={(e) =>
                         setSelectedRole({
                           ...selectedRole,
-                          nombre: e.target.value,
+                          descripcion: e.target.value,
                         })
                       }
                       required
                     />
                   </div>
                   <button type="submit" className="btn btn-primary">
-                    {selectedRole.id ? 'Actualizar' : 'Guardar'}
+                    {selectedRole.idRol ? 'Actualizar' : 'Guardar'}
                   </button>
                   <button
                     type="button"
