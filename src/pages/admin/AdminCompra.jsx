@@ -1,29 +1,26 @@
-import React from "react";
-import {  Footer, CompraTable } from "../../components";
-import Sidebar from "../../components/backoffices/Menu";
-import Header from "../../components/backoffices/Header";
+import React from 'react'
+import { Footer, CompraTable } from '../../components'
+import Sidebar from '../../components/backoffices/Menu'
+import Header from '../../components/backoffices/Header'
 
 const AdminCompra = () => {
   return (
     <>
-   <Header/>
-    <div className="container-fluid">
-         <div className="row">
-           {/* Sidebar toma 2 columnas, el resto se lo lleva el Dashboard */}
-           <div className="col-md-2 p-0">
-             <Sidebar />
-           </div>
-           <div className="col-md-10 p-4">
-             <CompraTable />  {/*componente */}
-           </div>
-         </div>
-       </div>
-     <Footer />
-   
- 
-      
-     </>
-  );
-};
+      <Header />
+      <div className="container-fluid">
+        <div className="row">
+          {/* Sidebar toma 2 columnas, el resto se lo lleva el Dashboard */}
+          <div className="col-md-2 p-0">
+            <Sidebar />
+          </div>
+          <div className="col-md-10 p-4">
+            <CompraTable /> {/*componente */}
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  )
+}
 
-export default AdminCompra;
+export default AdminCompra

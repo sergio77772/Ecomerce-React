@@ -12,11 +12,11 @@ const userReducer = (state = initialState, action) => {
     case 'USER_LOGIN_SUCCESS':
       return { ...state, loading: false, user: action.payload }
 
-      case 'USER_EDIT_SUCCESS':
-        return { ...state, loading: false }
+    case 'USER_EDIT_SUCCESS':
+      return { ...state, loading: false }
 
-        case 'USER_EDIT_FAILURE':
-          return { ...state, loading: false, error: action.payload }
+    case 'USER_EDIT_FAILURE':
+      return { ...state, loading: false, error: action.payload }
 
     case 'USER_LOGIN_FAILURE':
       return { ...state, loading: false, error: action.payload }

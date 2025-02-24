@@ -10,7 +10,7 @@ const Header = () => {
   const usuario = useSelector((state) => state.user.user)
 
   const handleLogout = () => {
-    dispatch(logoutUser()) 
+    dispatch(logoutUser())
     navigate('/')
   }
 
@@ -19,10 +19,8 @@ const Header = () => {
   }
 
   const handleInicio = () => {
-    navigate('/') 
+    navigate('/')
   }
-
-
 
   return (
     <nav className="navbar navbar-light bg-light px-3">
@@ -81,7 +79,7 @@ const Header = () => {
               <i className="fa fa-home"></i> Inicio
             </button>
           </li>
-          
+
           <li>
             <button
               className="dropdown-item text-danger"

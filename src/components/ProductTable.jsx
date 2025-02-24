@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import SkeletonTable from './skeleton/SkeletonTable'
 import { mensajeRespuesta, confirmAction } from '../utils/services'
-import { useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const ProductTable = () => {
   const [producto, setproducto] = useState([])
@@ -472,11 +472,11 @@ const ProductTable = () => {
         />
       </div>
       {usuario?.idRol === 1 && (
-      <div className="mb-3 text-end">
-        <button className="btn btn-success" onClick={handleCreate}>
-          Añadir Producto
-        </button>
-      </div>
+        <div className="mb-3 text-end">
+          <button className="btn btn-success" onClick={handleCreate}>
+            Añadir Producto
+          </button>
+        </div>
       )}
       <table className="table table-striped  table-hover">
         <thead className="thead-dark">
@@ -496,7 +496,7 @@ const ProductTable = () => {
             <tr key={category.idproducto}>
               <td>{getCategoryNameById(category.idcategoria)}</td>
               <td>{getSubCategoryNameById(category.idsubcategoria)}</td>
-           
+
               <td>{category.codigoArticulo}</td>
               <td>{category.descripcion}</td>
               <td>
@@ -552,31 +552,29 @@ const ProductTable = () => {
                 )}
               </td>
               {usuario?.idRol === 1 && (
-              <td>
-           
-             <>
-              <button
-             className="btn btn-warning btn-sm me-2"
-             onClick={() => handleEdit(category)}
-              >
-               Editar
-             </button>
-             <button
-              className="btn btn-danger btn-sm me-2"
-              onClick={() => handleDelete(category.idproducto)}
-              >
-               Eliminar
-             </button>
-             <button
-              className="btn btn-info btn-sm"
-              onClick={() => handleDuplicar(category.idproducto)}
-              >
-               Duplicar
-             </button>
-             </>
-            
-            </td>
-          )}
+                <td>
+                  <>
+                    <button
+                      className="btn btn-warning btn-sm me-2"
+                      onClick={() => handleEdit(category)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm me-2"
+                      onClick={() => handleDelete(category.idproducto)}
+                    >
+                      Eliminar
+                    </button>
+                    <button
+                      className="btn btn-info btn-sm"
+                      onClick={() => handleDuplicar(category.idproducto)}
+                    >
+                      Duplicar
+                    </button>
+                  </>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

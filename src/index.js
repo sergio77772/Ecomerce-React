@@ -20,27 +20,27 @@ import {
   Account,
   Orders,
   OrderDetails,
-  Subcategories
-} from "./pages";
-import AdminProducts from "./pages/admin/AdminProducts"; // Ajusta la ruta según tu estructura
-import AdminCategory  from "./pages/admin/AdminCategory"; // Ajusta la ruta según tu estructura
-import AdminProveedor  from "./pages/admin/AdminProveedor"; 
-import AdminSubCategory  from "./pages/admin/AdminSubCategory";
-import  AdminDashboard from "./pages/admin/AdminDashboard" ;//dashboard de administracion
-import AdminBitacora from "./pages/admin/AdminBitacora";
-import AdminMesa from "./pages/admin/AdminMesa";
-import ScrollToTop from "./components/ScrollToTop";
-import { Toaster } from "react-hot-toast";
-import AdminUsers from "./pages/admin/AdminUsers";
-import AdminLogsDeSistema from "./pages/admin/AdminLogsDeSistema";
-import AdminOdenes from "./pages/admin/AdminOrdenes";
-import AdminComercio from "./pages/admin/AdminComercio";
+  Subcategories,
+} from './pages'
+import AdminProducts from './pages/admin/AdminProducts' // Ajusta la ruta según tu estructura
+import AdminCategory from './pages/admin/AdminCategory' // Ajusta la ruta según tu estructura
+import AdminProveedor from './pages/admin/AdminProveedor'
+import AdminSubCategory from './pages/admin/AdminSubCategory'
+import AdminDashboard from './pages/admin/AdminDashboard' //dashboard de administracion
+import AdminBitacora from './pages/admin/AdminBitacora'
+import AdminMesa from './pages/admin/AdminMesa'
+import ScrollToTop from './components/ScrollToTop'
+import { Toaster } from 'react-hot-toast'
+import AdminUsers from './pages/admin/AdminUsers'
+import AdminLogsDeSistema from './pages/admin/AdminLogsDeSistema'
+import AdminOdenes from './pages/admin/AdminOrdenes'
+import AdminComercio from './pages/admin/AdminComercio'
 
-import AdminLocalidades from "./pages/admin/AdminLocalidades"
-import AdminCliente from "./pages/admin/AdminCliente";
-import AdminVenta from "./pages/admin/AdminVenta"
-import AdminCompra from "./pages/admin/AdminCompra"
-import AdminReporte from "./pages/admin/AdminReporte"
+import AdminLocalidades from './pages/admin/AdminLocalidades'
+import AdminCliente from './pages/admin/AdminCliente'
+import AdminVenta from './pages/admin/AdminVenta'
+import AdminCompra from './pages/admin/AdminCompra'
+import AdminReporte from './pages/admin/AdminReporte'
 
 const token = localStorage.getItem('token')
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -54,7 +54,10 @@ root.render(
 
           <Route path="/product" element={<Products />} />
           <Route path="/product/:id" element={<Product />} />
-          <Route path="/subcategorias/:idcategoria" element={<Subcategories />} />
+          <Route
+            path="/subcategorias/:idcategoria"
+            element={<Subcategories />}
+          />
 
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
@@ -90,19 +93,19 @@ root.render(
             path="/admin/users"
             element={token ? <AdminUsers /> : <Navigate to="/login" />}
           />
-         <Route path="/admin/compra" element={<AdminCompra />} />
-         <Route path="/admin/cliente" element={<AdminCliente />} />
-         <Route path="/admin/venta" element={<AdminVenta />} />
-        
+          <Route path="/admin/compra" element={<AdminCompra />} />
+          <Route path="/admin/cliente" element={<AdminCliente />} />
+          <Route path="/admin/venta" element={<AdminVenta />} />
+
           <Route path="/admin/bitacora" element={<AdminBitacora />} />
           <Route path="/admin/mesa" element={<AdminMesa />} />
           <Route path="/admin/comercio" element={<AdminComercio />} />
           <Route path="/admin/Localidades" element={<AdminLocalidades />} />
           <Route path="/admin/logsDeSistema" element={<AdminLogsDeSistema />} />
-     
+
           <Route path="/admin/ordenes" element={<AdminOdenes />} />
           <Route path="/product/*" element={<PageNotFound />} />
-          <Route path="/admin/Reporte" element={<AdminReporte/>} />
+          <Route path="/admin/Reporte" element={<AdminReporte />} />
         </Routes>
       </Provider>
     </ScrollToTop>

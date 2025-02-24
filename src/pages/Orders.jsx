@@ -1,27 +1,27 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Navbar, Footer } from '../components';
-import { getOrders } from '../redux/action/ordersActions';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { Navbar, Footer } from '../components'
+import { getOrders } from '../redux/action/ordersActions'
+import { useNavigate } from 'react-router-dom'
 import SkeletonTable from '../components/skeleton/SkeletonTable'
 
 function Orders() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  
-  const usuario = useSelector((state) => state.user.user);
-  const orders = useSelector((state) => state.orders.orders) || [];
-  const loading = useSelector((state) => state.orders.loading); // Agregamos el estado de carga
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const usuario = useSelector((state) => state.user.user)
+  const orders = useSelector((state) => state.orders.orders) || []
+  const loading = useSelector((state) => state.orders.loading) // Agregamos el estado de carga
 
   useEffect(() => {
     if (usuario) {
-      dispatch(getOrders(usuario.id));
+      dispatch(getOrders(usuario.id))
     }
-  }, [usuario, dispatch]);
+  }, [usuario, dispatch])
 
   const handleViewDetails = (orderId) => {
-    navigate(`/order/${orderId}`);
-  };
+    navigate(`/order/${orderId}`)
+  }
 
   return (
     <>
@@ -51,9 +51,16 @@ function Orders() {
                     <td>{order.id}</td>
                     <td>{order.usuario || 'Desconocido'}</td>
                     <td>{order.estado || 'Sin estado'}</td>
-                    <td>{order.created_at ? new Date(order.created_at).toLocaleDateString() : 'Fecha no disponible'}</td>
                     <td>
-                      <button className="btn btn-primary btn-sm" onClick={() => handleViewDetails(order.id)}>
+                      {order.created_at
+                        ? new Date(order.created_at).toLocaleDateString()
+                        : 'Fecha no disponible'}
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => handleViewDetails(order.id)}
+                      >
                         Ver Detalles
                       </button>
                     </td>
@@ -66,7 +73,7 @@ function Orders() {
       </div>
       <Footer />
     </>
-  );
+  )
 }
 
-export default Orders;
+export default Orders

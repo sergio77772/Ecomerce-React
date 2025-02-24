@@ -23,4 +23,4 @@ const AdminSubCategory = () => {
   )
 }
 
-export default AdminSubCategory;
+export default AdminSubCategory

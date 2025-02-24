@@ -264,13 +264,13 @@ const SubCategoryTable = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-       {usuario?.idRol === 1 && (
-      <div className="mb-3 text-end">
-        <button className="btn btn-success" onClick={handleCreate}>
-          Añadir SubCategoria
-        </button>
-      </div>
-       )}
+      {usuario?.idRol === 1 && (
+        <div className="mb-3 text-end">
+          <button className="btn btn-success" onClick={handleCreate}>
+            Añadir SubCategoria
+          </button>
+        </div>
+      )}
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
@@ -334,22 +334,22 @@ const SubCategoryTable = () => {
                 )}
               </td>
               <td>
-              {usuario?.idRol === 1 && (
-                <>
-                <button
-                  className="btn btn-warning btn-sm me-2"
-                  onClick={() => handleEdit(Category)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(Category.idsubcategoria)}
-                >
-                  Eliminar
-                </button>
-                </>
-              )}
+                {usuario?.idRol === 1 && (
+                  <>
+                    <button
+                      className="btn btn-warning btn-sm me-2"
+                      onClick={() => handleEdit(Category)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(Category.idsubcategoria)}
+                    >
+                      Eliminar
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}

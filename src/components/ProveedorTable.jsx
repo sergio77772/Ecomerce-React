@@ -9,7 +9,7 @@ const ProveedorTable = () => {
   const [loading, setLoading] = useState(true)
   const [debouncedSearch, setDebouncedSearch] = useState('') // Estado para el debounce
   const [error, setError] = useState(null)
-  const usuario = useSelector ((state) => state.user.user)
+  const usuario = useSelector((state) => state.user.user)
   const [selectedprovee, setSelectedprovee] = useState({
     nombre: '',
     cuit: '',
@@ -239,30 +239,35 @@ const ProveedorTable = () => {
 
   const handleToggleEstado = async (provee) => {
     try {
-      const nuevoEstado = provee.estado === 'Activo' ? 'Inactivo' : 'Activo';
+      const nuevoEstado = provee.estado === 'Activo' ? 'Inactivo' : 'Activo'
       setproveedor((prevProveedores) =>
         prevProveedores.map((item) =>
-          item.idproveedor === provee.idproveedor ? { ...item, estado: nuevoEstado } : item
+          item.idproveedor === provee.idproveedor
+            ? { ...item, estado: nuevoEstado }
+            : item
         )
-      );
-  
+      )
+
       const response = await fetch(`${API}&id=${provee.idproveedor}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ ...provee, estado: nuevoEstado }),
-      });
-  
+      })
+
       if (!response.ok) {
-        throw new Error('Error al actualizar el estado del proveedor.');
+        throw new Error('Error al actualizar el estado del proveedor.')
       }
-  
-      mensajeRespuesta('Estado del proveedor actualizado correctamente', 'success');
+
+      mensajeRespuesta(
+        'Estado del proveedor actualizado correctamente',
+        'success'
+      )
     } catch (err) {
-      mensajeRespuesta(err.message, 'error');
+      mensajeRespuesta(err.message, 'error')
     }
-  };
+  }
 
   if (loading) {
     return (
@@ -290,11 +295,11 @@ const ProveedorTable = () => {
         />
       </div>
       {usuario?.idRol === 1 && (
-      <div className="mb-3 text-end">
-        <button className="btn btn-success" onClick={handleCreate}>
-          Añadir Proveedor
-        </button>
-      </div>
+        <div className="mb-3 text-end">
+          <button className="btn btn-success" onClick={handleCreate}>
+            Añadir Proveedor
+          </button>
+        </div>
       )}
 
       <table className="table table-striped table-hover">
@@ -309,7 +314,7 @@ const ProveedorTable = () => {
 
             <th>Estado</th>
             <th>Imagen</th>
-            {usuario?.idRol === 1 &&<th>Acciones</th>}
+            {usuario?.idRol === 1 && <th>Acciones</th>}
           </tr>
         </thead>
         <tbody>
@@ -323,40 +328,40 @@ const ProveedorTable = () => {
               <td>{provee.telefono1}</td>
 
               <td>
-              <div
-                className="d-inline-block"
-                onClick={() => handleToggleEstado(provee)}
-                style={{
-                  width: '50px',
-                  height: '25px',
-                  borderRadius: '25px',
-                  backgroundColor:
-                    provee.estado === 'Activo' ? '#4CAF50' : '#ccc',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent:
-                    provee.estado === 'Activo' ? 'flex-end' : 'flex-start',
-                  padding: '3px',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  position: 'relative',
-                  userSelect: 'none',
-                }}
-              >
                 <div
+                  className="d-inline-block"
+                  onClick={() => handleToggleEstado(provee)}
                   style={{
-                    width: '20px',
-                    height: '20px',
-                    backgroundColor: '#fff',
-                    borderRadius: '50%',
-                    boxShadow: '0 0 2px rgba(0, 0, 0, 0.2)',
+                    width: '50px',
+                    height: '25px',
+                    borderRadius: '25px',
+                    backgroundColor:
+                      provee.estado === 'Activo' ? '#4CAF50' : '#ccc',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent:
+                      provee.estado === 'Activo' ? 'flex-end' : 'flex-start',
+                    padding: '3px',
+                    cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    position: 'absolute',
-                    left: provee.estado === 'Activo' ? '25px' : '3px',
+                    position: 'relative',
+                    userSelect: 'none',
                   }}
-                ></div>
-              </div>
-            </td>
+                >
+                  <div
+                    style={{
+                      width: '20px',
+                      height: '20px',
+                      backgroundColor: '#fff',
+                      borderRadius: '50%',
+                      boxShadow: '0 0 2px rgba(0, 0, 0, 0.2)',
+                      transition: 'all 0.3s ease',
+                      position: 'absolute',
+                      left: provee.estado === 'Activo' ? '25px' : '3px',
+                    }}
+                  ></div>
+                </div>
+              </td>
 
               <td>
                 {provee.imagen && (
@@ -368,22 +373,22 @@ const ProveedorTable = () => {
                 )}
               </td>
               <td>
-              {usuario?.idRol === 1 && (
-                <>
-                <button
-                  className="btn btn-warning btn-sm me-2"
-                  onClick={() => handleEdit(provee)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(provee.idproveedor)}
-                >
-                  Eliminar
-                </button>
-                </>
-              )}
+                {usuario?.idRol === 1 && (
+                  <>
+                    <button
+                      className="btn btn-warning btn-sm me-2"
+                      onClick={() => handleEdit(provee)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(provee.idproveedor)}
+                    >
+                      Eliminar
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}

@@ -15,7 +15,7 @@ const UserTable = () => {
     direccion: '',
     imagen: null,
   })
-  const usuario = useSelector ((state) => state.user.user)
+  const usuario = useSelector((state) => state.user.user)
   const [isEditing, setIsEditing] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -174,15 +174,15 @@ const UserTable = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         {usuario?.idRol === 1 && (
-        <button
-          className="btn btn-primary"
-          onClick={() => setModalVisible(true)}
-        >
-          Add User
-        </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => setModalVisible(true)}
+          >
+            Add User
+          </button>
         )}
       </div>
-  
+
       <table className="table table-striped table-bordered">
         <thead className="table-dark">
           <tr>
@@ -190,7 +190,7 @@ const UserTable = () => {
             <th>Name</th>
             <th>Email</th>
             <th>Address</th>
-            {usuario?.idRol === 1 &&<th>Actions</th>}
+            {usuario?.idRol === 1 && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -211,22 +211,22 @@ const UserTable = () => {
               <td>{user.correo}</td>
               <td>{user.direccion || 'N/A'}</td>
               <td>
-              {usuario?.idRol === 1 && (
-                <>
-                <button
-                  className="btn btn-warning btn-sm me-2"
-                  onClick={() => handleEditUser(user)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDeleteUser(user.id)}
-                >
-                  Delete
-                </button>
-                </> 
-              )}
+                {usuario?.idRol === 1 && (
+                  <>
+                    <button
+                      className="btn btn-warning btn-sm me-2"
+                      onClick={() => handleEditUser(user)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDeleteUser(user.id)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}

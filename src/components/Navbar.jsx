@@ -60,7 +60,7 @@ const Navbar = () => {
                 Contacto
               </NavLink>
             </li>
-            {(usuario?.idRol === 1 || usuario?.idRol === 2)  && (
+            {(usuario?.idRol === 1 || usuario?.idRol === 2) && (
               <li className="nav-item">
                 <NavLink className="nav-link" to="/admin/dashboard">
                   Administración
@@ -113,7 +113,9 @@ const Navbar = () => {
                     >
                       <i className="fa fa-shopping-bag"></i> Mis Pedidos
                       {orders.length > 0 && (
-                        <span className="badge bg-danger ms-2">{orders.length}</span>
+                        <span className="badge bg-danger ms-2">
+                          {orders.length}
+                        </span>
                       )}
                     </NavLink>
                   </li>
@@ -138,7 +140,8 @@ const Navbar = () => {
             )}
 
             <NavLink to="/cart" className="btn btn-outline-dark m-2">
-              <i className="fa fa-cart-shopping mr-1"></i> Carro ({state.length})
+              <i className="fa fa-cart-shopping mr-1"></i> Carro ({state.length}
+              )
             </NavLink>
           </div>
         </div>

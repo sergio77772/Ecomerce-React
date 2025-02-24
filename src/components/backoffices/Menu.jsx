@@ -17,12 +17,10 @@ const Sidebar = () => {
 
   const fetchRoles = async () => {
     try {
-      const token = localStorage.getItem('token')
       const response = await fetch(API_URL, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-        
         },
       })
       const data = await response.json()
@@ -37,8 +35,6 @@ const Sidebar = () => {
     }
   }
 
-
-
   const toggleDropdown = (menu) => {
     setOpenDropdown(openDropdown === menu ? null : menu)
   }
@@ -46,83 +42,138 @@ const Sidebar = () => {
   const menus = [
     { title: 'Inicio', icon: 'bi-house', link: '/admin/dashboard', roles: [1] },
     {
-      title: 'Catálogo', icon: 'bi-box-seam', roles: [1, 2],
+      title: 'Catálogo',
+      icon: 'bi-box-seam',
+      roles: [1, 2],
       submenus: [
-        { title: 'Productos', icon: 'bi-box', roles: [1, 2], link: '/admin/productos' },
-        { title: 'Categorías', icon: 'bi-tags', roles: [1], link: '/admin/categorias' },
-        { title: 'Subcategorías', icon: 'bi-tags', roles: [1], link: '/admin/subcategorias' },
-        { title: 'Proveedores', icon: 'bi-person-circle', roles: [1], link: '/admin/proveedores' },
-        { title: 'Clientes', icon: 'bi-people', roles: [1], link: '/admin/cliente' },
-        { title: 'Localidades', icon: 'bi-geo-alt-fill', roles: [1], link: '/admin/localidades' },
+        {
+          title: 'Productos',
+          icon: 'bi-box',
+          roles: [1, 2],
+          link: '/admin/productos',
+        },
+        {
+          title: 'Categorías',
+          icon: 'bi-tags',
+          roles: [1],
+          link: '/admin/categorias',
+        },
+        {
+          title: 'Subcategorías',
+          icon: 'bi-tags',
+          roles: [1],
+          link: '/admin/subcategorias',
+        },
+        {
+          title: 'Proveedores',
+          icon: 'bi-person-circle',
+          roles: [1],
+          link: '/admin/proveedores',
+        },
+        {
+          title: 'Clientes',
+          icon: 'bi-people',
+          roles: [1],
+          link: '/admin/cliente',
+        },
+        {
+          title: 'Localidades',
+          icon: 'bi-geo-alt-fill',
+          roles: [1],
+          link: '/admin/localidades',
+        },
       ],
     },
 
   
+    {
+      title: 'Ventas',
+      icon: 'bi-cart',
+      roles: [1],
+      submenus: [
+        {
+          title: 'Órdenes',
+          icon: 'bi-cart-check',
+          roles: [1],
+          link: '/admin/ordenes',
+        },
+        {
+          title: 'Facturas',
+          icon: 'bi-house-gear',
+          roles: [1],
+          link: '/admin/venta',
+        },
+      ],
+    },
+    {
+      title: 'Compras',
+      icon: 'bi-bag',
+      roles: [1],
+      submenus: [
+        { title: 'Pedido', icon: 'bi-cart-check', roles: [1], link: '/' },
+        {
+          title: 'Facturas',
+          icon: 'bi-house-gear',
+          roles: [1],
+          link: '/admin/compra',
+        },
+      ],
+    },
 
     {
-      title: 'Marketing', icon: 'bi-megaphone', roles: [1],
+      title: 'Configuración',
+      icon: 'bi-graph-up',
+      roles: [1],
       submenus: [
-      
-        { title: 'Envio de campañas', icon: 'bi bi-envelope-arrow-up-fill', link: '/' },
-      ],
-    },
-    { title: 'Ventas', icon: 'bi-cart', roles: [1], 
-      submenus: [
-      
-        { title: 'Órdenes', icon: 'bi-cart-check', roles: [1], link: '/admin/ordenes' },       
-        { title: 'Facturas', icon: 'bi-house-gear', roles: [1],  link: '/admin/venta' },
-            
-      ],
-
-    },
-    { title: 'Compras', icon: 'bi-bag', roles: [1],
-      submenus: [
-      { title: 'Pedido', icon: 'bi-cart-check', roles: [1], link: '/' },       
-      { title: 'Facturas', icon: 'bi-house-gear', roles: [1],  link: '/admin/compra' },
-          
-    ],
-
-
-     },
-  
-    { title: 'Reportes', icon: 'bi-graph-up', roles: [1], link: '/admin/reporte' },
-
-    { title: 'Configuración', icon: 'bi-graph-up', roles: [1] ,
-      submenus: [
-      
-        { title: 'Mi Comercio', icon: 'bi-house-gear', roles: [1], link: '/admin/comercio' },
         {
-
-          title: 'Diseño', icon: 'bi-palette', roles: [1],
+          title: 'Mi Comercio',
+          icon: 'bi-house-gear',
+          roles: [1],
+          link: '/admin/comercio',
+        },
+        {
+          title: 'Diseño',
+          icon: 'bi-palette',
+          roles: [1],
           submenus: [
             { title: 'Colores', icon: 'bi bi-brush', link: '/admin/template' },
-          ]
+          ],
         },
-     
       ],
     },
     {
-      title: 'Seguridad', icon: 'bi-gear', roles: [1],
+      title: 'Seguridad',
+      icon: 'bi-gear',
+      roles: [1],
       submenus: [
-        { title: 'Usuarios', icon: 'bi-person', roles: [1], link: '/admin/users' },
-        { title: 'Bitácora', icon: 'bi-journal', roles: [1], link: '/admin/bitacora' },
-        { title: 'Registro', icon: 'bi-file-earmark-text', roles: [1], link: '/admin/logsdesistema' },
-      
-     
-      
+        {
+          title: 'Usuarios',
+          icon: 'bi-person',
+          roles: [1],
+          link: '/admin/users',
+        },
+        {
+          title: 'Bitácora',
+          icon: 'bi-journal',
+          roles: [1],
+          link: '/admin/bitacora',
+        },
+        {
+          title: 'Registro',
+          icon: 'bi-file-earmark-text',
+          roles: [1],
+          link: '/admin/logsdesistema',
+        },
       ],
     },
-    { title: 'Mesa de Ayuda', icon: 'bi-info-circle-fill', roles: [1], link: '/admin/mesa' },
-
   ]
 
   return (
     <div className="bg-dark text-white vh-100 p-3">
       <h4 className="text-center">NAVEGACIÓN</h4>
       <ul className="nav flex-column">
-    
         {menus
-          .filter(menu => menu.roles.includes(rol))
+          .filter((menu) => menu.roles.includes(rol))
           .map((menu, index) => (
             <li key={index} className="nav-item">
               {menu.submenus ? (
@@ -142,10 +193,13 @@ const Sidebar = () => {
                   {openDropdown === menu.title && (
                     <ul className="list-unstyled ms-3">
                       {menu.submenus
-                        .filter(submenu => submenu.roles.includes(rol))
+                        .filter((submenu) => submenu.roles.includes(rol))
                         .map((submenu, subIndex) => (
                           <li key={subIndex}>
-                            <a href={submenu.link} className="nav-link text-white">
+                            <a
+                              href={submenu.link}
+                              className="nav-link text-white"
+                            >
                               <i className={`bi ${submenu.icon} me-2`}></i>
                               {submenu.title}
                             </a>
