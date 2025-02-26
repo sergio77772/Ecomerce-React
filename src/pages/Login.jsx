@@ -3,17 +3,19 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../redux/action/userActions'
 import { Footer, Navbar } from '../components'
+import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth'
 import 'bootstrap/dist/css/bootstrap.min.css' // Estilos de Bootstrap
 import 'bootstrap/dist/js/bootstrap.bundle.min.js' // JS de Bootstrap
 import { mensajeRespuesta } from '../utils/services'
+import { app } from "../firebase";
 
 const Login = () => {
   const [correo, setCorreo] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
   const { loading, error } = useSelector((state) => state.user) // Estado global del usuario
+  const auth = getAuth(app) // Inicializa Firebase Auth
 
   // Manejar el envío del formulario
   const handleSubmit = async (e) => {
@@ -24,6 +26,19 @@ const Login = () => {
     } else {
       mensajeRespuesta('Los datos ingresados son incorrectos', 'error')
       console.error(resultado.message)
+    }
+  }
+
+  // Login con Google
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider()
+    try {
+      const result = await signInWithPopup(auth, provider)
+      console.log('Usuario autenticado con Google:', result.user)
+      navigate('/') // Redirigir al usuario después del login
+    } catch (error) {
+      console.error('Error en autenticación con Google:', error)
+      mensajeRespuesta('Error al iniciar sesión con Google', 'error')
     }
   }
 
@@ -68,21 +83,21 @@ const Login = () => {
               <div className="my-3">
                 <p>
                   ¿Nuevo aquí?{' '}
-                  <Link
-                    to="/register"
-                    className="text-decoration-underline text-info"
-                  >
+                  <Link to="/register" className="text-decoration-underline text-info">
                     Regístrate
                   </Link>
                 </p>
               </div>
               <div className="text-center">
-                <button
-                  className="my-2 mx-auto btn btn-dark"
-                  type="submit"
-                  disabled={loading}
-                >
+                <button className="my-2 mx-auto btn btn-dark" type="submit" disabled={loading}>
                   {loading ? 'Cargando...' : 'Entrar'}
+                </button>
+                <button
+                  type="button"
+                  className="my-2 mx-auto btn btn-outline-primary"
+                  onClick={handleGoogleLogin}
+                >
+                  <i className="fab fa-google"></i> Iniciar sesión con Google
                 </button>
               </div>
             </form>
