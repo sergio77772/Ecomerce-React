@@ -31,6 +31,51 @@ export const loginUser = (userData) => async (dispatch) => {
   }
 }
 
+
+export const getUserByemail = (email) => async (dispatch) => {
+  dispatch({ type: 'USER_LOGIN_REQUEST_GOOGLE' });
+
+  try {
+    const response = await fetch(
+      process.env.REACT_APP_API + 'publicUser.php?correo=' + email,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+
+    const data = await response.json();
+
+    if (data.success) {
+      localStorage.setItem('token', data.token); // Guardar token
+      localStorage.setItem('userData', JSON.stringify(data));
+      localStorage.setItem('user', JSON.stringify(data.nombre));
+
+      dispatch({ type: 'USER_LOGIN_SUCCESS_GOOGLE', payload: data });
+
+      return data; // Se retorna directamente la respuesta del servicio
+    } else {
+      dispatch({ type: 'USER_LOGIN_FAILURE', payload: data.message });
+      return data; // Se retorna el objeto de error del servicio
+    }
+  } catch (error) {
+    dispatch({ type: 'USER_LOGIN_FAILURE', payload: 'Error de conexión' });
+    return { success: false, message: 'Error de conexión' };
+  }
+};
+
+
+export const SetUserGoogle = (data) => async (dispatch) => {
+  localStorage.setItem('userData', JSON.stringify(data))
+  localStorage.setItem('user', JSON.stringify(data.nombre))
+  localStorage.setItem('token', data.token) // Guardar token
+
+      dispatch({ type: 'USER_LOGIN_SUCCESS', payload: data })
+      return { success: true }
+    
+}
+
+
 export const editUser = (userData) => async (dispatch) => {
   console.log(userData)
   try {
@@ -61,6 +106,8 @@ export const editUser = (userData) => async (dispatch) => {
     return { success: false, message: 'Error de conexión' }
   }
 }
+
+
 
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem('token')

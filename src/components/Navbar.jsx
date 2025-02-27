@@ -92,8 +92,8 @@ const Navbar = () => {
                   transition={{ duration: 0.8 }}
                 >
                   <img
-                    src={`${baseURL}${usuario.foto}`}
-                    alt="Usuario"
+  src={usuario.foto ? `${baseURL}${usuario.foto}` : usuario.fotoGoogle}
+  alt="Usuario"
                     className="rounded-circle me-2"
                     style={{ width: 35, height: 35, objectFit: "cover" }}
                   />

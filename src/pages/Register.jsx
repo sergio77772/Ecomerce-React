@@ -31,7 +31,7 @@ const Register = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const { displayName, email } = result.user;
-  
+    console.log(result.user)
       const googleUserData = {
         nombre: displayName,
         correo: email,

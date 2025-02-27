@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginUser } from '../redux/action/userActions'
+import { loginUser,getUserByemail,SetUserGoogle } from '../redux/action/userActions'
 import { Footer, Navbar } from '../components'
 import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth'
 import 'bootstrap/dist/css/bootstrap.min.css' // Estilos de Bootstrap
@@ -34,7 +34,34 @@ const Login = () => {
     const provider = new GoogleAuthProvider()
     try {
       const result = await signInWithPopup(auth, provider)
-      console.log('Usuario autenticado con Google:', result.user)
+      let correo  = result.user.email;
+      let  nombre = result.user.displayName;
+      const resultado2 = await dispatch(getUserByemail(correo)) 
+      if (resultado2) {
+        console.log(resultado2.id)
+        let id = resultado2.id;
+        let idRol = resultado2.idRol;
+        let direccion = resultado2.direccion || "Sin dirección";
+        let foto = resultado2.foto || null; // Imagen por defecto si no hay foto
+        let fotoGoogle=result.user.photoURL
+        let token ="+++"
+        // Construcción del objeto con los datos del usuario
+        const data = {
+          correo,
+          nombre,
+          id,
+          idRol,
+          direccion,
+          foto,
+          fotoGoogle,
+          token
+        };
+      
+        // Despachar la acción con los datos
+        await dispatch(SetUserGoogle(data));
+      }
+
+
       navigate('/') // Redirigir al usuario después del login
     } catch (error) {
       console.error('Error en autenticación con Google:', error)
