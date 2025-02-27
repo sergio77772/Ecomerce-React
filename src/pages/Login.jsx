@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginUser } from '../redux/action/userActions'
+import { loginUser,getUserByemail,SetUserGoogle } from '../redux/action/userActions'
 import { Footer, Navbar } from '../components'
+import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth'
 import 'bootstrap/dist/css/bootstrap.min.css' // Estilos de Bootstrap
 import 'bootstrap/dist/js/bootstrap.bundle.min.js' // JS de Bootstrap
 import { mensajeRespuesta } from '../utils/services'
+import { app } from "../firebase";
 
 const Login = () => {
   const [correo, setCorreo] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
   const { loading, error } = useSelector((state) => state.user) // Estado global del usuario
+  const auth = getAuth(app) // Inicializa Firebase Auth
 
   // Manejar el envío del formulario
   const handleSubmit = async (e) => {
@@ -24,6 +26,46 @@ const Login = () => {
     } else {
       mensajeRespuesta('Los datos ingresados son incorrectos', 'error')
       console.error(resultado.message)
+    }
+  }
+
+  // Login con Google
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider()
+    try {
+      const result = await signInWithPopup(auth, provider)
+      let correo  = result.user.email;
+      let  nombre = result.user.displayName;
+      const resultado2 = await dispatch(getUserByemail(correo)) 
+      if (resultado2) {
+        console.log(resultado2.id)
+        let id = resultado2.id;
+        let idRol = resultado2.idRol;
+        let direccion = resultado2.direccion || "Sin dirección";
+        let foto = resultado2.foto || null; // Imagen por defecto si no hay foto
+        let fotoGoogle=result.user.photoURL
+        let token ="+++"
+        // Construcción del objeto con los datos del usuario
+        const data = {
+          correo,
+          nombre,
+          id,
+          idRol,
+          direccion,
+          foto,
+          fotoGoogle,
+          token
+        };
+      
+        // Despachar la acción con los datos
+        await dispatch(SetUserGoogle(data));
+      }
+
+
+      navigate('/') // Redirigir al usuario después del login
+    } catch (error) {
+      console.error('Error en autenticación con Google:', error)
+      mensajeRespuesta('Error al iniciar sesión con Google', 'error')
     }
   }
 
@@ -68,21 +110,21 @@ const Login = () => {
               <div className="my-3">
                 <p>
                   ¿Nuevo aquí?{' '}
-                  <Link
-                    to="/register"
-                    className="text-decoration-underline text-info"
-                  >
+                  <Link to="/register" className="text-decoration-underline text-info">
                     Regístrate
                   </Link>
                 </p>
               </div>
               <div className="text-center">
-                <button
-                  className="my-2 mx-auto btn btn-dark"
-                  type="submit"
-                  disabled={loading}
-                >
+                <button className="my-2 mx-auto btn btn-dark" type="submit" disabled={loading}>
                   {loading ? 'Cargando...' : 'Entrar'}
+                </button>
+                <button
+                  type="button"
+                  className="my-2 mx-auto btn btn-outline-primary"
+                  onClick={handleGoogleLogin}
+                >
+                  <i className="fab fa-google"></i> Iniciar sesión con Google
                 </button>
               </div>
             </form>

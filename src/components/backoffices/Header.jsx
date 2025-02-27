@@ -40,21 +40,14 @@ const Header = () => {
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          {usuario?.foto ? (
-            <img
-              src={process.env.REACT_APP_BASE_URL + usuario.foto}
-              alt="Usuario"
-              className="rounded-circle me-2"
-              style={{ width: 35, height: 35, objectFit: 'cover' }}
-            />
-          ) : (
-            <img
-              src={process.env.REACT_APP_BASE_URL + '/img/user/profile.png'}
-              alt="Usuario"
-              className="rounded-circle me-2"
-              style={{ width: 35, height: 35, objectFit: 'cover' }}
-            />
-          )}
+        <img
+  src={usuario?.foto 
+    ? process.env.REACT_APP_BASE_URL + usuario.foto 
+    : usuario?.fotoGoogle || process.env.REACT_APP_BASE_URL + '/img/user/profile.png'}
+  alt="Usuario"
+  className="rounded-circle me-2"
+  style={{ width: 35, height: 35, objectFit: 'cover' }}
+/>
 
           {usuario?.nombre}
         </button>

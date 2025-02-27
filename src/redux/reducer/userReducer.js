@@ -2,12 +2,20 @@ const initialState = {
   user: JSON.parse(localStorage.getItem('userData')) || null, // Recuperar usuario si existe
   loading: false,
   error: null,
+  userGoogle:{}
 }
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'USER_LOGIN_REQUEST':
       return { ...state, loading: true, error: null }
+    
+      case 'USER_LOGIN_REQUEST_GOOGLE':
+        return { ...state, loading: true, error: null }
+
+        case 'USER_LOGIN_SUCCESS_GOOGLE':
+          return { ...state, loading: false, userGoogle: action.payload }
+        
 
     case 'USER_LOGIN_SUCCESS':
       return { ...state, loading: false, user: action.payload }
